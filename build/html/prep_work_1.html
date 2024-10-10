@@ -56,7 +56,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#installing-docker-desktop">Installing Docker Desktop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#exploring-tools">Exploring Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#learning-basic-linux-commands">Learning Basic Linux Commands</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-game">Command-Line Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-challenge">Command-Line Challenge</a></li>
 </ul>
 </li>
 </ul>
@@ -121,7 +121,7 @@
 <h2>Selecting a ROS2 Distribution<a class="headerlink" href="#selecting-a-ros2-distribution" title="Link to this heading"></a></h2>
 <p>ROS2 is released through distributions, which are collections of ROS2 packages and tools, on an annual basis. When starting a ROS2 project, the first decision you need to make is which distribution (or “distro”) to use. How should you choose? The key distinction to understand is that ROS2 alternates between Long-Term Support (LTS) versions, which receive 5 years of support, and non-LTS versions, which are supported for 2 years.</p>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="_images/distro.png"><img alt="Image description" src="_images/distro.png" style="width: 80%;" />
+<a class="reference internal image-reference" href="_images/distro.png"><img alt="_images/distro.png" src="_images/distro.png" style="width: 80%;" />
 </a>
 <figcaption>
 <p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases.html">List of ROS2 Distributions</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
@@ -129,7 +129,7 @@
 </figure>
 <p>Non-LTS versions are primarily intended for testing new features and tools and are generally not recommended for starting new projects. Instead, LTS versions are preferred, especially one that has been released for at least a few months, to ensure stability and the availability of necessary resources. Additionally, each ROS2 distribution is adapted to work with specific operating systems, most commonly the latest Ubuntu LTS release. The official ROS2 documentation provides the End of Life (EOL) date for each version, indicating the period during which stability and maintenance are guaranteed.</p>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="_images/platform.png"><img alt="Image description" src="_images/platform.png" style="width: 65%;" />
+<a class="reference internal image-reference" href="_images/platform.png"><img alt="_images/platform.png" src="_images/platform.png" style="width: 65%;" />
 </a>
 <figcaption>
 <p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases/Release-Humble-Hawksbill.html">Humble Hawksbill Supported Platforms</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
@@ -171,38 +171,120 @@
 </div>
 </li>
 <li><p><strong>Configure Docker</strong></p>
-<p>After installation, configure Docker by clicking on <code class="docutils literal notranslate"><span class="pre">Accept</span></code>, selecting <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">recommended</span> <span class="pre">settings</span></code>, and then clicking on <code class="docutils literal notranslate"><span class="pre">Finish</span></code>. You can then <em>Continue without signing in</em> and <em>skip</em> the subsequent questions.</p>
+<p>Once the installation is complete, <code class="docutils literal notranslate"><span class="pre">Accept</span></code> the <em>Subscription Service Agreement</em> to proceed. You can then skip all the following questions, as creating an account is optional and not required.</p>
 </li>
 <li><p><strong>Pull the Docker Image</strong></p>
 <p>On the Docker Desktop, use the search bar to find the image named <strong>luky005/ros2_basics</strong> and pull it.</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="_images/step1.png"><img alt="_images/step1.png" src="_images/step1.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Open the search bar</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="_images/step2.png"><img alt="_images/step2.png" src="_images/step2.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Find and pull the image</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </li>
-<li><p><strong>Locate the Image</strong></p>
-<p>Once the image is downloaded, find it in the <em>Images</em> section on the left sidebar.</p>
+<li><p><strong>Locate the Image and Run the Container</strong></p>
+<p>Once the image is downloaded, find it in the <em>Images</em> section on the left sidebar. Then, start the container by clicking the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol.</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="_images/step3.png"><img alt="_images/step3.png" src="_images/step3.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Locate and run the image</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </li>
-<li><p><strong>Run the Container</strong></p>
-<p>Start the container by clicking the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol.</p>
-</li>
-<li><p><strong>Set Optional Settings</strong></p>
+<li><p><strong>Set Optional Settings and Launch the Container</strong></p>
 <p>Open the <em>Optional settings</em> tab and fill in the following fields:</p>
 <ol class="arabic simple">
 <li><p>Set the container name to <strong>ros2_basics</strong>.</p></li>
 <li><p>Set the port to <strong>6080</strong>.</p></li>
 </ol>
-</li>
-<li><p><strong>Launch the Container</strong></p>
-<p>Click the <code class="docutils literal notranslate"><span class="pre">Run</span></code> button to launch the container.</p>
+<p>Then, click the <code class="docutils literal notranslate"><span class="pre">Run</span></code> button to launch the container.</p>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="_images/step4.png"><img alt="_images/step4.png" src="_images/step4.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Open the optional settings</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="_images/step5.png"><img alt="_images/step5.png" src="_images/step5.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Set the settings and run</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </li>
 <li><p><strong>Access Ubuntu</strong></p>
-<p>After the container has launched, you can access Ubuntu from your favorite browser at <a class="reference external" href="http://localhost:6080">http://localhost:6080</a>.</p>
+<p>After the container has launched, you can access Ubuntu in your preferred browser at <a class="reference external" href="http://localhost:6080">http://localhost:6080</a>, or you can directly access the port through Docker Desktop.</p>
+<figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="_images/step6.png"><img alt="_images/step6.png" src="_images/step6.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Access the port directly from Docker Desktop</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </li>
 <li><p><strong>Connect to Your Desktop</strong></p>
 <p>Finally, click on <code class="docutils literal notranslate"><span class="pre">Connect</span></code> to access your new desktop for these lab sessions.</p>
+<figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="_images/step7.png"><img alt="_images/step7.png" src="_images/step7.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Connect to Ubuntu desktop</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id10">
+<a class="reference internal image-reference" href="_images/step8.png"><img alt="_images/step8.png" src="_images/step8.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Ubuntu MATE 22.04 desktop</span><a class="headerlink" href="#id10" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</li>
+<li><p><strong>Exit and Stop the Container</strong></p>
+<p>Once you have finished working in the environment, be sure to disconnect from the VNC server and stop the container in Docker Desktop.</p>
+<figure class="align-center" id="id11">
+<a class="reference internal image-reference" href="_images/step9.png"><img alt="_images/step9.png" src="_images/step9.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Disconnect from the VNC server</span><a class="headerlink" href="#id11" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id12">
+<a class="reference internal image-reference" href="_images/step10.png"><img alt="_images/step10.png" src="_images/step10.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Stop the container</span><a class="headerlink" href="#id12" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </li>
 </ol>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>To access the Ubuntu desktop in the future, navigate to the <em>Containers</em> section on the left sidebar. Click the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol next to your container to start it directly.</p>
-<p>Additionally, you can open your browser directly to <em>http://localhost:6080</em> by clicking on the <strong>6080:80</strong> port located on the left side of the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol. This allows you to quickly connect to the VNC server.</p>
+<figure class="align-center" id="id13">
+<a class="reference internal image-reference" href="_images/step11.png"><img alt="_images/step11.png" src="_images/step11.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Locate and run the container</span><a class="headerlink" href="#id13" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Additionally, you can open your browser directly to <a class="reference external" href="http://localhost:6080">http://localhost:6080</a> by clicking on the <strong>6080:80</strong> port located on the left side of the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol. This allows you to quickly connect to the VNC server.</p>
+<figure class="align-center" id="id14">
+<a class="reference internal image-reference" href="_images/step12.png"><img alt="_images/step12.png" src="_images/step12.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Access the port directly from Docker Desktop</span><a class="headerlink" href="#id14" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </div>
 </section>
 <section id="exploring-tools">
@@ -249,29 +331,29 @@
 <li><p><strong>rmdir &lt;directory&gt;</strong>: Remove an empty directory</p></li>
 <li><p><strong>rm -r &lt;directory&gt;</strong>: Recursively delete directories and contents</p></li>
 </ul>
-<p>To reinforce your understanding of these commands, we invite you to participate in a command-line game designed to practice your skills!</p>
-<section id="command-line-game">
-<h3>Command-Line Game<a class="headerlink" href="#command-line-game" title="Link to this heading"></a></h3>
+<p>To reinforce your understanding of these commands, we invite you to participate in a command-line challenge designed to practice your skills!</p>
+<section id="command-line-challenge">
+<h3>Command-Line Challenge<a class="headerlink" href="#command-line-challenge" title="Link to this heading"></a></h3>
 <p><strong>Objective</strong></p>
 <p>Explore a virtual file system and complete tasks using the commands you have learned.</p>
 <p><strong>Instructions</strong></p>
 <ol class="arabic">
-<li><p><strong>Setup the Game Environment</strong></p>
-<p>Open your terminal and create a game directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>command_game
-<span class="nb">cd</span><span class="w"> </span>command_game
+<li><p><strong>Setup the Challenge Environment</strong></p>
+<p>Open your terminal and create a <em>challenge</em> directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>command_challenge
+<span class="nb">cd</span><span class="w"> </span>command_challenge
 </pre></div>
 </div>
-<p>Inside <em>command_game</em>, create a basic structure:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>game/<span class="o">{</span>documents,images,videos<span class="o">}</span>
-touch<span class="w"> </span>game/documents/<span class="o">{</span>notes.txt,tasklist.txt<span class="o">}</span>
-touch<span class="w"> </span>game/images/<span class="o">{</span>pic1.jpg,pic2.jpg<span class="o">}</span>
-touch<span class="w"> </span>game/videos/video1.mp4
+<p>Inside <em>command_challenge</em>, create a basic structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>challenge/<span class="o">{</span>documents,images,videos<span class="o">}</span>
+touch<span class="w"> </span>challenge/documents/<span class="o">{</span>notes.txt,tasklist.txt<span class="o">}</span>
+touch<span class="w"> </span>challenge/images/<span class="o">{</span>pic1.jpg,pic2.jpg<span class="o">}</span>
+touch<span class="w"> </span>challenge/videos/video1.mp4
 </pre></div>
 </div>
 </li>
-<li><p><strong>Starting the Game</strong></p>
-<p>You are now in the <em>command_game</em> directory. Your objective is to complete the following tasks using your knowledge of Linux commands. Before reviewing the solutions, try to figure out the necessary commands on your own. Good luck!</p>
+<li><p><strong>Starting the challenge</strong></p>
+<p>You are now in the <em>command_challenge</em> directory. Your objective is to complete the following tasks using your knowledge of Linux commands. Before reviewing the solutions, try to figure out the necessary commands on your own. Good luck!</p>
 </li>
 </ol>
 <div class="admonition tip">
@@ -289,7 +371,7 @@ Solution 1</li></ul><div class="tab texttab selected" data-id="0">
 </div>
 </div><div class="tab texttab" data-id="1">
 <div class="docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>game/documents
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>challenge/documents
 </pre></div>
 </div>
 </div>
@@ -358,7 +440,7 @@ Solution 5</li></ul><div class="tab texttab selected" data-id="0">
 Task 6</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
 Solution 6</li></ul><div class="tab texttab selected" data-id="0">
 <div class="docutils container">
-<p>Return to the main <em>game</em> directory</p>
+<p>Return to the main <em>challenge</em> directory</p>
 </div>
 </div><div class="tab texttab" data-id="1">
 <div class="docutils container">
@@ -414,7 +496,7 @@ Solution 9</li></ul><div class="tab texttab selected" data-id="0">
 Task 10</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
 Solution 10</li></ul><div class="tab texttab selected" data-id="0">
 <div class="docutils container">
-<p>Go back to the <em>game</em> directory and remove the <em>videos</em> directory</p>
+<p>Go back to the <em>challenge</em> directory and remove the <em>videos</em> directory</p>
 </div>
 </div><div class="tab texttab" data-id="1">
 <div class="docutils container">
@@ -428,7 +510,7 @@ Solution 10</li></ul><div class="tab texttab selected" data-id="0">
 Task 11</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
 Solution 11</li></ul><div class="tab texttab selected" data-id="0">
 <div class="docutils container">
-<p>Copy <em>pic1.jpg</em> from the <em>images</em> directory to the <em>game</em> directory</p>
+<p>Copy <em>pic1.jpg</em> from the <em>images</em> directory to the <em>challenge</em> directory</p>
 </div>
 </div><div class="tab texttab" data-id="1">
 <div class="docutils container">
@@ -442,7 +524,7 @@ Solution 11</li></ul><div class="tab texttab selected" data-id="0">
 Task 12</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
 Solution 12</li></ul><div class="tab texttab selected" data-id="0">
 <div class="docutils container">
-<p>Rename <em>pic1.jpg</em> to <em>my_pic.jpg</em> in the <em>game</em> directory</p>
+<p>Rename <em>pic1.jpg</em> to <em>my_pic.jpg</em> in the <em>challenge</em> directory</p>
 </div>
 </div><div class="tab texttab" data-id="1">
 <div class="docutils container">
@@ -470,11 +552,11 @@ Solution 13</li></ul><div class="tab texttab selected" data-id="0">
 Task 14</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
 Solution 14</li></ul><div class="tab texttab selected" data-id="0">
 <div class="docutils container">
-<p>Clean up your game by removing the <em>game</em> directory</p>
+<p>Clean up your challenge by removing the <em>challenge</em> directory</p>
 </div>
 </div><div class="tab texttab" data-id="1">
 <div class="docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>command_game
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>command_challenge
 </pre></div>
 </div>
 </div>

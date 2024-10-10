@@ -23,7 +23,6 @@ ROS2 is released through distributions, which are collections of ROS2 packages a
 .. figure:: img/distro.png
    :align: center
    :width: 80%
-   :alt: Image description
 
    `List of ROS2 Distributions <https://docs.ros.org/en/humble/Releases.html>`_
 
@@ -32,7 +31,6 @@ Non-LTS versions are primarily intended for testing new features and tools and a
 .. figure:: img/platform.png
    :align: center
    :width: 65%
-   :alt: Image description
 
    `Humble Hawksbill Supported Platforms <https://docs.ros.org/en/humble/Releases/Release-Humble-Hawksbill.html>`_
 
@@ -80,44 +78,114 @@ Installing Docker Desktop
 
 2. **Configure Docker**
 
-   After installation, configure Docker by clicking on ``Accept``, selecting ``Use recommended settings``, and then clicking on ``Finish``. You can then *Continue without signing in* and *skip* the subsequent questions.
+   Once the installation is complete, ``Accept`` the *Subscription Service Agreement* to proceed. You can then skip all the following questions, as creating an account is optional and not required.
 
 3. **Pull the Docker Image**
 
    On the Docker Desktop, use the search bar to find the image named **luky005/ros2_basics** and pull it.
 
-4. **Locate the Image**
+   .. figure:: img/step1.png
+      :align: center
+      :width: 80%
 
-   Once the image is downloaded, find it in the *Images* section on the left sidebar.
+      Open the search bar
+   
+   .. figure:: img/step2.png
+      :align: center
+      :width: 80%
 
-5. **Run the Container**
+      Find and pull the image
 
-   Start the container by clicking the ``▶`` symbol.
+4. **Locate the Image and Run the Container**
 
-6. **Set Optional Settings**
+   Once the image is downloaded, find it in the *Images* section on the left sidebar. Then, start the container by clicking the ``▶`` symbol.
+
+   .. figure:: img/step3.png
+      :align: center
+      :width: 80%
+
+      Locate and run the image
+
+5. **Set Optional Settings and Launch the Container**
 
    Open the *Optional settings* tab and fill in the following fields:
 
    1. Set the container name to **ros2_basics**.
    2. Set the port to **6080**.
 
-7. **Launch the Container**
+   Then, click the ``Run`` button to launch the container.
 
-   Click the ``Run`` button to launch the container.
+   .. figure:: img/step4.png
+      :align: center
+      :width: 80%
 
-8. **Access Ubuntu**
+      Open the optional settings
 
-   After the container has launched, you can access Ubuntu from your favorite browser at http://localhost:6080.
+   .. figure:: img/step5.png
+      :align: center
+      :width: 80%
 
-9. **Connect to Your Desktop**
+      Set the settings and run
+
+6. **Access Ubuntu**
+
+   After the container has launched, you can access Ubuntu in your preferred browser at http://localhost:6080, or you can directly access the port through Docker Desktop.
+
+   .. figure:: img/step6.png
+      :align: center
+      :width: 80%
+
+      Access the port directly from Docker Desktop
+
+7. **Connect to Your Desktop**
 
    Finally, click on ``Connect`` to access your new desktop for these lab sessions.
+
+   .. figure:: img/step7.png
+      :align: center
+      :width: 80%
+
+      Connect to Ubuntu desktop
+
+   .. figure:: img/step8.png
+      :align: center
+      :width: 80%
+
+      Ubuntu MATE 22.04 desktop
+
+8. **Exit and Stop the Container**
+
+   Once you have finished working in the environment, be sure to disconnect from the VNC server and stop the container in Docker Desktop.
+
+   .. figure:: img/step9.png
+      :align: center
+      :width: 80%
+
+      Disconnect from the VNC server
+
+   .. figure:: img/step10.png
+      :align: center
+      :width: 80%
+
+      Stop the container
 
 .. important::
 
    To access the Ubuntu desktop in the future, navigate to the *Containers* section on the left sidebar. Click the ``▶`` symbol next to your container to start it directly.
+   
+   .. figure:: img/step11.png
+      :align: center
+      :width: 80%
 
-   Additionally, you can open your browser directly to *http://localhost:6080* by clicking on the **6080:80** port located on the left side of the ``▶`` symbol. This allows you to quickly connect to the VNC server.
+      Locate and run the container
+   
+   Additionally, you can open your browser directly to http://localhost:6080 by clicking on the **6080:80** port located on the left side of the ``▶`` symbol. This allows you to quickly connect to the VNC server.
+
+   .. figure:: img/step12.png
+      :align: center
+      :width: 80%
+
+      Access the port directly from Docker Desktop
 
 
 Exploring Tools
@@ -167,10 +235,10 @@ As we prepare for our practical lab sessions with ROS2, being familiar with the 
 * **rmdir <directory>**: Remove an empty directory
 * **rm -r <directory>**: Recursively delete directories and contents
 
-To reinforce your understanding of these commands, we invite you to participate in a command-line game designed to practice your skills!
+To reinforce your understanding of these commands, we invite you to participate in a command-line challenge designed to practice your skills!
 
-Command-Line Game
-~~~~~~~~~~~~~~~~~
+Command-Line Challenge
+~~~~~~~~~~~~~~~~~~~~~~
 
 **Objective** 
 
@@ -178,27 +246,27 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
 **Instructions**
 
-1. **Setup the Game Environment**
+1. **Setup the Challenge Environment**
 
-   Open your terminal and create a game directory:
-
-   .. code-block:: bash
-
-      mkdir command_game
-      cd command_game
-
-   Inside *command_game*, create a basic structure:
+   Open your terminal and create a *challenge* directory:
 
    .. code-block:: bash
 
-      mkdir -p game/{documents,images,videos}
-      touch game/documents/{notes.txt,tasklist.txt}
-      touch game/images/{pic1.jpg,pic2.jpg}
-      touch game/videos/video1.mp4
+      mkdir command_challenge
+      cd command_challenge
 
-2. **Starting the Game**
+   Inside *command_challenge*, create a basic structure:
 
-   You are now in the *command_game* directory. Your objective is to complete the following tasks using your knowledge of Linux commands. Before reviewing the solutions, try to figure out the necessary commands on your own. Good luck!
+   .. code-block:: bash
+
+      mkdir -p challenge/{documents,images,videos}
+      touch challenge/documents/{notes.txt,tasklist.txt}
+      touch challenge/images/{pic1.jpg,pic2.jpg}
+      touch challenge/videos/video1.mp4
+
+2. **Starting the challenge**
+
+   You are now in the *command_challenge* directory. Your objective is to complete the following tasks using your knowledge of Linux commands. Before reviewing the solutions, try to figure out the necessary commands on your own. Good luck!
 
 .. tip::
    
@@ -216,7 +284,7 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
       .. code-block:: bash
 
-         cd game/documents
+         cd challenge/documents
 
 .. tabs::
 
@@ -276,7 +344,7 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
    .. tab:: Task 6
 
-      Return to the main *game* directory
+      Return to the main *challenge* directory
 
    .. tab:: Solution 6
 
@@ -324,7 +392,7 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
    .. tab:: Task 10
 
-      Go back to the *game* directory and remove the *videos* directory
+      Go back to the *challenge* directory and remove the *videos* directory
 
    .. tab:: Solution 10
 
@@ -336,7 +404,7 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
    .. tab:: Task 11
 
-      Copy *pic1.jpg* from the *images* directory to the *game* directory
+      Copy *pic1.jpg* from the *images* directory to the *challenge* directory
 
    .. tab:: Solution 11
 
@@ -348,7 +416,7 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
    .. tab:: Task 12
 
-      Rename *pic1.jpg* to *my_pic.jpg* in the *game* directory
+      Rename *pic1.jpg* to *my_pic.jpg* in the *challenge* directory
 
    .. tab:: Solution 12
 
@@ -372,10 +440,10 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
    .. tab:: Task 14
 
-      Clean up your game by removing the *game* directory
+      Clean up your challenge by removing the *challenge* directory
 
    .. tab:: Solution 14
 
       .. code-block:: bash
 
-         cd ../.. && rm -r command_game
+         cd ../.. && rm -r command_challenge
