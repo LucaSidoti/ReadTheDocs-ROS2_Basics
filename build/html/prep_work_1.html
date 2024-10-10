@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preparatory Work 1 &mdash; ROS2 Basics  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/code-tabs.css?v=1bc26e2f" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/code-tabs.js?v=c983d12e"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Session 1" href="session_1.html" />
+    <link rel="prev" title="MICRO-453 | ROS2 Basics" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ROS2 Basics
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparatory Work 1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-ros2">Why ROS2?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-a-ros2-distribution">Selecting a ROS2 Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-docker">Why Docker?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-docker-desktop">Installing Docker Desktop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exploring-tools">Exploring Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#learning-basic-linux-commands">Learning Basic Linux Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-game">Command-Line Game</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="session_1.html">Session 1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#ros2-installation">ROS2 Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#ros2-project-build">ROS2 Project Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#first-node">First Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#topics-overview">Topics Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#exercise-1">Exercise 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#services-overview">Services Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#custom-interfaces">Custom Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="prep_work_2.html">Preparatory Work 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session_3.html">Session 3</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ROS2 Basics</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Preparatory Work 1</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/prep_work_1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="preparatory-work-1">
+<h1>Preparatory Work 1<a class="headerlink" href="#preparatory-work-1" title="Link to this heading"></a></h1>
+<section id="why-ros2">
+<h2>Why ROS2?<a class="headerlink" href="#why-ros2" title="Link to this heading"></a></h2>
+<p>ROS2, or Robot Operating System 2, is the successor to ROS1, featuring enhanced capabilities. Simply put, ROS2 is a collection of tools and libraries that provide a standardized middleware for developing robotic applications, promoting code reuse and efficiency. ROS2 is particularly well-suited for building scalable and complex robotic systems that require robust communication, such as those with multiple sensors and actuators.</p>
+<p>Here are some key benefits of using ROS2:</p>
+<ul class="simple">
+<li><p><strong>Code Separation:</strong> Enhanced modularity and reusability</p></li>
+<li><p><strong>Communication Tools:</strong> Simplifies interactions between subprograms</p></li>
+<li><p><strong>Tools and Libraries:</strong> Offers many ready-to-use resources</p></li>
+<li><p><strong>Language-Agnostic:</strong> Supports multiple languages, primarily Python and C++</p></li>
+<li><p><strong>Improved Performance:</strong> Better scalability, real-time capabilities, and security over ROS1</p></li>
+</ul>
+</section>
+<section id="selecting-a-ros2-distribution">
+<h2>Selecting a ROS2 Distribution<a class="headerlink" href="#selecting-a-ros2-distribution" title="Link to this heading"></a></h2>
+<p>ROS2 is released through distributions, which are collections of ROS2 packages and tools, on an annual basis. When starting a ROS2 project, the first decision you need to make is which distribution (or “distro”) to use. How should you choose? The key distinction to understand is that ROS2 alternates between Long-Term Support (LTS) versions, which receive 5 years of support, and non-LTS versions, which are supported for 2 years.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/distro.png"><img alt="Image description" src="_images/distro.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases.html">List of ROS2 Distributions</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Non-LTS versions are primarily intended for testing new features and tools and are generally not recommended for starting new projects. Instead, LTS versions are preferred, especially one that has been released for at least a few months, to ensure stability and the availability of necessary resources. Additionally, each ROS2 distribution is adapted to work with specific operating systems, most commonly the latest Ubuntu LTS release. The official ROS2 documentation provides the End of Life (EOL) date for each version, indicating the period during which stability and maintenance are guaranteed.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/platform.png"><img alt="Image description" src="_images/platform.png" style="width: 65%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases/Release-Humble-Hawksbill.html">Humble Hawksbill Supported Platforms</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Key points to consider when choosing a distribution:</p>
+<ul class="simple">
+<li><p><strong>EOL Date</strong>: Ensure the distribution will be supported for the duration of your project</p></li>
+<li><p><strong>LTS Version</strong>: Opt for an LTS release, preferably one that has been available for several months</p></li>
+<li><p><strong>Supported Platform</strong>: Verify that the “distro” is compatible with your OS, typically Ubuntu LTS</p></li>
+</ul>
+<p>For this course, we will use the <strong>Humble Hawksbill</strong> distribution, as it meets all of these recommendations. It is an LTS version, supported until May 2027. However, the best-supported platform for this distribution is Ubuntu 22.04 (Jammy Jellyfish), which could be a critical consideration for the course. In the next section, we will explore how to address this issue.</p>
+</section>
+<section id="why-docker">
+<h2>Why Docker?<a class="headerlink" href="#why-docker" title="Link to this heading"></a></h2>
+<p>In the previous section, we identified a potential issue with the ROS2 Humble distribution, which requires a specific operating system. In our case, the most suitable platform is Ubuntu 22.04. But how can we all work with Ubuntu on our own computers, regardless of our current setup? This is where Docker comes in.</p>
+<p>Docker is a platform that allows you to package and run applications in isolated environments called <em>containers</em>. It ensures that the software behaves consistently, no matter where it is run, by providing everything the application needs, including the OS, libraries, and dependencies.</p>
+<p>But how does Docker achieve this?</p>
+<ul class="simple">
+<li><p><strong>Docker Image:</strong> An image is essentially a blueprint for a container. It contains the necessary software, dependencies, and system configurations. Think of it as a snapshot of a specific environment, such as Ubuntu 22.04 with ROS2 pre-installed. When you want to run an application, Docker uses this image to create a container.</p></li>
+<li><p><strong>Docker Container:</strong> A container is an instance of an image. It is a lightweight, isolated environment where your application runs. The container shares the OS kernel with your host machine but remains isolated in terms of processes, file system, and network settings. This ensures that the container runs in a clean, consistent environment without interfering with your local setup.</p></li>
+</ul>
+<p>In conclusion, Docker allows us to work in a clean, reproducible environment perfectly suited for our ROS2 application. For easier management, we willl use Docker Desktop, which provides a more user-friendly interface for handling containers.</p>
+<p>In the next section, you will see the steps needed to access an Ubuntu desktop directly from your browser using Docker.</p>
+</section>
+<section id="installing-docker-desktop">
+<h2>Installing Docker Desktop<a class="headerlink" href="#installing-docker-desktop" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Install Docker Desktop</strong></p>
+<p>Follow the instructions for installing Docker Desktop based on your operating system:</p>
+<ul class="simple">
+<li><p><strong>Windows</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/windows-install/">Install Docker Desktop on Windows</a></p></li>
+<li><p><strong>Mac</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/mac-install/">Install Docker Desktop on Mac</a></p></li>
+<li><p><strong>Linux</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/linux/">Install Docker Desktop on Linux</a></p></li>
+</ul>
+<div class="admonition-need-help admonition">
+<p class="admonition-title">Need help?</p>
+<p>If you encounter any issues during installation, please do not hesitate to contact us.</p>
+</div>
+</li>
+<li><p><strong>Configure Docker</strong></p>
+<p>After installation, configure Docker by clicking on <code class="docutils literal notranslate"><span class="pre">Accept</span></code>, selecting <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">recommended</span> <span class="pre">settings</span></code>, and then clicking on <code class="docutils literal notranslate"><span class="pre">Finish</span></code>. You can then <em>Continue without signing in</em> and <em>skip</em> the subsequent questions.</p>
+</li>
+<li><p><strong>Pull the Docker Image</strong></p>
+<p>On the Docker Desktop, use the search bar to find the image named <strong>luky005/ros2_basics</strong> and pull it.</p>
+</li>
+<li><p><strong>Locate the Image</strong></p>
+<p>Once the image is downloaded, find it in the <em>Images</em> section on the left sidebar.</p>
+</li>
+<li><p><strong>Run the Container</strong></p>
+<p>Start the container by clicking the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol.</p>
+</li>
+<li><p><strong>Set Optional Settings</strong></p>
+<p>Open the <em>Optional settings</em> tab and fill in the following fields:</p>
+<ol class="arabic simple">
+<li><p>Set the container name to <strong>ros2_basics</strong>.</p></li>
+<li><p>Set the port to <strong>6080</strong>.</p></li>
+</ol>
+</li>
+<li><p><strong>Launch the Container</strong></p>
+<p>Click the <code class="docutils literal notranslate"><span class="pre">Run</span></code> button to launch the container.</p>
+</li>
+<li><p><strong>Access Ubuntu</strong></p>
+<p>After the container has launched, you can access Ubuntu from your favorite browser at <a class="reference external" href="http://localhost:6080">http://localhost:6080</a>.</p>
+</li>
+<li><p><strong>Connect to Your Desktop</strong></p>
+<p>Finally, click on <code class="docutils literal notranslate"><span class="pre">Connect</span></code> to access your new desktop for these lab sessions.</p>
+</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>To access the Ubuntu desktop in the future, navigate to the <em>Containers</em> section on the left sidebar. Click the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol next to your container to start it directly.</p>
+<p>Additionally, you can open your browser directly to <em>http://localhost:6080</em> by clicking on the <strong>6080:80</strong> port located on the left side of the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol. This allows you to quickly connect to the VNC server.</p>
+</div>
+</section>
+<section id="exploring-tools">
+<h2>Exploring Tools<a class="headerlink" href="#exploring-tools" title="Link to this heading"></a></h2>
+<p>As mentioned earlier, Ubuntu comes with ROS2 pre-installed, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:</p>
+<ul class="simple">
+<li><p><strong>Firefox</strong>: The web browser that will allow you to access online documentation, including resources on Read the Docs.</p></li>
+<li><p><strong>VSCode</strong>: Visual Studio Code (VSCode) is the Integrated Development Environment (IDE) we will use to write our code. It is suitable for ROS2 development, offering essential features like syntax highlighting and code completion.</p></li>
+</ul>
+<div class="admonition-remark admonition">
+<p class="admonition-title">Remark</p>
+<p>If you prefer using different tools or editors, you are welcome to download and install them on your desktop. Customize your workspace to suit your preferences and workflow!</p>
+</div>
+<ul>
+<li><p><strong>Terminator</strong>: This enhanced terminal emulator allows you to split your screen and manage multiple terminal sessions simultaneously. This feature is especially useful when working with ROS2, as you will see in session 1.</p>
+<p>Here are some useful shortcuts for splitting the terminal:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl+Shift+O</span></code>: Horizontal split</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl+Shift+E</span></code>: Vertical split</p></li>
+</ul>
+<p>You can also right-click on the Terminator window to access similar options for splitting the terminal.</p>
+</li>
+</ul>
+</section>
+<section id="learning-basic-linux-commands">
+<h2>Learning Basic Linux Commands<a class="headerlink" href="#learning-basic-linux-commands" title="Link to this heading"></a></h2>
+<p>As we prepare for our practical lab sessions with ROS2, being familiar with the terminal will be helpful. Here are some key Linux commands you will find useful throughout this course:</p>
+<p><strong>Essential Commands</strong></p>
+<ul class="simple">
+<li><p><strong>mkdir &lt;directory&gt;</strong>: Create a new directory</p></li>
+<li><p><strong>cd &lt;directory&gt;</strong>: Change the current directory</p></li>
+<li><p><strong>ls</strong>: List directory contents</p></li>
+<li><p><strong>touch &lt;file&gt;</strong>: Create an empty file</p></li>
+<li><p><strong>chmod +x &lt;file&gt;</strong>: Make a file executable</p></li>
+</ul>
+<p><strong>Useful Commands</strong></p>
+<ul class="simple">
+<li><p><strong>pwd</strong>: Display the full path of the current working directory</p></li>
+<li><p><strong>cat &lt;file&gt;</strong>: Display file contents</p></li>
+<li><p><strong>nano &lt;file&gt;</strong>: Basic text editor for editing files</p></li>
+<li><p><strong>cp &lt;source&gt; &lt;destination&gt;</strong>: Copy files or directories</p></li>
+<li><p><strong>mv &lt;source&gt; &lt;destination&gt;</strong>: Move and/or rename files or directories</p></li>
+<li><p><strong>rm &lt;file&gt;</strong>: Delete files</p></li>
+<li><p><strong>rmdir &lt;directory&gt;</strong>: Remove an empty directory</p></li>
+<li><p><strong>rm -r &lt;directory&gt;</strong>: Recursively delete directories and contents</p></li>
+</ul>
+<p>To reinforce your understanding of these commands, we invite you to participate in a command-line game designed to practice your skills!</p>
+<section id="command-line-game">
+<h3>Command-Line Game<a class="headerlink" href="#command-line-game" title="Link to this heading"></a></h3>
+<p><strong>Objective</strong></p>
+<p>Explore a virtual file system and complete tasks using the commands you have learned.</p>
+<p><strong>Instructions</strong></p>
+<ol class="arabic">
+<li><p><strong>Setup the Game Environment</strong></p>
+<p>Open your terminal and create a game directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>command_game
+<span class="nb">cd</span><span class="w"> </span>command_game
+</pre></div>
+</div>
+<p>Inside <em>command_game</em>, create a basic structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>game/<span class="o">{</span>documents,images,videos<span class="o">}</span>
+touch<span class="w"> </span>game/documents/<span class="o">{</span>notes.txt,tasklist.txt<span class="o">}</span>
+touch<span class="w"> </span>game/images/<span class="o">{</span>pic1.jpg,pic2.jpg<span class="o">}</span>
+touch<span class="w"> </span>game/videos/video1.mp4
+</pre></div>
+</div>
+</li>
+<li><p><strong>Starting the Game</strong></p>
+<p>You are now in the <em>command_game</em> directory. Your objective is to complete the following tasks using your knowledge of Linux commands. Before reviewing the solutions, try to figure out the necessary commands on your own. Good luck!</p>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Before and after each command, use <code class="docutils literal notranslate"><span class="pre">ls</span></code> to observe the changes in your directory.</p>
+</div>
+<p><strong>Tasks</strong></p>
+<div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 1</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 1</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Navigate to the <em>documents</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>game/documents
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 2</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 2</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>List the contents of the <em>documents</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 3</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 3</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Create a new text file called <em>summary.txt</em></p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>touch<span class="w"> </span>summary.txt
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 4</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 4</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Write a brief summary text in <em>summary.txt</em>, then save and exit</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nano<span class="w"> </span>summary.txt
+</pre></div>
+</div>
+<p>Example content: “This is a summary text.”</p>
+<p>To save, press: <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">S</span></code></p>
+<p>To exit, press: <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">X</span></code></p>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 5</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 5</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Display the contents of <em>summary.txt</em></p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>summary.txt
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 6</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 6</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Return to the main <em>game</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 7</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 7</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Check the full path of your current working directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 8</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 8</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Navigate to the <em>images</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>images
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 9</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 9</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Remove <em>pic2.jpg</em></p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>pic2.jpg
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 10</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 10</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Go back to the <em>game</em> directory and remove the <em>videos</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>videos
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 11</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 11</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Copy <em>pic1.jpg</em> from the <em>images</em> directory to the <em>game</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>images/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>cp<span class="w"> </span>pic1.jpg<span class="w"> </span>..
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 12</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 12</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Rename <em>pic1.jpg</em> to <em>my_pic.jpg</em> in the <em>game</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mv<span class="w"> </span>pic1.jpg<span class="w"> </span>my_pic.jpg
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 13</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 13</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Change the permissions of <em>my_pic.jpg</em> to make it executable</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>my_pic.jpg
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 14</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 14</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
+<p>Clean up your game by removing the <em>game</em> directory</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>command_game
+</pre></div>
+</div>
+</div>
+</div></div></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="MICRO-453 | ROS2 Basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="session_1.html" class="btn btn-neutral float-right" title="Session 1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Luca Sidoti Pinto.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
