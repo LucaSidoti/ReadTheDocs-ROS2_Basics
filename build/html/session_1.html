@@ -113,6 +113,72 @@
 </section>
 <section id="ros2-installation">
 <h2>ROS2 Installation<a class="headerlink" href="#ros2-installation" title="Link to this heading"></a></h2>
+<p>Up until now, we have mentioned that ROS2 is pre-installed in the Docker environment. Now it is time to confirm that it is actually there. To do this, we will use some demo packages that come with the ROS2 installation. Follow these steps to check it out:</p>
+<ol class="arabic simple">
+<li><p>Open <strong>Terminator</strong> and split the window into two terminals</p></li>
+<li><p>In one of the terminals, run the following command:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>talker
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>In the second terminal, run this command:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_py<span class="w"> </span>listener
+</pre></div>
+</div>
+<p>What you should see is that the C++ node publishes a message to a topic, while the Python node listens to it.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not panic if that did not make much sense right now. We will cover these concepts during today’s session. No stress!</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You have successfully verified that ROS2 is installed and seen how programs in different languages (Python and C++) communicate through ROS2, showing its <strong>language-agnostic</strong> feature.</p>
+<p>For the rest of the course, we will focus on <strong>Python</strong>.</p>
+</div>
+<p>However, that is not the only thing that has been pre-installed for your convenience. In fact, a few lines have also been added to a configuration file called <em>.bashrc</em>. This file is a script that executes every time you open a new terminal, in order to configure the terminal’s local environment. Let’s take a closer look:</p>
+<ol class="arabic simple">
+<li><p>Open the <em>.bashrc</em> file</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Scroll to the bottom of the script, here you should see the following lines:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/opt/ros/humble/setup.bash
+<span class="nb">source</span><span class="w"> </span>/usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Comment the <em>source /opt/ros/humble/setup.bash</em> and save the file</p></li>
+<li><p>Close the previous terminals and open a <strong>new</strong> one</p></li>
+<li><p>Run the same talker node as before</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>talker
+</pre></div>
+</div>
+<p><strong>Question:</strong> What do you observe?</p>
+<ol class="arabic simple" start="6">
+<li><p>Now run the source command in the terminal and run the <em>talker</em> node again</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/opt/ros/humble/setup.bash
+ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>talker
+</pre></div>
+</div>
+<p><strong>Question:</strong> What do you conclude? What does the source command do?</p>
+<p>Once you have understood the meaning of this command, go back to <em>.bashrc</em> file, uncomment the <em>source</em> command and save the file.</p>
+<p><strong>Question:</strong> What is the benefit of having the <em>source</em> command in <em>.bashrc</em>?</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you have been copying and pasting commands into the terminal, that is great! But remember the <em>tab completion tricks</em> we covered in the preparatory work. These also work with ROS2 commands. Give it a try by typing the following in your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>de
+</pre></div>
+</div>
+<p>Then, double-tap <code class="docutils literal notranslate"><span class="pre">tab</span></code>. You should see the available options. Now type <strong>m</strong> and press <code class="docutils literal notranslate"><span class="pre">tab</span></code> again. The command will autocomplete! Use these tricks to type faster.</p>
+</div>
+<p>Previously, we also mentioned a second line that was added to your convenience. We will see what does the <em>source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash</em> command does later in the course when the time is right.</p>
 </section>
 <section id="ros2-project-build">
 <h2>ROS2 Project Build<a class="headerlink" href="#ros2-project-build" title="Link to this heading"></a></h2>

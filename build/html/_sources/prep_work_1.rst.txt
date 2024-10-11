@@ -110,8 +110,8 @@ Installing Docker Desktop
 
    Open the *Optional settings* tab and fill in the following fields:
 
-   1. Set the container name to **ros2_basics**.
-   2. Set the port to **6080**.
+   1. Set the container name to **ros2_basics**
+   2. Set the port to **6080**
 
    Then, click the ``Run`` button to launch the container.
 
@@ -210,6 +210,14 @@ As mentioned earlier, Ubuntu comes with ROS2 pre-installed, along with several e
 
   You can also right-click on the Terminator window to access similar options for splitting the terminal.
 
+  Additionally, here are some key commands that will be especially handy while working in an Ubuntu terminal:
+
+  * ``Ctrl+Shift+C``: Copy
+  * ``Ctrl+Shift+V``: Paste
+  * ``Ctrl+C``: Kill current process
+  * ``tab``: Autocomplete
+  * ``tab+tab``: Show autocomplete suggestions
+  * ``▲`` or ``▼``: Scroll through command history
 
 Learning Basic Linux Commands
 -----------------------------
@@ -447,3 +455,7 @@ Explore a virtual file system and complete tasks using the commands you have lea
       .. code-block:: bash
 
          cd ../.. && rm -r command_challenge
+
+.. note::
+
+   If you want to learn more about commands and shortcuts, please visit `40 Basic Ubuntu Commands And Terminal Shortcuts For Beginners <https://techlog360.com/basic-ubuntu-commands-terminal-shortcuts-linux-beginner/#Ubuntu_Terminal_Shortcuts>`_
