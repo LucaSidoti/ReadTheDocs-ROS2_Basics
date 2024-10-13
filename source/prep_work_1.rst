@@ -64,6 +64,10 @@ In the next section, you will see the steps needed to access an Ubuntu desktop d
 Installing Docker Desktop
 -------------------------
 
+.. warning::
+
+   Before starting the installation, make sure you have enough disk space. The full setup (Docker Desktop + Docker image) will require approximately 10GB of storage, so check your available space before proceeding.
+
 1. **Install Docker Desktop**
 
    Follow the instructions for installing Docker Desktop based on your operating system:
@@ -191,14 +195,24 @@ Installing Docker Desktop
 Exploring Tools
 ---------------
 
-As mentioned earlier, Ubuntu comes with ROS2 pre-installed, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:
+In the container you just installed, we have preconfigured an Ubuntu environment with the ROS2 Humble distribution, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:
 
 * **Firefox**: The web browser that will allow you to access online documentation, including resources on Read the Docs.
 
+  .. tip::
+   
+   We recommend using Firefox within the Ubuntu desktop for easier copying and pasting of code snippets from the documentation. If you need to copy from outside the Docker container, use the clipboard option in the noVNC menu on the left side of the desktop window.
+
+   .. figure:: img/clipboard.png
+      :align: center
+      :width: 50%
+
+      Clipboard option in the noVNC menu
+
 * **VSCode**: Visual Studio Code (VSCode) is the Integrated Development Environment (IDE) we will use to write our code. It is suitable for ROS2 development, offering essential features like syntax highlighting and code completion.
 
-.. admonition:: Remark
-
+  .. admonition:: Remark
+   
    If you prefer using different tools or editors, you are welcome to download and install them on your desktop. Customize your workspace to suit your preferences and workflow!
 
 * **Terminator**: This enhanced terminal emulator allows you to split your screen and manage multiple terminal sessions simultaneously. This feature is especially useful when working with ROS2, as you will see in session 1.
@@ -210,7 +224,7 @@ As mentioned earlier, Ubuntu comes with ROS2 pre-installed, along with several e
 
   You can also right-click on the Terminator window to access similar options for splitting the terminal.
 
-  Additionally, here are some key commands that will be especially handy while working in an Ubuntu terminal:
+  Additionally, here are some key shortcuts that will be especially handy while working in an Ubuntu terminal:
 
   * ``Ctrl+Shift+C``: Copy
   * ``Ctrl+Shift+V``: Paste
@@ -242,6 +256,10 @@ As we prepare for our practical lab sessions with ROS2, being familiar with the 
 * **rm <file>**: Delete files
 * **rmdir <directory>**: Remove an empty directory
 * **rm -r <directory>**: Recursively delete directories and contents
+
+.. note::
+
+   For more information on the Linux commands, refer to the `official Ubuntu tutorial <https://ubuntu.com/tutorials/command-line-for-beginners#1-overview>`_. At the very least, we highly recommend reviewing the `following page <https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal>`_ to get familiar with the *cd* command and learn how to easily navigate between directories.
 
 To reinforce your understanding of these commands, we invite you to participate in a command-line challenge designed to practice your skills!
 
@@ -456,6 +474,6 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
          cd ../.. && rm -r command_challenge
 
-.. note::
+.. .. note::
 
-   If you want to learn more about commands and shortcuts, please visit `40 Basic Ubuntu Commands And Terminal Shortcuts For Beginners <https://techlog360.com/basic-ubuntu-commands-terminal-shortcuts-linux-beginner/#Ubuntu_Terminal_Shortcuts>`_
+..    If you want to learn more about commands and shortcuts, please visit `40 Basic Ubuntu Commands And Terminal Shortcuts For Beginners <https://techlog360.com/basic-ubuntu-commands-terminal-shortcuts-linux-beginner/#Ubuntu_Terminal_Shortcuts>`_.

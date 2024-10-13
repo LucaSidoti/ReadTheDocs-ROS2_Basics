@@ -157,6 +157,10 @@
 </section>
 <section id="installing-docker-desktop">
 <h2>Installing Docker Desktop<a class="headerlink" href="#installing-docker-desktop" title="Link to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before starting the installation, make sure you have enough disk space. The full setup (Docker Desktop + Docker image) will require approximately 10GB of storage, so check your available space before proceeding.</p>
+</div>
 <ol class="arabic">
 <li><p><strong>Install Docker Desktop</strong></p>
 <p>Follow the instructions for installing Docker Desktop based on your operating system:</p>
@@ -289,16 +293,27 @@
 </section>
 <section id="exploring-tools">
 <h2>Exploring Tools<a class="headerlink" href="#exploring-tools" title="Link to this heading"></a></h2>
-<p>As mentioned earlier, Ubuntu comes with ROS2 pre-installed, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:</p>
-<ul class="simple">
-<li><p><strong>Firefox</strong>: The web browser that will allow you to access online documentation, including resources on Read the Docs.</p></li>
-<li><p><strong>VSCode</strong>: Visual Studio Code (VSCode) is the Integrated Development Environment (IDE) we will use to write our code. It is suitable for ROS2 development, offering essential features like syntax highlighting and code completion.</p></li>
-</ul>
+<p>In the container you just installed, we have preconfigured an Ubuntu environment with the ROS2 Humble distribution, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:</p>
+<ul>
+<li><p><strong>Firefox</strong>: The web browser that will allow you to access online documentation, including resources on Read the Docs.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>We recommend using Firefox within the Ubuntu desktop for easier copying and pasting of code snippets from the documentation. If you need to copy from outside the Docker container, use the clipboard option in the noVNC menu on the left side of the desktop window.</p>
+<figure class="align-center" id="id15">
+<a class="reference internal image-reference" href="_images/clipboard.png"><img alt="_images/clipboard.png" src="_images/clipboard.png" style="width: 50%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Clipboard option in the noVNC menu</span><a class="headerlink" href="#id15" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</li>
+<li><p><strong>VSCode</strong>: Visual Studio Code (VSCode) is the Integrated Development Environment (IDE) we will use to write our code. It is suitable for ROS2 development, offering essential features like syntax highlighting and code completion.</p>
 <div class="admonition-remark admonition">
 <p class="admonition-title">Remark</p>
 <p>If you prefer using different tools or editors, you are welcome to download and install them on your desktop. Customize your workspace to suit your preferences and workflow!</p>
 </div>
-<ul>
+</li>
 <li><p><strong>Terminator</strong>: This enhanced terminal emulator allows you to split your screen and manage multiple terminal sessions simultaneously. This feature is especially useful when working with ROS2, as you will see in session 1.</p>
 <p>Here are some useful shortcuts for splitting the terminal:</p>
 <ul class="simple">
@@ -306,7 +321,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">Ctrl+Shift+E</span></code>: Vertical split</p></li>
 </ul>
 <p>You can also right-click on the Terminator window to access similar options for splitting the terminal.</p>
-<p>Additionally, here are some key commands that will be especially handy while working in an Ubuntu terminal:</p>
+<p>Additionally, here are some key shortcuts that will be especially handy while working in an Ubuntu terminal:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Ctrl+Shift+C</span></code>: Copy</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Ctrl+Shift+V</span></code>: Paste</p></li>
@@ -340,6 +355,10 @@
 <li><p><strong>rmdir &lt;directory&gt;</strong>: Remove an empty directory</p></li>
 <li><p><strong>rm -r &lt;directory&gt;</strong>: Recursively delete directories and contents</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more information on the Linux commands, refer to the <a class="reference external" href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">official Ubuntu tutorial</a>. At the very least, we highly recommend reviewing the <a class="reference external" href="https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal">following page</a> to get familiar with the <em>cd</em> command and learn how to easily navigate between directories.</p>
+</div>
 <p>To reinforce your understanding of these commands, we invite you to participate in a command-line challenge designed to practice your skills!</p>
 <section id="command-line-challenge">
 <h3>Command-Line Challenge<a class="headerlink" href="#command-line-challenge" title="Link to this heading"></a></h3>
@@ -569,11 +588,7 @@ Solution 14</li></ul><div class="tab texttab selected" data-id="0">
 </pre></div>
 </div>
 </div>
-</div></div><div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you want to learn more about commands and shortcuts, please visit <a class="reference external" href="https://techlog360.com/basic-ubuntu-commands-terminal-shortcuts-linux-beginner/#Ubuntu_Terminal_Shortcuts">40 Basic Ubuntu Commands And Terminal Shortcuts For Beginners</a></p>
-</div>
-</section>
+</div></div></section>
 </section>
 </section>
 

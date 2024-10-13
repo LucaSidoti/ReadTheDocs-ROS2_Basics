@@ -137,7 +137,7 @@
 <p>You have successfully verified that ROS2 is installed and seen how programs in different languages (Python and C++) communicate through ROS2, showing its <strong>language-agnostic</strong> feature.</p>
 <p>For the rest of the course, we will focus on <strong>Python</strong>.</p>
 </div>
-<p>However, that is not the only thing that has been pre-installed for your convenience. In fact, a few lines have also been added to a configuration file called <em>.bashrc</em>. This file is a script that executes every time you open a new terminal, in order to configure the terminal’s local environment. Let’s take a closer look:</p>
+<p>However, that is not the only thing that has been pre-installed for your comfort. In fact, a few lines have also been added to a configuration file called <em>.bashrc</em>. This file is a script that executes every time you open a new terminal, in order to configure the terminal’s local environment. Let’s take a closer look:</p>
 <ol class="arabic simple">
 <li><p>Open the <em>.bashrc</em> file</p></li>
 </ol>
@@ -178,16 +178,436 @@ ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class
 </div>
 <p>Then, double-tap <code class="docutils literal notranslate"><span class="pre">tab</span></code>. You should see the available options. Now type <strong>m</strong> and press <code class="docutils literal notranslate"><span class="pre">tab</span></code> again. The command will autocomplete! Use these tricks to type faster.</p>
 </div>
-<p>Previously, we also mentioned a second line that was added to your convenience. We will see what does the <em>source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash</em> command does later in the course when the time is right.</p>
+<p>Previously, we also mentioned a second line that was added to your convenience. We will see what does the <em>source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash</em> command do later in the course when the time is right.</p>
 </section>
 <section id="ros2-project-build">
 <h2>ROS2 Project Build<a class="headerlink" href="#ros2-project-build" title="Link to this heading"></a></h2>
+<p>Now that you have verified ROS2 is installed on your desktop, let’s create a ROS2 project! The first step is to set up a workspace, which is essentially a directory where you will store your project. Within this directory, you will need to create a source folder where your application development will take place. Your workspace will also contain other folders, which we will explore later.</p>
+<p>Let’s create the workspace and its source folder in your home directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~
+mkdir<span class="w"> </span>-p<span class="w"> </span>ros2_basics_ws/src
+</pre></div>
+</div>
+<p>Next, verify that the directory was created successfully and that it contains the source folder.</p>
+<p>As mentioned earlier, all your applications will be developed inside the source folder. Within this folder, you will add packages related to your project. Packages are the fundamental building blocks in ROS2 that help structure your project. They organize and group related functionalities and are designed to be modular and reusable, allowing you to use them in other projects.</p>
+<p>Packages can contain a variety of elements, including nodes, libraries, configuration files, launch files, interfaces, documentation, and more. While this might seem overwhelming at first, we will clarify these concepts during the session. Let’s dive in and create our first Python package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/source/
+ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>ros2_basics_pkg<span class="w"> </span>--build-type<span class="w"> </span>ament_python
+</pre></div>
+</div>
+<p>You can now open the source folder in VSCode and take a look at what was generated when you created the package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Let’s go over the essential files you will need to pay attention to as you start working with ROS2:</p>
+<ol class="arabic simple">
+<li><p><em>setup.py</em>: This file is where you will declare your executable ROS2 programs</p></li>
+<li><p><em>package.xml</em>: This file defines the dependencies for your package</p></li>
+<li><p><em>ros2_basics_pkg</em>: This folder will contain your package’s code and resources</p></li>
+</ol>
+<p>Again, these concepts will become much clearer when we will create our first program.</p>
+<p>The final topic for this section is how to build a project. ROS2 provides a build tool called <em>colcon</em>, which is used to compile packages within a ROS2 workspace. It manages dependencies and ensures everything is properly linked. Let’s go ahead and build your first project:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/
+colcon<span class="w"> </span>build
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Make sure you are in the <strong>workspace</strong> directory before running the build command!</p>
+</div>
+<p>Once the build is complete, list the contents of your workspace. If the build worked successfully, you should see four folders: <em>/src</em>, <em>/build</em>, <em>/log</em>, and <em>/install</em>. You have already created the source folder yourself, but the other three are generated during the build process:</p>
+<ul class="simple">
+<li><p><em>/log</em>: Contains the logs of the compilation process</p></li>
+<li><p><em>/build</em>: Stores intermediate files, tests, and temporary data</p></li>
+<li><p><em>/install</em>: This is the most important folder, as it holds the compiled files necessary for execution</p></li>
+</ul>
+<p>There are also additional useful commands to build your project:</p>
+<ol class="arabic">
+<li><p>To build a specific package from your workspace:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>&lt;pkg_name&gt;
+</pre></div>
+</div>
+</li>
+<li><p>To create symbolic links to your files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build<span class="w"> </span>--symlink-install
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p>This requires a bit more explanation. Normally, when you run <em>colcon build</em>, it creates copies of your package’s files in the <em>/install</em> folder (specifically in the <em>/share</em> directory). ROS2 only recognizes the files in the <em>/install</em> folder, so any changes you make will not be applied until you rebuild the project.</p>
+<p>However, using the <em>colcon build –symlink-install</em> command creates symbolic links to the files in the <em>/src</em> folder. This allows ROS2 to track changes in your files automatically, so you do not have to rebuild the project each time.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While this command is convenient, we recommend not using it initially so you can get familiar with the building process.</p>
+</div>
+</div></blockquote>
+<p>At this point, we can also explain the second line that was added to your <em>.bashrc</em> file. The <em>source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash</em> command enables <em>tab completion</em> for <em>colcon</em> commands. Try it yourself! Comment or uncomment this line in your <em>.bashrc</em> file, then try typing a <em>colcon</em> command in you terminal with the <code class="docutils literal notranslate"><span class="pre">tab</span></code> key to see the difference.</p>
 </section>
 <section id="first-node">
 <h2>First Node<a class="headerlink" href="#first-node" title="Link to this heading"></a></h2>
+<p>It is finally time to start working with your first ROS2 program! In this chapter you will create your first node. A node is an independent program that handles a specific task in a ROS2 system. It is the main brick of the ROS2 environment. In a concrete project you will have multiple nodes that can communicate through topics or services (let’s keep this for later) in order to achieve the desired tasks. Enough talking, let’s go to work:</p>
+<ol class="arabic simple">
+<li><p>Move into the development package that we created before</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/ros2_basics_pkg/ros2_basics_pkg
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Create a empty file</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>touch<span class="w"> </span>minimal_node.py
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Make it executable</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>minimal_node.py
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Add the following content inside your file</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
+<span class="kn">from</span> <span class="nn">rclpy.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="k">class</span> <span class="nc">MinimalNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;node_name&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Minimal Node has been started&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">minimal_node</span> <span class="o">=</span> <span class="n">MinimalNode</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">minimal_node</span><span class="p">)</span>
+    <span class="n">minimal_node</span><span class="o">.</span><span class="n">destroy_node</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Let’s break down the key components of this minimal ROS2 node:</p>
+<ol class="loweralpha simple">
+<li><p><strong>Imports</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rclpy</span></code>: ROS2 core Python library</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Node</span></code>: Base class to define a ROS2 node</p></li>
+</ul>
+<ol class="loweralpha simple" start="2">
+<li><p><strong>Class Definition</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MinimalNode</span></code> inherits from <code class="docutils literal notranslate"><span class="pre">Node</span></code>, enabling access to ROS2 functionalities</p></li>
+<li><p>Written in Object-Oriented Programming (OOP) style</p></li>
+</ul>
+<ol class="loweralpha simple" start="3">
+<li><p><strong>Constructor (__init__)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Initializes the node with <code class="docutils literal notranslate"><span class="pre">super().__init__(&quot;node_name&quot;)</span></code>, ensures that the node is correctly registered in the ROS2 system, and assigns it a name</p></li>
+<li><p>Logs a message when the node starts</p></li>
+</ul>
+<ol class="loweralpha simple" start="4">
+<li><p><strong>Main Function</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rclpy.init()</span></code>: Starts ROS2 communication</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rclpy.spin(minimal_node)</span></code>: You will find out for yourself soon!</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">destroy_node()</span></code> and <code class="docutils literal notranslate"><span class="pre">rclpy.shutdown()</span></code>: Once the node is no longer required, it is properly destroyed and ROS2 communications are interrupted</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>As mentionned in the previous section, we also need to:</p></li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Define dependencies in <em>package.xml</em></p></li>
+</ol>
+<p>If you look at the imports in <em>minimal_node.py</em>, you can notice that the only dependency that we have is the <em>rclpy</em> library. Therefore we need to add the following line in <em>package.xml</em>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&lt;depend&gt;rclpy&lt;/depend&gt;
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Declare the file as a ROS2 executable program in <em>setup.py</em></p></li>
+</ol>
+<p>This is done by adding an entry point as follow:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;first_node = ros2_basics_pkg.minimal_node:main&quot;</span>
+    <span class="p">],</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The general structure for the entrypoints is as follow:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;&lt;executable_name_1&gt; = &lt;pkg_name&gt;.&lt;file_name_1&gt;:main&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&lt;executable_name_2&gt; = &lt;pkg_name&gt;.&lt;file_name_2&gt;:main&quot;</span>
+    <span class="p">],</span>
+</pre></div>
+</div>
+<p>Be sure to understand the difference between <em>executable_name</em>,  <em>file_name</em> and  <em>node_name</em>. When you will run a program from your terminal you will use the <em>executable_name</em> so be sure to know which one it is. Moreover, we would like to point out the <code class="docutils literal notranslate"><span class="pre">,</span></code> between the lines of the <em>entry_points</em> when your package contains multiple programs.</p>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li><p>Build the project and run the node</p></li>
+</ol>
+<p>Now you are finally ready to build and run your first node!</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Open a terminal, navigate to the workspace and build your project</p></li>
+<li><p>Try to run the node with the following command:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>ros2_basics_pkg<span class="w"> </span>first_node
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The general structure to run a ROS2 node is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>&lt;pkg_name&gt;<span class="w"> </span>&lt;executable_name&gt;
+</pre></div>
+</div>
+</div>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>At this point, you might encounter an unexpected message in your terminal. Can you guess what could be the problem? Ask for help and discuss with your assistant of the potential issue and how to solve it!</p>
+</div>
+<blockquote>
+<div><ol class="loweralpha simple" start="3">
+<li><p>After having successfully run the node, you can kill it with <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code></p></li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="7">
+<li><p>Comment the spin function</p></li>
+</ol>
+<p>Go back to <em>minimal_node.py</em> and comment <code class="docutils literal notranslate"><span class="pre">rclpy.spin(minimal_node)</span></code>. Save the changes, build the project and run the program again.</p>
+<p><strong>Question:</strong> What difference do you observe?</p>
+</div></blockquote>
 </section>
 <section id="topics-overview">
 <h2>Topics Overview<a class="headerlink" href="#topics-overview" title="Link to this heading"></a></h2>
+<p>Let’s move forward in our journey and add communication in this project. Let’s start by taking a closer look at the talker-listener example:</p>
+<ol class="arabic simple">
+<li><p>Open <strong>Terminator</strong> and split the window into three terminals</p></li>
+<li><p>In one of the terminals, run the following command:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>talker
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>In another one, run this command:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_py<span class="w"> </span>listener
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>In the last terminal, run simply:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rqt_graph
+</pre></div>
+</div>
+<p>As you can see, <strong>rqt_graph</strong> is a powerful tool in the ROS2 ecosystem that allows you to visualize the interactions between nodes. In our example, you can see that the <em>talker</em> node publishes messages to the <em>chatter</em> topic. Meanwhile, the <em>listener</em> node subscribes to this topic, enabling it to receive those messages.</p>
+<p>Now that you have had a taste of what communication can look like in ROS2, let’s delve a little into the theory behind it.</p>
+<p>In the simple <strong>talker-listener</strong> communication example, you saw the interaction between two key components: <strong>nodes</strong> and a <strong>topic</strong>.</p>
+<ul class="simple">
+<li><p>A <strong>topic</strong> is a communication channel used by nodes to exchange messages.</p></li>
+<li><p>A node acting as a <strong>publisher</strong> can send data to a topic.</p></li>
+<li><p>A node acting as a <strong>subscriber</strong> can receive data from a topic.</p></li>
+</ul>
+<p>The data exchanged through a topic is called a <strong>message</strong>, which follows a defined <strong>data structure</strong>.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/topics.gif"><img alt="_images/topics.gif" src="_images/topics.gif" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Communication via Topics</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition-key-aspects admonition">
+<p class="admonition-title">Key aspects</p>
+<ul class="simple">
+<li><p>A <strong>topic</strong> is defined by a <strong>name</strong> and a <strong>message type</strong>.</p></li>
+<li><p>Topics are used for continuous, unidirectional communication.</p></li>
+<li><p>A topic can have <strong>multiple publishers and subscribers</strong>.</p></li>
+<li><p>ROS2 communication is <strong>anonymous</strong>: publishers and subscribers exchange data via topics without knowing the existence of each other.</p></li>
+</ul>
+</div>
+<p>Now that you have a better understanding of how topic communication works in ROS2, let’s create our own publishers and subscribers:</p>
+<ol class="arabic simple">
+<li><p>Using the same approach as before, create two new Python files: <em>publisher.py</em>, <em>subscriber.py</em></p></li>
+<li><p>Add the following code for the publisher</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
+<span class="kn">from</span> <span class="nn">rclpy.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="k">class</span> <span class="nc">MinimalPublisher</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;minimal_publisher&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publisher_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_publisher</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">timer_period</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># seconds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_timer</span><span class="p">(</span><span class="n">timer_period</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer_callback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">timer_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;Hello World: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publisher_</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Publishing: &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">minimal_publisher</span> <span class="o">=</span> <span class="n">MinimalPublisher</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">minimal_publisher</span><span class="p">)</span>
+    <span class="n">minimal_publisher</span><span class="o">.</span><span class="n">destroy_node</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Question:</strong> What are the essential elements of a publisher?</p>
+<ol class="arabic simple" start="3">
+<li><p>Run the publisher node</p></li>
+</ol>
+<p>Update the <em>setup.py</em> and <em>package.xml</em> files, then build the project and run the node. If you have any questions about these steps, please refer to the previous section or ask for assistance.</p>
+<ol class="arabic simple" start="4">
+<li><p>Examine the system</p></li>
+</ol>
+<p>Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>  to visualize what is happening.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>CLI</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>List all nodes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">list</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Get details on a node</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">info</span> <span class="pre">&lt;node_name&gt;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>List all topics</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>List all topics + message type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Display messages published to a topic</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">echo</span> <span class="pre">&lt;topic_name&gt;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>After inspection, kill the node by pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These tools are essential for debugging your system, allowing you to check node status, view active topics, and analyze message flow. They also help identify message types and understand node interactions, making it easier to spot issues and ensure your ROS2 applications run smoothly.</p>
+</div>
+<p>We have finished with the publisher node for now, let’s move on to the subscriber node:</p>
+<ol class="arabic simple" start="5">
+<li><p>Add the following code for the subscriber</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
+<span class="kn">from</span> <span class="nn">rclpy.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="k">class</span> <span class="nc">MinimalSubscriber</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;minimal_subscriber&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subscription</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_subscription</span><span class="p">(</span><span class="n">String</span><span class="p">,</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">listener_callback</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subscription</span>  <span class="c1"># prevent unused variable warning</span>
+
+    <span class="k">def</span> <span class="nf">listener_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;I heard: &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">minimal_subscriber</span> <span class="o">=</span> <span class="n">MinimalSubscriber</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">minimal_subscriber</span><span class="p">)</span>
+    <span class="n">minimal_subscriber</span><span class="o">.</span><span class="n">destroy_node</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Question:</strong> What are the essential elements of a subscriber?</p>
+<ol class="arabic simple" start="6">
+<li><p>Run the publisher node</p></li>
+</ol>
+<p>Update the <em>setup.py</em> and <em>package.xml</em> files, then build the project and run the node.</p>
+<ol class="arabic simple" start="7">
+<li><p>Examine the system</p></li>
+</ol>
+<p>Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>  to visualize what is happening.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>CLI</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>List all nodes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">list</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Get details on a node</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">info</span> <span class="pre">&lt;node_name&gt;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>List all topics</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>List all topics + message type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Publish a message to a topic</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">pub</span> <span class="pre">&lt;topic_name&gt;</span> <span class="pre">&lt;msg_type&gt;</span> <span class="pre">&quot;{msg_field:</span> <span class="pre">'msg'}&quot;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>After inspection, kill the node by pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code>.</p>
+<ol class="arabic simple" start="8">
+<li><p>Run the publisher and subscriber simultaneously</p></li>
+</ol>
+<p>At this stage, you can run both the <em>publisher</em> and <em>subscriber</em> at the same time. Utilize the commands introduced earlier to inspect the nodes and topics. Additionally, use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> to visualize the communication.</p>
+<ol class="arabic simple" start="9">
+<li><p>Manage multiple publishers</p></li>
+</ol>
+<p>Keep the <em>publisher</em> and <em>subscriber</em> running, then launch a <strong>second publisher</strong> using the usual command.</p>
+<p><strong>Question:</strong> What happens when we run two publishers with the same node name?</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">list</span></code> or <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">info</span></code> to help you answer this question.</p>
+</div>
+<p>In some scenarios, it may be useful to run the same executable with different node names. ROS2 allows this through a feature called <strong>remapping</strong>. Here is the syntax for the run command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>&lt;pkg_name&gt;<span class="w"> </span>&lt;executable_name&gt;<span class="w"> </span>--ros-args<span class="w"> </span>-r<span class="w"> </span>__node:<span class="o">=</span>new_node_name
+</pre></div>
+</div>
+<div class="admonition-task admonition">
+<p class="admonition-title">Task</p>
+<p>Launch two publishers and two subscribers, each with unique names. Verify that you get the expected results using the CLI commands and <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>.</p>
+</div>
+<ol class="arabic simple" start="10">
+<li><p>Remap topic at runtime</p></li>
+</ol>
+<p>Just like nodes, topics can be renamed at runtime using remapping. You can achieve this with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>&lt;pkg_name&gt;<span class="w"> </span>&lt;executable_name&gt;<span class="w"> </span>--ros-args<span class="w"> </span>-r<span class="w"> </span>default_topic_name:<span class="o">=</span>new_topic_name
+</pre></div>
+</div>
+<div class="admonition-task admonition">
+<p class="admonition-title">Task</p>
+<p>Experiment with different publishers and subscribers by using remapping to create a graph similar to the one shown below.</p>
+<a class="reference internal image-reference" href="_images/task2.png"><img alt="_images/task2.png" class="align-center" src="_images/task2.png" style="width: 80%;" />
+</a>
+</div>
 </section>
 <section id="exercise-1">
 <h2>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading"></a></h2>
