@@ -528,6 +528,57 @@ Just like nodes, topics can be renamed at runtime using remapping. You can achie
 Exercise 1
 ----------
 
+Now it is time to put your skills to the test! Apply what you have learned so far to complete the following exercise.
+
+Heat Index Monitoring System
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Create a ROS2 system where two different sensors (simulated as publishers) publish temperature and humidity data to separate topics. A third node (subscriber) listens to both topics, combines the data, and logs an alert if the *heat index* (a combination of temperature and humidity) exceeds a certain threshold.
+
+**Steps**
+
+1. Create two publishers
+
+  * One publisher will simulate a **temperature sensor** and publish random temperature values in **Celsius** (between 27°C and 43°C) on the *temperature* topic
+  * The second publisher will simulate a **humidity sensor** and publish random humidity values (between 40% and 100%) on the *humidity* topic
+  * These values should be published at regular intervals (every 5 seconds)
+
+2. Create a subscriber
+
+  * This node subscribes to both *temperature* and *humidity* topics
+  * It calculates the heat index using the following formula:
+
+  .. code-block:: python
+
+    heat_index = -42.379 + 2.04901523 * T + 10.14333127 * H - 0.22475541 * T * H \
+                 - 6.83783e-3 * T ** 2 - 5.481717e-2 * H ** 2 \
+                 + 1.22874e-3 * T ** 2 * H + 8.5282e-4 * T * H ** 2 - 1.99e-6 * T ** 2 * H ** 2
+
+.. 
+ 
+   where T is the temperature in **Fahrenheit** and H is the humidity as a percentage
+
+  * It logs a warning if the heat index exceeds a threshold (125°F)
+
+  .. tip::
+
+    * Consider developing your nodes in a new package (optional)
+    * Use the *numpy.random* library to generate random integers. To avoid potential type-related errors, it is recommended to cast the result to an *int*:
+
+    .. code-block:: python
+
+        import numpy.random as np_random
+
+        random_value = int(np_random.randint(min, max+1)) 
+
+    * Utilize the **UInt8** from *std_msgs* as the message type for your topics
+    * The final result should look like this in *rqt_graph*:
+
+    .. image:: img/exercise1.png
+        :align: center
+        :width: 80%
+
+
 Services Overview
 -----------------
 
@@ -896,3 +947,40 @@ In this example, the service checks whether a student has passed his exams based
 
 Exercise 2
 ----------
+
+You are almost done, this is your final challenge! Explore services and custom interfaces to tackle the following exercise.
+
+Mission Validation Service for a Rover
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed. 
+
+**Steps**
+
+1. Create a custom service (MissionValidation.srv)
+
+  * Request: temperature (°C), battery_level (%), target_distance (km)
+  * Response: success (bool), advice (string), estimated_duration (hours)
+
+2. Create a server node
+
+  * Validate the mission:
+
+    * Safe temperature: -20°C to 50°C
+    * Battery level: Above 30%
+    * Estimate duration based on distance (speed: 10 km/h)
+
+  * Return false and advice if conditions fail, or true and duration if valid
+
+3. Create a client node
+
+  * Send mission parameters from the client to the server
+  * Display the service’s response (approval, and advice or duration)
+
+.. tip::
+
+    * Utilize the *ros2_basics_interface* to define your custom service
+    * Consider developing your nodes in a new package (optional)
+    * Use ``colcon build --symlink-install`` to easily test new parameters with the client
+
+

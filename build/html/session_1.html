@@ -55,10 +55,7 @@
 <li class="toctree-l2"><a class="reference internal" href="prep_work_1.html#why-docker">Why Docker?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_1.html#installing-docker-desktop">Installing Docker Desktop</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_1.html#exploring-tools">Exploring Tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prep_work_1.html#learning-basic-linux-commands">Learning Basic Linux Commands</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="prep_work_1.html#command-line-challenge">Command-Line Challenge</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_1.html#learning-basic-linux-commands">Learning Basic Linux Commands</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Session 1</a><ul>
@@ -605,6 +602,62 @@ colcon<span class="w"> </span>build
 </section>
 <section id="exercise-1">
 <h2>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading"></a></h2>
+<p>Now it is time to put your skills to the test! Apply what you have learned so far to complete the following exercise.</p>
+<section id="heat-index-monitoring-system">
+<h3>Heat Index Monitoring System<a class="headerlink" href="#heat-index-monitoring-system" title="Link to this heading"></a></h3>
+<p>Create a ROS2 system where two different sensors (simulated as publishers) publish temperature and humidity data to separate topics. A third node (subscriber) listens to both topics, combines the data, and logs an alert if the <em>heat index</em> (a combination of temperature and humidity) exceeds a certain threshold.</p>
+<p><strong>Steps</strong></p>
+<ol class="arabic simple">
+<li><p>Create two publishers</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>One publisher will simulate a <strong>temperature sensor</strong> and publish random temperature values in <strong>Celsius</strong> (between 27°C and 43°C) on the <em>temperature</em> topic</p></li>
+<li><p>The second publisher will simulate a <strong>humidity sensor</strong> and publish random humidity values (between 40% and 100%) on the <em>humidity</em> topic</p></li>
+<li><p>These values should be published at regular intervals (every 5 seconds)</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Create a subscriber</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>This node subscribes to both <em>temperature</em> and <em>humidity</em> topics</p></li>
+<li><p>It calculates the heat index using the following formula:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">heat_index</span> <span class="o">=</span> <span class="o">-</span><span class="mf">42.379</span> <span class="o">+</span> <span class="mf">2.04901523</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="mf">10.14333127</span> <span class="o">*</span> <span class="n">H</span> <span class="o">-</span> <span class="mf">0.22475541</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">H</span> \
+             <span class="o">-</span> <span class="mf">6.83783e-3</span> <span class="o">*</span> <span class="n">T</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">5.481717e-2</span> <span class="o">*</span> <span class="n">H</span> <span class="o">**</span> <span class="mi">2</span> \
+             <span class="o">+</span> <span class="mf">1.22874e-3</span> <span class="o">*</span> <span class="n">T</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">H</span> <span class="o">+</span> <span class="mf">8.5282e-4</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">H</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.99e-6</span> <span class="o">*</span> <span class="n">T</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">H</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div></blockquote>
+<blockquote>
+<div><blockquote>
+<div><p>where T is the temperature in <strong>Fahrenheit</strong> and H is the humidity as a percentage</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>It logs a warning if the heat index exceeds a threshold (125°F)</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>Consider developing your nodes in a new package (optional)</p></li>
+<li><p>Use the <em>numpy.random</em> library to generate random integers. To avoid potential type-related errors, it is recommended to cast the result to an <em>int</em>:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy.random</span> <span class="k">as</span> <span class="nn">np_random</span>
+
+<span class="n">random_value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np_random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Utilize the <strong>UInt8</strong> from <em>std_msgs</em> as the message type for your topics</p></li>
+<li><p>The final result should look like this in <em>rqt_graph</em>:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/exercise1.png"><img alt="_images/exercise1.png" class="align-center" src="_images/exercise1.png" style="width: 80%;" />
+</a>
+</div>
+</div></blockquote>
+</section>
 </section>
 <section id="services-overview">
 <h2>Services Overview<a class="headerlink" href="#services-overview" title="Link to this heading"></a></h2>
@@ -966,6 +1019,53 @@ bool<span class="w"> </span>success
 </section>
 <section id="exercise-2">
 <h2>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading"></a></h2>
+<p>You are almost done, this is your final challenge! Explore services and custom interfaces to tackle the following exercise.</p>
+<section id="mission-validation-service-for-a-rover">
+<h3>Mission Validation Service for a Rover<a class="headerlink" href="#mission-validation-service-for-a-rover" title="Link to this heading"></a></h3>
+<p>Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed.</p>
+<p><strong>Steps</strong></p>
+<ol class="arabic simple">
+<li><p>Create a custom service (MissionValidation.srv)</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Request: temperature (°C), battery_level (%), target_distance (km)</p></li>
+<li><p>Response: success (bool), advice (string), estimated_duration (hours)</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Create a server node</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Validate the mission:</p>
+<ul>
+<li><p>Safe temperature: -20°C to 50°C</p></li>
+<li><p>Battery level: Above 30%</p></li>
+<li><p>Estimate duration based on distance (speed: 10 km/h)</p></li>
+</ul>
+</li>
+<li><p>Return false and advice if conditions fail, or true and duration if valid</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Create a client node</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Send mission parameters from the client to the server</p></li>
+<li><p>Display the service’s response (approval, and advice or duration)</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>Utilize the <em>ros2_basics_interface</em> to define your custom service</p></li>
+<li><p>Consider developing your nodes in a new package (optional)</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span> <span class="pre">--symlink-install</span></code> to easily test new parameters with the client</p></li>
+</ul>
+</div>
+</section>
 </section>
 </section>
 
