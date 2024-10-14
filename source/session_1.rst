@@ -166,7 +166,7 @@ There are also additional useful commands to build your project:
 
 ..
 
-    This requires a bit more explanation. Normally, when you run *colcon build*, it creates copies of your package’s files in the */install* folder (specifically in the */share* directory). ROS2 only recognizes the files in the */install* folder, so any changes you make will not be applied until you rebuild the project.
+    This requires a bit more explanation. Normally, when you run *colcon build*, it takes all your files from */src*, build them into */build*, and install them into */install*. ROS2 only recognizes the files in the */install* directory, so any changes you make in */src* will not be applied until you rebuild the project.
 
     However, using the *colcon build --symlink-install* command creates symbolic links to the files in the */src* folder. This allows ROS2 to track changes in your files automatically, so you do not have to rebuild the project each time.
 
@@ -193,13 +193,7 @@ It is finally time to start working with your first ROS2 program! In this chapte
 
     touch minimal_node.py
 
-3. Make it executable
-
-.. code-block:: bash
-
-    chmod +x minimal_node.py
-
-4. Add the following content inside your file
+3. Add the following content inside your file
 
 .. code-block:: python
 
@@ -246,7 +240,7 @@ It is finally time to start working with your first ROS2 program! In this chapte
   * ``rclpy.spin(minimal_node)``: You will find out for yourself soon!
   * ``destroy_node()`` and ``rclpy.shutdown()``: Once the node is no longer required, it is properly destroyed and ROS2 communications are interrupted
 
-5. As mentionned in the previous section, we also need to:
+4. As mentionned in the previous section, we also need to:
 
   a. Define dependencies in *package.xml*
 
@@ -281,7 +275,7 @@ It is finally time to start working with your first ROS2 program! In this chapte
     
     Be sure to understand the difference between *executable_name*,  *file_name* and  *node_name*. When you will run a program from your terminal you will use the *executable_name* so be sure to know which one it is. Moreover, we would like to point out the ``,`` between the lines of the *entry_points* when your package contains multiple programs.
 
-6. Build the project and run the node
+5. Build the project and run the node
 
 Now you are finally ready to build and run your first node! 
 
@@ -309,11 +303,11 @@ Now you are finally ready to build and run your first node!
 
     c. After having successfully run the node, you can kill it with ``Ctrl+C`` 
 
-  7. Comment the spin function
+6. Comment the spin function
 
-  Go back to *minimal_node.py* and comment ``rclpy.spin(minimal_node)``. Save the changes, build the project and run the program again.
+Go back to *minimal_node.py* and comment ``rclpy.spin(minimal_node)``. Save the changes, build the project and run the program again.
 
-  **Question:** What difference do you observe?
+**Question:** What difference do you observe?
 
 Topics Overview
 ---------------
@@ -367,7 +361,7 @@ The data exchanged through a topic is called a **message**, which follows a defi
 
 Now that you have a better understanding of how topic communication works in ROS2, let's create our own publishers and subscribers:
 
-1. Using the same approach as before, create two new Python files: *publisher.py* and *subscriber.py*
+1. Create two new Python files in the *ros2_basics_pkg* folder: *publisher.py* and *subscriber.py*
 
 2. Add the following code for the publisher
 

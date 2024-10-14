@@ -235,7 +235,7 @@ colcon<span class="w"> </span>build
 </li>
 </ol>
 <blockquote>
-<div><p>This requires a bit more explanation. Normally, when you run <em>colcon build</em>, it creates copies of your package’s files in the <em>/install</em> folder (specifically in the <em>/share</em> directory). ROS2 only recognizes the files in the <em>/install</em> folder, so any changes you make will not be applied until you rebuild the project.</p>
+<div><p>This requires a bit more explanation. Normally, when you run <em>colcon build</em>, it takes all your files from <em>/src</em>, build them into <em>/build</em>, and install them into <em>/install</em>. ROS2 only recognizes the files in the <em>/install</em> directory, so any changes you make in <em>/src</em> will not be applied until you rebuild the project.</p>
 <p>However, using the <em>colcon build –symlink-install</em> command creates symbolic links to the files in the <em>/src</em> folder. This allows ROS2 to track changes in your files automatically, so you do not have to rebuild the project each time.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -260,12 +260,6 @@ colcon<span class="w"> </span>build
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>Make it executable</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>minimal_node.py
-</pre></div>
-</div>
-<ol class="arabic simple" start="4">
 <li><p>Add the following content inside your file</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
@@ -319,7 +313,7 @@ colcon<span class="w"> </span>build
 <li><p><code class="docutils literal notranslate"><span class="pre">destroy_node()</span></code> and <code class="docutils literal notranslate"><span class="pre">rclpy.shutdown()</span></code>: Once the node is no longer required, it is properly destroyed and ROS2 communications are interrupted</p></li>
 </ul>
 </div></blockquote>
-<ol class="arabic simple" start="5">
+<ol class="arabic simple" start="4">
 <li><p>As mentionned in the previous section, we also need to:</p></li>
 </ol>
 <blockquote>
@@ -353,7 +347,7 @@ colcon<span class="w"> </span>build
 <p>Be sure to understand the difference between <em>executable_name</em>,  <em>file_name</em> and  <em>node_name</em>. When you will run a program from your terminal you will use the <em>executable_name</em> so be sure to know which one it is. Moreover, we would like to point out the <code class="docutils literal notranslate"><span class="pre">,</span></code> between the lines of the <em>entry_points</em> when your package contains multiple programs.</p>
 </div>
 </div></blockquote>
-<ol class="arabic simple" start="6">
+<ol class="arabic simple" start="5">
 <li><p>Build the project and run the node</p></li>
 </ol>
 <p>Now you are finally ready to build and run your first node!</p>
@@ -381,12 +375,12 @@ colcon<span class="w"> </span>build
 <li><p>After having successfully run the node, you can kill it with <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code></p></li>
 </ol>
 </div></blockquote>
-<ol class="arabic simple" start="7">
+</div></blockquote>
+<ol class="arabic simple" start="6">
 <li><p>Comment the spin function</p></li>
 </ol>
 <p>Go back to <em>minimal_node.py</em> and comment <code class="docutils literal notranslate"><span class="pre">rclpy.spin(minimal_node)</span></code>. Save the changes, build the project and run the program again.</p>
 <p><strong>Question:</strong> What difference do you observe?</p>
-</div></blockquote>
 </section>
 <section id="topics-overview">
 <h2>Topics Overview<a class="headerlink" href="#topics-overview" title="Link to this heading"></a></h2>
@@ -437,7 +431,7 @@ colcon<span class="w"> </span>build
 </div>
 <p>Now that you have a better understanding of how topic communication works in ROS2, let’s create our own publishers and subscribers:</p>
 <ol class="arabic simple">
-<li><p>Using the same approach as before, create two new Python files: <em>publisher.py</em> and <em>subscriber.py</em></p></li>
+<li><p>Create two new Python files in the <em>ros2_basics_pkg</em> folder: <em>publisher.py</em> and <em>subscriber.py</em></p></li>
 <li><p>Add the following code for the publisher</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>

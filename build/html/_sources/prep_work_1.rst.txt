@@ -244,7 +244,6 @@ As we prepare for our practical lab sessions with ROS2, being familiar with the 
 * **cd <directory>**: Change the current directory
 * **ls**: List directory contents
 * **touch <file>**: Create an empty file
-* **chmod +x <file>**: Make a file executable
 
 **Useful Commands**
 
@@ -454,21 +453,9 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
    .. tab:: Task 13
 
-      Change the permissions of *my_pic.jpg* to make it executable
-
-   .. tab:: Solution 13
-
-      .. code-block:: bash
-
-         chmod +x my_pic.jpg
-
-.. tabs::
-
-   .. tab:: Task 14
-
       Clean up your challenge by removing the *challenge* directory
 
-   .. tab:: Solution 14
+   .. tab:: Solution 13
 
       .. code-block:: bash
 
