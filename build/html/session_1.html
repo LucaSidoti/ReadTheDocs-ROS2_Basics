@@ -327,7 +327,7 @@ colcon<span class="w"> </span>build
 <li><p>Define dependencies in <em>package.xml</em></p></li>
 </ol>
 <p>If you look at the imports in <em>minimal_node.py</em>, you can notice that the only dependency that we have is the <em>rclpy</em> library. Therefore we need to add the following line in <em>package.xml</em>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&lt;depend&gt;rclpy&lt;/depend&gt;
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;depend&gt;</span>rclpy<span class="nt">&lt;/depend&gt;</span>
 </pre></div>
 </div>
 <ol class="loweralpha simple" start="2">
@@ -437,7 +437,7 @@ colcon<span class="w"> </span>build
 </div>
 <p>Now that you have a better understanding of how topic communication works in ROS2, let’s create our own publishers and subscribers:</p>
 <ol class="arabic simple">
-<li><p>Using the same approach as before, create two new Python files: <em>publisher.py</em>, <em>subscriber.py</em></p></li>
+<li><p>Using the same approach as before, create two new Python files: <em>publisher.py</em> and <em>subscriber.py</em></p></li>
 <li><p>Add the following code for the publisher</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
@@ -614,9 +614,361 @@ colcon<span class="w"> </span>build
 </section>
 <section id="services-overview">
 <h2>Services Overview<a class="headerlink" href="#services-overview" title="Link to this heading"></a></h2>
+<p>Topics are a fundamental communication tool, but they are not the only option available. ROS2 also provides us with <strong>services</strong>, which offer a different way to handle communication between nodes. Let’s dive into this concept with an example:</p>
+<ol class="arabic simple">
+<li><p>Run the <em>add_two_ints_server</em> from the <em>demo_nodes_py</em> package</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">run</span> <span class="n">demo_nodes_py</span> <span class="n">add_two_ints_server</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Inspect the system with CLI commands</p></li>
+</ol>
+<p>Use the following commands to see what is running, pay special attention to <em>/add_two_ints</em>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>CLI</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>List all nodes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">list</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Get details on a node</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">info</span> <span class="pre">&lt;node_name&gt;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>List all services</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">list</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>List all services + service type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">list</span> <span class="pre">-t</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Get details on a service type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;srv_type&gt;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We cannot visualize services with <em>rqt_graph</em>.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Call the service from the terminal</p></li>
+</ol>
+<p>In our example, we can execute the last command listed in the above table as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>interface<span class="w"> </span>show<span class="w"> </span>example_interfaces/srv/AddTwoInts
+</pre></div>
+</div>
+<p>In the terminal, you should see the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">int64</span> <span class="n">a</span>
+<span class="n">int64</span> <span class="n">b</span>
+<span class="o">---</span>
+<span class="n">int64</span> <span class="nb">sum</span>
+</pre></div>
+</div>
+<p>As the name suggests, the <em>add_two_ints_server</em> node is a server that takes two integers (<code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>) as input and returns their sum (<code class="docutils literal notranslate"><span class="pre">sum</span></code>). We can call this service with the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">service</span> <span class="n">call</span> <span class="o">/</span><span class="n">add_two_ints</span> <span class="n">example_interfaces</span><span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">AddTwoInts</span> <span class="s2">&quot;{&#39;a&#39;: 2, &#39;b&#39;: 5}&quot;</span>
+</pre></div>
+</div>
+<p>If you observe the terminal, you will see that the server has processed the incoming request and returned a response with the sum (<code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">+</span> <span class="pre">5</span> <span class="pre">=</span> <span class="pre">7</span></code>). In this example, we acted as a client to the service by sending a request and receiving a response from the server.</p>
+<p>Feeling lost? That is okay! We are here to guide you through the theory behind services in just a moment.</p>
+<p>In the simple <strong>add_two_ints</strong> example, you saw the interaction between two key components: <strong>nodes</strong> and a <strong>service</strong>.</p>
+<ul class="simple">
+<li><p>A <strong>service</strong> is request-response communication between nodes (client-server interaction).</p></li>
+<li><p>A node acting as a <strong>server</strong> receives a request from a service, processes it and sends back a response.</p></li>
+<li><p>A node acting as a <strong>client</strong> send a request to a service and gets an answer back.</p></li>
+</ul>
+<p>The data exchanged through a service is structured into two parts: a <strong>request</strong> and a <strong>response</strong>, each with its own specific <strong>data structure</strong>.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/services.gif"><img alt="_images/services.gif" src="_images/services.gif" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Communication via Services</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition-key-aspects admonition">
+<p class="admonition-title">Key aspects</p>
+<ul class="simple">
+<li><p><strong>One server per service</strong>, but <strong>multiple clients</strong> can interact with it</p></li>
+<li><p>Two message types: <strong>request</strong> and <strong>response</strong></p></li>
+<li><p><strong>Not intended for continuous communication</strong></p></li>
+<li><p>Typically handles two kinds of requests: <strong>computation requests</strong> and <strong>settings changes</strong></p></li>
+</ul>
+</div>
+<p>With this foundation, let’s move on to creating our own servers and clients in ROS2:</p>
+<ol class="arabic simple">
+<li><p>Create two new Python files in <em>ros2_basics_pkg</em>: <em>server.py</em> and <em>client.py</em></p></li>
+<li><p>Add the following code for the server</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
+<span class="kn">from</span> <span class="nn">rclpy.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="kn">from</span> <span class="nn">example_interfaces.srv</span> <span class="kn">import</span> <span class="n">AddTwoInts</span>
+
+<span class="k">class</span> <span class="nc">MinimalServer</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;minimal_server&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">srv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_service</span><span class="p">(</span><span class="n">AddTwoInts</span><span class="p">,</span> <span class="s1">&#39;add_two_ints&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_two_ints_callback</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_two_ints_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">sum</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">b</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Incoming request</span><span class="se">\n</span><span class="s1">a: </span><span class="si">%d</span><span class="s1"> b: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">b</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">response</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+    <span class="n">minimal_server</span> <span class="o">=</span> <span class="n">MinimalServer</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">minimal_server</span><span class="p">)</span>
+    <span class="n">minimal_server</span><span class="o">.</span><span class="n">destroy_node</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Question:</strong> What are the essential elements of a server?</p>
+<ol class="arabic simple" start="2">
+<li><p>Add the following code for the client</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
+<span class="kn">from</span> <span class="nn">rclpy.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">example_interfaces.srv</span> <span class="kn">import</span> <span class="n">AddTwoInts</span>
+
+
+<span class="k">class</span> <span class="nc">MinimalClient</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;minimal_client&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_add_two_ints_server</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">call_add_two_ints_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_client</span><span class="p">(</span><span class="n">AddTwoInts</span><span class="p">,</span> <span class="s2">&quot;add_two_ints&quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">client</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="mf">1.0</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Waiting for Server Add Two Ints...&quot;</span><span class="p">)</span>
+
+        <span class="n">request</span> <span class="o">=</span> <span class="n">AddTwoInts</span><span class="o">.</span><span class="n">Request</span><span class="p">()</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+
+        <span class="n">future</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">call_async</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">future</span><span class="o">.</span><span class="n">add_done_callback</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callback_call_add_two_ints</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">callback_call_add_two_ints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">future</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; + &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">sum</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Service call failed </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="p">,))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">minimal_client</span> <span class="o">=</span> <span class="n">MinimalClient</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">minimal_client</span><span class="p">)</span>
+    <span class="n">minimal_client</span><span class="o">.</span><span class="n">destroy_node</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>As you can see, this program introduces more complexity compared to previous examples.  Let’s break it down step by step:</p>
+<ul class="simple">
+<li><p><strong>Overall Structure</strong></p>
+<ul>
+<li><p>The overall structure is similar to the minimal node, but includes additional functionalities to support client-server communication.</p></li>
+</ul>
+</li>
+<li><p><strong>Calling the Service</strong></p>
+<ul>
+<li><p>The method <code class="docutils literal notranslate"><span class="pre">self.call_add_two_ints_server(x,</span> <span class="pre">y)</span></code> is responsible for calling the server. In this example, it is called in the constructor, but in general it can be used anywhere else in the class as needed.</p></li>
+</ul>
+</li>
+<li><p><strong>Creating the Client</strong></p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">call_add_two_ints_server(self,</span> <span class="pre">a,</span> <span class="pre">b)</span></code> method creates a client for the <code class="docutils literal notranslate"><span class="pre">add_two_ints</span></code> service.</p></li>
+<li><p>The method sets up a request by assigning values to <code class="docutils literal notranslate"><span class="pre">request.a</span></code> and <code class="docutils literal notranslate"><span class="pre">request.b</span></code>.</p></li>
+<li><p>The service call is made asynchronously with <code class="docutils literal notranslate"><span class="pre">client.call_async(request)</span></code>. This returns a <strong>future</strong> object, which will eventually hold the result once the server responds.</p></li>
+<li><p>While waiting for the server response, a callback function is registered using <code class="docutils literal notranslate"><span class="pre">future.add_done_callback</span></code>. The <code class="docutils literal notranslate"><span class="pre">partial</span></code> function from the <code class="docutils literal notranslate"><span class="pre">functools</span></code> module is used here to pass additional arguments (<code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>) to the callback, ensuring that the response is linked to the original request.</p></li>
+</ul>
+</li>
+<li><p><strong>Handling the Response</strong></p>
+<ul>
+<li><p>Once the server responds, the method <code class="docutils literal notranslate"><span class="pre">callback_call_add_two_ints(self,</span> <span class="pre">future,</span> <span class="pre">a,</span> <span class="pre">b)</span></code> is executed.</p></li>
+<li><p>The result is accessed using <code class="docutils literal notranslate"><span class="pre">future.result()</span></code>, and this value can then be processed.</p></li>
+</ul>
+</li>
+</ul>
+<p>This structure allows the client to make non-blocking service calls and process the server’s response asynchronously. The use of <code class="docutils literal notranslate"><span class="pre">functools.partial</span></code> is crucial for tracking which request generated which response.</p>
+<ol class="arabic simple" start="3">
+<li><p>Build the project</p></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Have you updated <em>setup.py</em> and <em>package.xml</em>?</p>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Run both the server and client we have just created</p></li>
+</ol>
+<p>We have just rewritten the <em>add_two_ints</em> example in our own package, so the result should be identical. You can use CLI commands to verify this. Additionally, we have added a client node, allowing you to call the server directly from the program instead of using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">call</span></code> command from the terminal.</p>
+<p><strong>Question:</strong> What happends if the client node starts before the server? Why?</p>
 </section>
 <section id="custom-interfaces">
 <h2>Custom Interfaces<a class="headerlink" href="#custom-interfaces" title="Link to this heading"></a></h2>
+<p>By now, you should understand that <em>topics</em> and <em>services</em> are the core communication tools in ROS2. Both are defined by a <strong>name</strong> and a <strong>type</strong> (either msg or srv). The actual content being exchanged is referred to as an <strong>interface</strong>, representing the data structure of the information (message or service definition). In this final theoretical section, you will learn how to create custom data structures for messages and services, allowing you to define your own interfaces.</p>
+<p>The first step is to create a package to store your custom interfaces. This is considered best practice because it keeps all your message and service definitions in one place, helping to avoid dependency issues. It is also important to note that custom interfaces in ROS2 must currently be defined in a C++ package. Let’s walk through how to do this in practice:</p>
+<ol class="arabic simple">
+<li><p>Create a new package</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src
+ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>ros2_basics_interfaces<span class="w"> </span>--build-type<span class="w"> </span>ament_cmake
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Remove unnecessary folders</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ros2_basics_interfaces
+rm<span class="w"> </span>-rf<span class="w"> </span>include/
+rm<span class="w"> </span>-rf<span class="w"> </span>src/
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Create new directories</p></li>
+</ol>
+<p>Next, we will create the <em>msg/</em> and <em>srv/</em> folders to store our custom message and service definitions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>msg
+mkdir<span class="w"> </span>srv
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Modify <em>package.xml</em> and <em>CmakeLists.txt</em></p></li>
+</ol>
+<p>Similar to Python packages, C++ packages also have a <em>package.xml</em> file. Additionally, there is a <em>CMakeLists.txt</em> file, which serves as the C++ equivalent of Python’s <em>setup.py</em>. To properly configure the package for custom interfaces, you need to add the following lines:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>In <em>package.xml</em></p></li>
+</ol>
+<p>Below <code class="docutils literal notranslate"><span class="pre">&lt;test_depend&gt;ament_lint_common&lt;/test_depend&gt;</span></code>, add:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;build_depend&gt;</span>rosidl_default_generators<span class="nt">&lt;/build_depend&gt;</span>
+<span class="nt">&lt;exec_depend&gt;</span>rosidl_default_runtime<span class="nt">&lt;/exec_depend&gt;</span>
+<span class="nt">&lt;member_of_group&gt;</span>rosidl_interface_packages<span class="nt">&lt;/member_of_group&gt;</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>In <em>CmakeLists.txt</em></p></li>
+</ol>
+<p>Below <code class="docutils literal notranslate"><span class="pre">find_package(ament_cmake</span> <span class="pre">REQUIRED)</span></code>, add:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">rosidl_default_generators</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+
+<span class="nb">rosidl_generate_interfaces</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+
+<span class="p">)</span>
+
+<span class="nb">ament_export_dependencies</span><span class="p">(</span><span class="s">rosidl_default_runtime</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The key point here is to make sure the ROS2 system recognizes your custom interfaces. This is achieved by updating the following section:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">rosidl_generate_interfaces</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>We will cover this in more detail when the time comes.</p>
+</div>
+</div></blockquote>
+<ol class="arabic" start="6">
+<li><p>Create a custom message</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Create a message file indside the <em>msg</em> directory</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/ros2_basics_interfaces/msg
+touch<span class="w"> </span>CMiEquipmentStatus.msg
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Pay close attention to naming conventions when creating custom interfaces. Names should start with an uppercase letter, and each new word should also begin with an uppercase letter. Do <strong>NOT</strong> use <code class="docutils literal notranslate"><span class="pre">-</span></code> or <code class="docutils literal notranslate"><span class="pre">_</span></code> in the name. Avoid including “Msg” or “Message” in the name, simply use the <em>.msg</em> extension at the end. The same convention applies to services, but with the <em>.srv</em> extension.</p>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Message definition</p></li>
+</ol>
+<p>Define the fields in your message to match the needs of your application. In this example, we will gather status information from a piece of equipment in the clean room at the CMi. In the file <em>CMiEquipmentStatus.msg</em>, add the following fields:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>string<span class="w"> </span>equipment_id
+string<span class="w"> </span>equipment_name
+string<span class="w"> </span>status
+float32<span class="w"> </span>temperature
+float32<span class="w"> </span>humidity
+bool<span class="w"> </span>is_operational
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can find a list of the predefined data types available in ROS2 in the <a class="reference external" href="https://docs.ros.org/en/humble/Concepts/Basic/About-Interfaces.html">official documentation</a>.</p>
+</div>
+<ol class="loweralpha simple" start="3">
+<li><p>Update <em>CMakeLists.txt</em></p></li>
+</ol>
+<p>As mentionned earlier, we need to include the message file in <em>CMakeLists.txt</em> in order to tell the ROS2 system that it exists. As a comparison, it is similar as adding an entrypoint for a new executable. Here is the update:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rosidl_generate_interfaces<span class="o">(</span><span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span>
+<span class="w">    </span><span class="s2">&quot;msg/CMiEquipmentStatus.msg&quot;</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>Build the package</p></li>
+</ol>
+<p>Now that we have two packages, you can use the following command in order to build just the desired one:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>ros2_basics_interfaces
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="5">
+<li><p>Verify it was properly installed</p></li>
+</ol>
+<p>Once the build is complete, source the <em>install/setup.bash</em> file and verify that the newly created custom message is available and has the correct structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>install/setup.bash
+ros2<span class="w"> </span>interface<span class="w"> </span>show<span class="w"> </span>ros2_basics_interfaces/msg/CMiEquipmentStatus
+</pre></div>
+</div>
+<p>You have successfully created your own message definition, and it can now be used just like any standard ROS2 message in your programs. Do not forget to include the package and message type at the beginning of your files.</p>
+</div></blockquote>
+</li>
+<li><p>Create a custom service</p></li>
+</ol>
+<p>To create a custom service definition, follow a procedure similar to creating a custom message. You will need to add a <em>.srv</em> file to the <em>srv/</em> folder and respect the request/response structure specific to services, which is as follows:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Define the <strong>request message</strong></p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">---</span></code> to indicate the separation between the request and response messages</p></li>
+<li><p>Define the <strong>response message</strong></p></li>
+</ol>
+</div></blockquote>
+<p>Here is an example of what a file named <em>StudentGrades.srv</em> might look like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>string<span class="w"> </span>student_name
+uint8<span class="o">[]</span><span class="w"> </span>student_grades
+---
+bool<span class="w"> </span>success
+</pre></div>
+</div>
+<p>In this example, the service checks whether a student has passed his exams based on his grades. The request includes the student’s name and grades, while the response indicates whether or not the student has passed.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Unlike entrypoints in <em>setup.py</em>, you must <strong>NOT</strong> separate the declarations of your interfaces with <code class="docutils literal notranslate"><span class="pre">,</span></code>. This is the correct way to do it:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">rosidl_generate_interfaces</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">    </span><span class="s2">&quot;msg/CMiEquipmentStatus.msg&quot;</span>
+<span class="w">    </span><span class="s2">&quot;srv/StudentGrades.srv&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While developing your own custom interfaces can be useful, keep in mind that there are many common interfaces already available in ROS2 that can meet the needs of your project. You can learn more about these interfaces <a class="reference external" href="https://github.com/ros2/common_interfaces">here</a>.</p>
+</div>
 </section>
 <section id="exercise-2">
 <h2>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading"></a></h2>

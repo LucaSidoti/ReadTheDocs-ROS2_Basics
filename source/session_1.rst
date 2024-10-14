@@ -252,7 +252,7 @@ It is finally time to start working with your first ROS2 program! In this chapte
 
   If you look at the imports in *minimal_node.py*, you can notice that the only dependency that we have is the *rclpy* library. Therefore we need to add the following line in *package.xml*:
 
-  .. code-block:: bash
+  .. code-block:: xml
 
     <depend>rclpy</depend>
 
@@ -346,9 +346,9 @@ Now that you have had a taste of what communication can look like in ROS2, let's
 
 In the simple **talker-listener** communication example, you saw the interaction between two key components: **nodes** and a **topic**.
 
-- A **topic** is a communication channel used by nodes to exchange messages.
-- A node acting as a **publisher** can send data to a topic.
-- A node acting as a **subscriber** can receive data from a topic.
+* A **topic** is a communication channel used by nodes to exchange messages.
+* A node acting as a **publisher** can send data to a topic.
+* A node acting as a **subscriber** can receive data from a topic.
 
 The data exchanged through a topic is called a **message**, which follows a defined **data structure**.
 
@@ -367,7 +367,7 @@ The data exchanged through a topic is called a **message**, which follows a defi
 
 Now that you have a better understanding of how topic communication works in ROS2, let's create our own publishers and subscribers:
 
-1. Using the same approach as before, create two new Python files: *publisher.py*, *subscriber.py*
+1. Using the same approach as before, create two new Python files: *publisher.py* and *subscriber.py*
 
 2. Add the following code for the publisher
 
@@ -537,8 +537,368 @@ Exercise 1
 Services Overview
 -----------------
 
+Topics are a fundamental communication tool, but they are not the only option available. ROS2 also provides us with **services**, which offer a different way to handle communication between nodes. Let’s dive into this concept with an example:
+
+1. Run the *add_two_ints_server* from the *demo_nodes_py* package
+
+.. code-block::
+
+    ros2 run demo_nodes_py add_two_ints_server
+
+2. Inspect the system with CLI commands
+
+Use the following commands to see what is running, pay special attention to */add_two_ints*.
+
++-----------------------------------------+----------------------------------------+
+| CLI                                     | Command                                |
++=========================================+========================================+
+| List all nodes                          | ``ros2 node list``                     |
++-----------------------------------------+----------------------------------------+
+| Get details on a node                   | ``ros2 node info <node_name>``         |
++-----------------------------------------+----------------------------------------+
+| List all services                       | ``ros2 service list``                  |
++-----------------------------------------+----------------------------------------+
+| List all services + service type        | ``ros2 service list -t``               |
++-----------------------------------------+----------------------------------------+
+| Get details on a service type           | ``ros2 interface show <srv_type>``     |
++-----------------------------------------+----------------------------------------+
+
+.. note::
+
+    We cannot visualize services with *rqt_graph*.
+
+3. Call the service from the terminal 
+
+In our example, we can execute the last command listed in the above table as follows:
+
+.. code-block:: bash
+
+    ros2 interface show example_interfaces/srv/AddTwoInts
+
+In the terminal, you should see the following:
+
+.. code-block::
+
+    int64 a
+    int64 b
+    ---
+    int64 sum
+
+As the name suggests, the *add_two_ints_server* node is a server that takes two integers (``a`` and ``b``) as input and returns their sum (``sum``). We can call this service with the following command:
+
+.. code-block::
+
+    ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{'a': 2, 'b': 5}"
+
+If you observe the terminal, you will see that the server has processed the incoming request and returned a response with the sum (``2 + 5 = 7``). In this example, we acted as a client to the service by sending a request and receiving a response from the server.
+
+Feeling lost? That is okay! We are here to guide you through the theory behind services in just a moment.
+
+In the simple **add_two_ints** example, you saw the interaction between two key components: **nodes** and a **service**.
+
+* A **service** is request-response communication between nodes (client-server interaction).
+* A node acting as a **server** receives a request from a service, processes it and sends back a response.
+* A node acting as a **client** send a request to a service and gets an answer back.
+
+The data exchanged through a service is structured into two parts: a **request** and a **response**, each with its own specific **data structure**.
+
+.. figure:: img/services.gif
+    :align: center
+    :width: 90%
+
+    `Communication via Services <https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html>`_ 
+
+.. admonition:: Key aspects
+
+    * **One server per service**, but **multiple clients** can interact with it
+    * Two message types: **request** and **response**
+    * **Not intended for continuous communication**
+    * Typically handles two kinds of requests: **computation requests** and **settings changes**
+
+With this foundation, let's move on to creating our own servers and clients in ROS2:
+
+1. Create two new Python files in *ros2_basics_pkg*: *server.py* and *client.py*
+
+2. Add the following code for the server
+
+.. code-block:: python
+
+    import rclpy
+    from rclpy.node import Node
+
+    from example_interfaces.srv import AddTwoInts
+
+    class MinimalServer(Node):
+        def __init__(self):
+            super().__init__('minimal_server')
+            self.srv = self.create_service(AddTwoInts, 'add_two_ints', self.add_two_ints_callback)
+
+        def add_two_ints_callback(self, request, response):
+            response.sum = request.a + request.b
+            self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+
+            return response
+
+    def main():
+        rclpy.init()
+        minimal_server = MinimalServer()
+        rclpy.spin(minimal_server)
+        minimal_server.destroy_node()
+        rclpy.shutdown()
+
+    if __name__ == '__main__':
+        main()
+
+**Question:** What are the essential elements of a server?
+
+2. Add the following code for the client
+
+.. code-block:: python
+
+    import rclpy
+    from rclpy.node import Node
+
+    from functools import partial
+    from example_interfaces.srv import AddTwoInts 
+
+
+    class MinimalClient(Node):
+        def __init__(self):
+            super().__init__("minimal_client")
+            self.call_add_two_ints_server(6, 7)
+
+        def call_add_two_ints_server(self, a, b):
+            client = self.create_client(AddTwoInts, "add_two_ints")
+            while not client.wait_for_service(1.0):  
+                self.get_logger().warn("Waiting for Server Add Two Ints...")
+
+            request = AddTwoInts.Request()
+            request.a = a
+            request.b = b 
+
+            future = client.call_async(request)
+            future.add_done_callback(partial(self.callback_call_add_two_ints, a=a, b=b))
+
+        def callback_call_add_two_ints(self, future, a, b):
+            try:
+                response = future.result()
+                self.get_logger().info(str(a) + " + " + str(b) + " = " + str(response.sum))
+            except Exception as e:
+                self.get_logger().error("Service call failed %r" % (e,))
+
+    def main(args=None):
+        rclpy.init(args=args)
+        minimal_client = MinimalClient()
+        rclpy.spin(minimal_client)
+        minimal_client.destroy_node()
+        rclpy.shutdown()
+
+    if __name__ == "__main__":
+        main()
+
+As you can see, this program introduces more complexity compared to previous examples.  Let's break it down step by step:
+
+* **Overall Structure** 
+
+  * The overall structure is similar to the minimal node, but includes additional functionalities to support client-server communication.
+
+* **Calling the Service** 
+
+  * The method ``self.call_add_two_ints_server(x, y)`` is responsible for calling the server. In this example, it is called in the constructor, but in general it can be used anywhere else in the class as needed.
+
+* **Creating the Client** 
+
+  * The ``call_add_two_ints_server(self, a, b)`` method creates a client for the ``add_two_ints`` service.
+  * The method sets up a request by assigning values to ``request.a`` and ``request.b``.
+  * The service call is made asynchronously with ``client.call_async(request)``. This returns a **future** object, which will eventually hold the result once the server responds.
+  * While waiting for the server response, a callback function is registered using ``future.add_done_callback``. The ``partial`` function from the ``functools`` module is used here to pass additional arguments (``a`` and ``b``) to the callback, ensuring that the response is linked to the original request.
+
+* **Handling the Response**
+
+  * Once the server responds, the method ``callback_call_add_two_ints(self, future, a, b)`` is executed.
+  * The result is accessed using ``future.result()``, and this value can then be processed.
+
+This structure allows the client to make non-blocking service calls and process the server’s response asynchronously. The use of ``functools.partial`` is crucial for tracking which request generated which response.
+
+3. Build the project
+
+.. warning::
+
+    Have you updated *setup.py* and *package.xml*? 
+
+4. Run both the server and client we have just created
+
+We have just rewritten the *add_two_ints* example in our own package, so the result should be identical. You can use CLI commands to verify this. Additionally, we have added a client node, allowing you to call the server directly from the program instead of using the ``ros2 service call`` command from the terminal.
+
+**Question:** What happends if the client node starts before the server? Why?
+
+
 Custom Interfaces
 -----------------
+
+By now, you should understand that *topics* and *services* are the core communication tools in ROS2. Both are defined by a **name** and a **type** (either msg or srv). The actual content being exchanged is referred to as an **interface**, representing the data structure of the information (message or service definition). In this final theoretical section, you will learn how to create custom data structures for messages and services, allowing you to define your own interfaces.
+
+The first step is to create a package to store your custom interfaces. This is considered best practice because it keeps all your message and service definitions in one place, helping to avoid dependency issues. It is also important to note that custom interfaces in ROS2 must currently be defined in a C++ package. Let’s walk through how to do this in practice:
+
+1. Create a new package
+
+.. code-block:: bash
+
+    cd ~/ros2_basics_ws/src
+    ros2 pkg create ros2_basics_interfaces --build-type ament_cmake 
+
+2. Remove unnecessary folders
+
+.. code-block:: bash
+
+    cd ros2_basics_interfaces
+    rm -rf include/
+    rm -rf src/
+
+3. Create new directories 
+
+Next, we will create the *msg/* and *srv/* folders to store our custom message and service definitions:
+
+.. code-block:: bash
+
+    mkdir msg
+    mkdir srv
+
+4. Modify *package.xml* and *CmakeLists.txt*
+
+Similar to Python packages, C++ packages also have a *package.xml* file. Additionally, there is a *CMakeLists.txt* file, which serves as the C++ equivalent of Python's *setup.py*. To properly configure the package for custom interfaces, you need to add the following lines:
+
+  a. In *package.xml*
+
+  Below ``<test_depend>ament_lint_common</test_depend>``, add:
+
+  .. code-block:: xml
+    
+    <build_depend>rosidl_default_generators</build_depend>
+    <exec_depend>rosidl_default_runtime</exec_depend>
+    <member_of_group>rosidl_interface_packages</member_of_group>
+
+  b. In *CmakeLists.txt*
+
+  Below ``find_package(ament_cmake REQUIRED)``, add:
+
+  .. code-block:: cmake 
+
+    find_package(rosidl_default_generators REQUIRED)
+
+    rosidl_generate_interfaces(${PROJECT_NAME}
+    
+    )
+
+    ament_export_dependencies(rosidl_default_runtime)
+
+  .. note:: 
+
+    The key point here is to make sure the ROS2 system recognizes your custom interfaces. This is achieved by updating the following section:
+
+    .. code-block:: cmake
+        
+        rosidl_generate_interfaces(${PROJECT_NAME}
+
+        )
+
+    We will cover this in more detail when the time comes.
+
+6. Create a custom message
+
+    a. Create a message file indside the *msg* directory
+
+    .. code-block:: bash
+
+        cd ~/ros2_basics_ws/src/ros2_basics_interfaces/msg
+        touch CMiEquipmentStatus.msg
+
+    .. warning::
+        
+        Pay close attention to naming conventions when creating custom interfaces. Names should start with an uppercase letter, and each new word should also begin with an uppercase letter. Do **NOT** use ``-`` or ``_`` in the name. Avoid including "Msg" or "Message" in the name, simply use the *.msg* extension at the end. The same convention applies to services, but with the *.srv* extension.
+
+    b. Message definition
+
+    Define the fields in your message to match the needs of your application. In this example, we will gather status information from a piece of equipment in the clean room at the CMi. In the file *CMiEquipmentStatus.msg*, add the following fields:
+
+    .. code-block:: bash
+
+        string equipment_id
+        string equipment_name
+        string status
+        float32 temperature
+        float32 humidity
+        bool is_operational
+
+    .. note::
+
+        You can find a list of the predefined data types available in ROS2 in the `official documentation <https://docs.ros.org/en/humble/Concepts/Basic/About-Interfaces.html>`_.
+
+    c. Update *CMakeLists.txt*
+
+    As mentionned earlier, we need to include the message file in *CMakeLists.txt* in order to tell the ROS2 system that it exists. As a comparison, it is similar as adding an entrypoint for a new executable. Here is the update:
+
+    .. code-block:: bash
+
+        rosidl_generate_interfaces(${PROJECT_NAME}
+            "msg/CMiEquipmentStatus.msg"
+        )
+
+    d. Build the package
+
+    Now that we have two packages, you can use the following command in order to build just the desired one:
+
+    .. code-block:: bash
+
+        colcon build --packages-select ros2_basics_interfaces 
+
+    e. Verify it was properly installed
+
+    Once the build is complete, source the *install/setup.bash* file and verify that the newly created custom message is available and has the correct structure:
+
+    .. code-block:: bash
+
+        source install/setup.bash
+        ros2 interface show ros2_basics_interfaces/msg/CMiEquipmentStatus 
+
+    You have successfully created your own message definition, and it can now be used just like any standard ROS2 message in your programs. Do not forget to include the package and message type at the beginning of your files.
+
+    
+
+7. Create a custom service
+
+To create a custom service definition, follow a procedure similar to creating a custom message. You will need to add a *.srv* file to the *srv/* folder and respect the request/response structure specific to services, which is as follows:
+
+    a. Define the **request message**
+    b. Add ``---`` to indicate the separation between the request and response messages
+    c. Define the **response message**
+
+Here is an example of what a file named *StudentGrades.srv* might look like:
+
+.. code-block:: bash
+
+    string student_name
+    uint8[] student_grades
+    ---
+    bool success
+
+In this example, the service checks whether a student has passed his exams based on his grades. The request includes the student's name and grades, while the response indicates whether or not the student has passed.
+
+.. warning::
+
+    Unlike entrypoints in *setup.py*, you must **NOT** separate the declarations of your interfaces with ``,``. This is the correct way to do it:
+
+    .. code-block:: cmake
+
+        rosidl_generate_interfaces(${PROJECT_NAME}
+            "msg/CMiEquipmentStatus.msg"
+            "srv/StudentGrades.srv"
+        )
+
+.. note::
+
+    While developing your own custom interfaces can be useful, keep in mind that there are many common interfaces already available in ROS2 that can meet the needs of your project. You can learn more about these interfaces `here <https://github.com/ros2/common_interfaces>`_.
+
 
 Exercise 2
 ----------
