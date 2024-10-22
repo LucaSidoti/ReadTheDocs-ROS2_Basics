@@ -5,7 +5,7 @@ Welcome to the **ROS2 Basics** labs!
 
 This course consists of three hands-on practical sessions. Before each session, you will be required to complete a set of **preparatory tasks** to ensure you are ready to fully engage with the material. 
 
-All the course content is available on this **Read the Docs** platform, enabling smooth transition between sessions and easy access to code snippets.
+All the course content is available on this platform, enabling smooth transition between sessions and easy access to code snippets.
 
 By the end of this course, you will have gained a solid understanding of:
 

@@ -47,9 +47,9 @@ However, that is not the only thing that has been pre-installed for your comfort
 
 .. code-block:: bash
     
-    code ~/.bashrc
+    nano ~/.bashrc
 
-2. Scroll to the bottom of the script, here you should see the following lines:
+2. Scroll to the bottom of the script using ``▼``, here you should see the following lines:
 
 .. code-block:: bash
     
@@ -114,7 +114,7 @@ Packages can contain a variety of elements, including nodes, libraries, configur
 
 .. code-block:: bash
 
-    cd ~/ros2_basics_ws/source/
+    cd ~/ros2_basics_ws/src/
     ros2 pkg create ros2_basics_pkg --build-type ament_python
 
 You can now open the source folder in VSCode and take a look at what was generated when you created the package:
@@ -132,6 +132,10 @@ Let’s go over the essential files you will need to pay attention to as you sta
 3. *ros2_basics_pkg*: This folder will contain your package's code and resources
 
 Again, these concepts will become much clearer when we will create our first program.
+
+.. note::
+
+    Our work environment already includes all necessary dependencies. To avoid adding unnecessary complexities, we will not modify the *package.xml* file in this class. However, remember that this file is crucial for publishing your package, as it lists the dependencies needed for others to use it effectively.
 
 The final topic for this section is how to build a project. ROS2 provides a build tool called *colcon*, which is used to compile packages within a ROS2 workspace. It manages dependencies and ensures everything is properly linked. Let’s go ahead and build your first project:
 
@@ -193,7 +197,13 @@ It is finally time to start working with your first ROS2 program! In this chapte
 
     touch minimal_node.py
 
-3. Add the following content inside your file
+3. Make it executable
+
+.. code-block:: bash
+
+    chmod +x minimal_node.py
+
+4. Add the following content inside your file
 
 .. code-block:: python
 
@@ -240,17 +250,7 @@ It is finally time to start working with your first ROS2 program! In this chapte
   * ``rclpy.spin(minimal_node)``: You will find out for yourself soon!
   * ``destroy_node()`` and ``rclpy.shutdown()``: Once the node is no longer required, it is properly destroyed and ROS2 communications are interrupted
 
-4. As mentionned in the previous section, we also need to:
-
-  a. Define dependencies in *package.xml*
-
-  If you look at the imports in *minimal_node.py*, you can notice that the only dependency that we have is the *rclpy* library. Therefore we need to add the following line in *package.xml*:
-
-  .. code-block:: xml
-
-    <depend>rclpy</depend>
-
-  b. Declare the file as a ROS2 executable program in *setup.py*
+5. As mentionned in the previous section, we also need to declare the file as a ROS2 executable program in *setup.py*.
 
   This is done by adding an entry point as follow:
 
@@ -260,6 +260,7 @@ It is finally time to start working with your first ROS2 program! In this chapte
         'console_scripts': [
             "first_node = ros2_basics_pkg.minimal_node:main"    
         ],
+    },
 
   .. important::
 
@@ -272,10 +273,11 @@ It is finally time to start working with your first ROS2 program! In this chapte
               "<executable_name_1> = <pkg_name>.<file_name_1>:main",
               "<executable_name_2> = <pkg_name>.<file_name_2>:main"       
           ],
+      },
     
     Be sure to understand the difference between *executable_name*,  *file_name* and  *node_name*. When you will run a program from your terminal you will use the *executable_name* so be sure to know which one it is. Moreover, we would like to point out the ``,`` between the lines of the *entry_points* when your package contains multiple programs.
 
-5. Build the project and run the node
+6. Build the project and run the node
 
 Now you are finally ready to build and run your first node! 
 
@@ -303,7 +305,7 @@ Now you are finally ready to build and run your first node!
 
     c. After having successfully run the node, you can kill it with ``Ctrl+C`` 
 
-6. Comment the spin function
+7. Comment the spin function
 
 Go back to *minimal_node.py* and comment ``rclpy.spin(minimal_node)``. Save the changes, build the project and run the program again.
 
@@ -363,7 +365,9 @@ Now that you have a better understanding of how topic communication works in ROS
 
 1. Create two new Python files in the *ros2_basics_pkg* folder: *publisher.py* and *subscriber.py*
 
-2. Add the following code for the publisher
+2. Make both files executable
+
+3. Add the following code for the publisher
 
 .. code-block:: python
 
@@ -400,11 +404,11 @@ Now that you have a better understanding of how topic communication works in ROS
 
 **Question:** What are the essential elements of a publisher?
 
-3. Run the publisher node
+4. Run the publisher node
 
-Update the *setup.py* and *package.xml* files, then build the project and run the node. If you have any questions about these steps, please refer to the previous section or ask for assistance.
+Update the *setup.py* file, then build the project and run the node. If you have any questions about these steps, please refer to the previous section or ask for assistance.
 
-4. Examine the system
+5. Examine the system
 
 Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use ``rqt_graph``  to visualize what is happening.
 
@@ -430,7 +434,7 @@ After inspection, kill the node by pressing ``Ctrl+C``.
 
 We have finished with the publisher node for now, let's move on to the subscriber node:
 
-5. Add the following code for the subscriber
+6. Add the following code for the subscriber
 
 .. code-block:: python
 
@@ -461,11 +465,11 @@ We have finished with the publisher node for now, let's move on to the subscribe
 
 **Question:** What are the essential elements of a subscriber?
 
-6. Run the publisher node
+7. Run the publisher node
 
-Update the *setup.py* and *package.xml* files, then build the project and run the node.
+Update the *setup.py* file, then build the project and run the node.
 
-7. Examine the system
+8. Examine the system
 
 Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use ``rqt_graph``  to visualize what is happening.
 
@@ -485,11 +489,11 @@ Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools 
 
 After inspection, kill the node by pressing ``Ctrl+C``.
 
-8. Run the publisher and subscriber simultaneously
+9. Run the publisher and subscriber simultaneously
 
 At this stage, you can run both the *publisher* and *subscriber* at the same time. Utilize the commands introduced earlier to inspect the nodes and topics. Additionally, use ``rqt_graph`` to visualize the communication.
 
-9. Manage multiple publishers
+10. Manage multiple publishers
 
 Keep the *publisher* and *subscriber* running, then launch a **second publisher** using the usual command.
 
@@ -509,7 +513,7 @@ In some scenarios, it may be useful to run the same executable with different no
 
     Launch two publishers and two subscribers, each with unique names. Verify that you get the expected results using the CLI commands and ``rqt_graph``.
 
-10. Remap topic at runtime
+11. Remap topic at runtime
 
 Just like nodes, topics can be renamed at runtime using remapping. You can achieve this with the following command:
 
@@ -560,7 +564,9 @@ Create a ROS2 system where two different sensors (simulated as publishers) publi
 
   * It logs a warning if the heat index exceeds a threshold (125°F)
 
-  .. tip::
+.. admonition:: Hints
+
+  .. toggle::
 
     * Consider developing your nodes in a new package (optional)
     * Use the *numpy.random* library to generate random integers. To avoid potential type-related errors, it is recommended to cast the result to an *int*:
@@ -664,7 +670,9 @@ With this foundation, let's move on to creating our own servers and clients in R
 
 1. Create two new Python files in *ros2_basics_pkg*: *server.py* and *client.py*
 
-2. Add the following code for the server
+2. Make both files executable
+
+3. Add the following code for the server
 
 .. code-block:: python
 
@@ -696,7 +704,7 @@ With this foundation, let's move on to creating our own servers and clients in R
 
 **Question:** What are the essential elements of a server?
 
-2. Add the following code for the client
+4. Add the following code for the client
 
 .. code-block:: python
 
@@ -765,13 +773,13 @@ As you can see, this program introduces more complexity compared to previous exa
 
 This structure allows the client to make non-blocking service calls and process the server’s response asynchronously. The use of ``functools.partial`` is crucial for tracking which request generated which response.
 
-3. Build the project
+5. Build the project
 
 .. warning::
 
-    Have you updated *setup.py* and *package.xml*? 
+    Have you updated *setup.py*? 
 
-4. Run both the server and client we have just created
+6. Run both the server and client we have just created
 
 We have just rewritten the *add_two_ints* example in our own package, so the result should be identical. You can use CLI commands to verify this. Additionally, we have added a client node, allowing you to call the server directly from the program instead of using the ``ros2 service call`` command from the terminal.
 
@@ -977,10 +985,21 @@ Create a ROS2 system with a service that validates a rover’s mission before la
   * Send mission parameters from the client to the server
   * Display the service’s response (approval, and advice or duration)
 
-.. tip::
+.. admonition:: Hints
+
+  .. toggle::
 
     * Utilize the *ros2_basics_interface* to define your custom service
     * Consider developing your nodes in a new package (optional)
     * Use ``colcon build --symlink-install`` to easily test new parameters with the client
+
+.. .. admonition:: Hints
+..   :class: hint
+
+..   .. toggle::
+
+..     * Utilize the *ros2_basics_interface* to define your custom service
+..     * Consider developing your nodes in a new package (optional)
+..     * Use ``colcon build --symlink-install`` to easily test new parameters with the client
 
 

@@ -10,7 +10,9 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
       <link rel="stylesheet" type="text/css" href="_static/code-tabs.css?v=1bc26e2f" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=756e2391" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -20,7 +22,13 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=4a39c7ea"></script>
       <script src="_static/code-tabs.js?v=c983d12e"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -72,7 +80,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_2.html">Preparatory Work 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-overview">Turtlesim Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-challenge">Turtlesim Challenge</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="session_3.html">Session 3</a></li>
 </ul>
 
@@ -121,7 +133,7 @@
 <a class="reference internal image-reference" href="_images/distro.png"><img alt="_images/distro.png" src="_images/distro.png" style="width: 80%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases.html">List of ROS2 Distributions</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases.html" rel="noopener noreferrer" target="_blank">List of ROS2 Distributions</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Non-LTS versions are primarily intended for testing new features and tools and are generally not recommended for starting new projects. Instead, LTS versions are preferred, especially one that has been released for at least a few months, to ensure stability and the availability of necessary resources. Additionally, each ROS2 distribution is adapted to work with specific operating systems, most commonly the latest Ubuntu LTS release. The official ROS2 documentation provides the End of Life (EOL) date for each version, indicating the period during which stability and maintenance are guaranteed.</p>
@@ -129,7 +141,7 @@
 <a class="reference internal image-reference" href="_images/platform.png"><img alt="_images/platform.png" src="_images/platform.png" style="width: 65%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases/Release-Humble-Hawksbill.html">Humble Hawksbill Supported Platforms</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Releases/Release-Humble-Hawksbill.html" rel="noopener noreferrer" target="_blank">Humble Hawksbill Supported Platforms</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Key points to consider when choosing a distribution:</p>
@@ -162,9 +174,9 @@
 <li><p><strong>Install Docker Desktop</strong></p>
 <p>Follow the instructions for installing Docker Desktop based on your operating system:</p>
 <ul class="simple">
-<li><p><strong>Windows</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/windows-install/">Install Docker Desktop on Windows</a></p></li>
-<li><p><strong>Mac</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/mac-install/">Install Docker Desktop on Mac</a></p></li>
-<li><p><strong>Linux</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/linux/">Install Docker Desktop on Linux</a></p></li>
+<li><p><strong>Windows</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/windows-install/" rel="noopener noreferrer" target="_blank">Install Docker Desktop on Windows</a></p></li>
+<li><p><strong>Mac</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/mac-install/" rel="noopener noreferrer" target="_blank">Install Docker Desktop on Mac</a></p></li>
+<li><p><strong>Linux</strong>: <a class="reference external" href="https://docs.docker.com/desktop/install/linux/" rel="noopener noreferrer" target="_blank">Install Docker Desktop on Linux</a></p></li>
 </ul>
 <div class="admonition-need-help admonition">
 <p class="admonition-title">Need help?</p>
@@ -224,7 +236,7 @@
 </figure>
 </li>
 <li><p><strong>Access Ubuntu</strong></p>
-<p>After the container has launched, you can access Ubuntu in your preferred browser at <a class="reference external" href="http://localhost:6080">http://localhost:6080</a>, or you can directly access the port through Docker Desktop.</p>
+<p>After the container has launched, you can access Ubuntu in your preferred browser at <a class="reference external" href="http://localhost:6080" rel="noopener noreferrer" target="_blank">http://localhost:6080</a>, or you can directly access the port through Docker Desktop.</p>
 <figure class="align-center" id="id8">
 <a class="reference internal image-reference" href="_images/step6.png"><img alt="_images/step6.png" src="_images/step6.png" style="width: 80%;" />
 </a>
@@ -232,6 +244,10 @@
 <p><span class="caption-text">Access the port directly from Docker Desktop</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Running the container in <strong>Safari</strong> may result in slower performance. For a smoother experience, we recommend using <strong>Firefox</strong> or <strong>Google Chrome</strong>.</p>
+</div>
 </li>
 <li><p><strong>Connect to Your Desktop</strong></p>
 <p>Finally, click on <code class="docutils literal notranslate"><span class="pre">Connect</span></code> to access your new desktop for these lab sessions.</p>
@@ -278,7 +294,7 @@
 <p><span class="caption-text">Locate and run the container</span><a class="headerlink" href="#id13" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p>Additionally, you can open your browser directly to <a class="reference external" href="http://localhost:6080">http://localhost:6080</a> by clicking on the <strong>6080:80</strong> port located on the left side of the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol. This allows you to quickly connect to the VNC server.</p>
+<p>Additionally, you can open your browser directly to <a class="reference external" href="http://localhost:6080" rel="noopener noreferrer" target="_blank">http://localhost:6080</a> by clicking on the <strong>6080:80</strong> port located on the left side of the <code class="docutils literal notranslate"><span class="pre">▶</span></code> symbol. This allows you to quickly connect to the VNC server.</p>
 <figure class="align-center" id="id14">
 <a class="reference internal image-reference" href="_images/step12.png"><img alt="_images/step12.png" src="_images/step12.png" style="width: 80%;" />
 </a>
@@ -292,7 +308,7 @@
 <h2>Exploring Tools<a class="headerlink" href="#exploring-tools" title="Link to this heading"></a></h2>
 <p>In the container you just installed, we have preconfigured an Ubuntu environment with the ROS2 Humble distribution, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:</p>
 <ul>
-<li><p><strong>Firefox</strong>: The web browser that will allow you to access online documentation, including resources on Read the Docs.</p>
+<li><p><strong>Firefox</strong>: This web browser will enable you to access online resources, including the ROS2 Basics documentation.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>We recommend using Firefox within the Ubuntu desktop for easier copying and pasting of code snippets from the documentation. If you need to copy from outside the Docker container, use the clipboard option in the noVNC menu on the left side of the desktop window.</p>
@@ -339,6 +355,7 @@
 <li><p><strong>cd &lt;directory&gt;</strong>: Change the current directory</p></li>
 <li><p><strong>ls</strong>: List directory contents</p></li>
 <li><p><strong>touch &lt;file&gt;</strong>: Create an empty file</p></li>
+<li><p><strong>chmod +x &lt;file&gt;</strong>: Make a file executable</p></li>
 </ul>
 <p><strong>Useful Commands</strong></p>
 <ul class="simple">
@@ -353,7 +370,7 @@
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For more information on the Linux commands, refer to the <a class="reference external" href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">official Ubuntu tutorial</a>. At the very least, we highly recommend reviewing the <a class="reference external" href="https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal">following page</a> to get familiar with the <em>cd</em> command and learn how to easily navigate between directories.</p>
+<p>For more information on the Linux commands, refer to the <a class="reference external" href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview" rel="noopener noreferrer" target="_blank">official Ubuntu tutorial</a>. At the very least, we highly recommend reviewing the <a class="reference external" href="https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal" rel="noopener noreferrer" target="_blank">following page</a> to get familiar with the <em>cd</em> command and learn how to easily navigate between directories.</p>
 </div>
 <p>To reinforce your understanding of these commands, we invite you to participate in a command-line challenge designed to practice your skills!</p>
 <section id="command-line-challenge">
@@ -562,11 +579,25 @@ Solution 12</li></ul><div class="tab texttab selected" data-id="0">
 Task 13</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
 Solution 13</li></ul><div class="tab texttab selected" data-id="0">
 <div class="docutils container">
+<p>Change the permissions of <em>my_pic.jpg</em> to make it executable</p>
+</div>
+</div><div class="tab texttab" data-id="1">
+<div class="docutils container">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>my_pic.jpg
+</pre></div>
+</div>
+</div>
+</div></div><div class="tabs docutils container" data-tabgroup="">
+<ul class="tabbar">
+<li class="tabbutton selected" data-id="0" onclick="sphinx_code_tabs_onclick(this)">
+Task 14</li><li class="tabbutton" data-id="1" onclick="sphinx_code_tabs_onclick(this)">
+Solution 14</li></ul><div class="tab texttab selected" data-id="0">
+<div class="docutils container">
 <p>Clean up your challenge by removing the <em>challenge</em> directory</p>
 </div>
 </div><div class="tab texttab" data-id="1">
 <div class="docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>command_challenge
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>

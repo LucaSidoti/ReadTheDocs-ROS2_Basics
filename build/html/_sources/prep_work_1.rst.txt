@@ -141,6 +141,10 @@ Installing Docker Desktop
 
       Access the port directly from Docker Desktop
 
+   .. warning::
+
+      Running the container in **Safari** may result in slower performance. For a smoother experience, we recommend using **Firefox** or **Google Chrome**.
+
 7. **Connect to Your Desktop**
 
    Finally, click on ``Connect`` to access your new desktop for these lab sessions.
@@ -197,7 +201,7 @@ Exploring Tools
 
 In the container you just installed, we have preconfigured an Ubuntu environment with the ROS2 Humble distribution, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:
 
-* **Firefox**: The web browser that will allow you to access online documentation, including resources on Read the Docs.
+* **Firefox**: This web browser will enable you to access online resources, including the ROS2 Basics documentation.
 
   .. tip::
    
@@ -244,6 +248,7 @@ As we prepare for our practical lab sessions with ROS2, being familiar with the 
 * **cd <directory>**: Change the current directory
 * **ls**: List directory contents
 * **touch <file>**: Create an empty file
+* **chmod +x <file>**: Make a file executable
 
 **Useful Commands**
 
@@ -453,14 +458,22 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
    .. tab:: Task 13
 
-      Clean up your challenge by removing the *challenge* directory
+      Change the permissions of *my_pic.jpg* to make it executable
 
    .. tab:: Solution 13
 
       .. code-block:: bash
 
-         cd ../.. && rm -r command_challenge
+         chmod +x my_pic.jpg
 
-.. .. note::
+.. tabs::
+
+   .. tab:: Task 14
+
+      Clean up your challenge by removing the *challenge* directory
+
+   .. tab:: Solution 14
+
+      .. code-block:: bash
 
 ..    If you want to learn more about commands and shortcuts, please visit `40 Basic Ubuntu Commands And Terminal Shortcuts For Beginners <https://techlog360.com/basic-ubuntu-commands-terminal-shortcuts-linux-beginner/#Ubuntu_Terminal_Shortcuts>`_.

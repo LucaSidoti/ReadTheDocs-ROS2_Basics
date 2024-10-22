@@ -10,7 +10,9 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
       <link rel="stylesheet" type="text/css" href="_static/code-tabs.css?v=1bc26e2f" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=756e2391" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -20,7 +22,13 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=4a39c7ea"></script>
       <script src="_static/code-tabs.js?v=c983d12e"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -72,7 +80,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_2.html">Preparatory Work 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparatory Work 3</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparatory Work 3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#turtlesim-overview">Turtlesim Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#turtlesim-challenge">Turtlesim Challenge</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="session_3.html">Session 3</a></li>
 </ul>
 
@@ -102,6 +114,98 @@
              
   <section id="preparatory-work-3">
 <h1>Preparatory Work 3<a class="headerlink" href="#preparatory-work-3" title="Link to this heading"></a></h1>
+<p>Your ROS2 journey is almost complete, but before we dive into the final session, it is important to solidify your understanding of key concepts. In the final session, you will be working on a mini-project that will require you to apply your knowledge of topics and services. To ensure you are fully prepared, we have designed a challenge that will help you review these concepts using one of the most iconic ROS2 packages: <strong>turtlesim</strong>.</p>
+<p>This challenge will serve as a foundation for the skills you will need in the mini-project, allowing you to approach the final task with confidence.</p>
+<section id="turtlesim-overview">
+<h2>Turtlesim Overview<a class="headerlink" href="#turtlesim-overview" title="Link to this heading"></a></h2>
+<p>The <em>turtlesim</em> package is a well-known tool for beginners in ROS2, often used to introduce core concepts. It simulates a simple turtle in a 2D space, which you can control using various ROS2 tools.</p>
+<p>Now it is time for you to try this turtle simulation:</p>
+<ol class="arabic simple">
+<li><p>Open a terminal and launch the <em>turtlesim</em> node with the following command:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtlesim_node
+</pre></div>
+</div>
+<p>A window with a turtle in the center should appear.</p>
+<ol class="arabic simple" start="2">
+<li><p>In a second terminal, start the <em>teleop_turtle</em> node to control the turtle:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtle_teleop_key
+</pre></div>
+</div>
+<p>This allows you to control the turtle using your keyboard’s arrow keys: <code class="docutils literal notranslate"><span class="pre">◄</span></code>, <code class="docutils literal notranslate"><span class="pre">▲</span></code>, <code class="docutils literal notranslate"><span class="pre">▼</span></code>, <code class="docutils literal notranslate"><span class="pre">►</span></code>. Try moving the turtle around the screen.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If the turtle does not move, ensure that the terminal running the <em>teleop_turtle</em> node is active. Click inside the terminal and try again.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Explore topics and services</p></li>
+</ol>
+<p>Now that you have turtlesim running, let’s explore some of the topics and services it offers.</p>
+<p>First, list the available topics:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">topic</span> <span class="nb">list</span>
+</pre></div>
+</div>
+<p>This will display the topics that can be used to interact with the turtle. Two of them will be particularly useful for you.</p>
+<p>Next, list the available services:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">service</span> <span class="nb">list</span>
+</pre></div>
+</div>
+<p>The <em>turtlesim</em> package provides several services. You will use one of these to modify the turtle’s behavior.</p>
+</section>
+<section id="turtlesim-challenge">
+<h2>Turtlesim Challenge<a class="headerlink" href="#turtlesim-challenge" title="Link to this heading"></a></h2>
+<p><strong>Goal</strong></p>
+<ul class="simple">
+<li><p>Run the turtlesim node and make the turtle move in a circular path from the center to the boundaries of the Turtlesim window with another node</p></li>
+<li><p>The turtle should stop near the boundaries</p></li>
+<li><p>Additionally, change the pen color in each quadrant of the window as the turtle moves</p></li>
+</ul>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/turtlesim_challenge.png"><img alt="_images/turtlesim_challenge.png" src="_images/turtlesim_challenge.png" style="width: 50%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Turtlesim challenge final result</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Steps</strong></p>
+<ol class="arabic simple">
+<li><p>Determine the window boundaries</p></li>
+</ol>
+<blockquote>
+<div><p>Identify [xmin, xmax] and [ymin, ymax]</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use the teleop_key_node to explore the window</p>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Move the turtle</p></li>
+</ol>
+<blockquote>
+<div><p>Send velocity commands at a defined frequency to make the turtle move away from the center</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Boundary detection</p></li>
+</ol>
+<blockquote>
+<div><p>Stop the turtle when it reaches the boundary limits</p>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>Pen color change</p></li>
+</ol>
+<blockquote>
+<div><p>Use a <em>turtlesim</em> service to change the pen color as the turtle enters each new quadrant</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only call the service when the turtle transitions between quadrants, not continuously.</p>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Great tutorial to review all the notion we have seen but with turtlesim: <a class="reference external" href="https://www.youtube.com/watch?v=Gg25GfA456o" rel="noopener noreferrer" target="_blank">https://www.youtube.com/watch?v=Gg25GfA456o</a></p>
+</div>
+</section>
 </section>
 
 

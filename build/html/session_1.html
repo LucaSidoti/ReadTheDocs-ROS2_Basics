@@ -10,7 +10,9 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
       <link rel="stylesheet" type="text/css" href="_static/code-tabs.css?v=1bc26e2f" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=756e2391" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -20,7 +22,13 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=4a39c7ea"></script>
       <script src="_static/code-tabs.js?v=c983d12e"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -72,7 +80,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_2.html">Preparatory Work 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-overview">Turtlesim Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-challenge">Turtlesim Challenge</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="session_3.html">Session 3</a></li>
 </ul>
 
@@ -138,11 +150,11 @@
 <ol class="arabic simple">
 <li><p>Open the <em>.bashrc</em> file</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>~/.bashrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nano<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p>Scroll to the bottom of the script, here you should see the following lines:</p></li>
+<li><p>Scroll to the bottom of the script using <code class="docutils literal notranslate"><span class="pre">▼</span></code>, here you should see the following lines:</p></li>
 </ol>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/opt/ros/humble/setup.bash
 <span class="nb">source</span><span class="w"> </span>/usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
@@ -188,7 +200,7 @@ mkdir<span class="w"> </span>-p<span class="w"> </span>ros2_basics_ws/src
 <p>Next, verify that the directory was created successfully and that it contains the source folder.</p>
 <p>As mentioned earlier, all your applications will be developed inside the source folder. Within this folder, you will add packages related to your project. Packages are the fundamental building blocks in ROS2 that help structure your project. They organize and group related functionalities and are designed to be modular and reusable, allowing you to use them in other projects.</p>
 <p>Packages can contain a variety of elements, including nodes, libraries, configuration files, launch files, interfaces, documentation, and more. While this might seem overwhelming at first, we will clarify these concepts during the session. Let’s dive in and create our first Python package:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/source/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/
 ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>ros2_basics_pkg<span class="w"> </span>--build-type<span class="w"> </span>ament_python
 </pre></div>
 </div>
@@ -203,6 +215,10 @@ ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </
 <li><p><em>ros2_basics_pkg</em>: This folder will contain your package’s code and resources</p></li>
 </ol>
 <p>Again, these concepts will become much clearer when we will create our first program.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Our work environment already includes all necessary dependencies. To avoid adding unnecessary complexities, we will not modify the <em>package.xml</em> file in this class. However, remember that this file is crucial for publishing your package, as it lists the dependencies needed for others to use it effectively.</p>
+</div>
 <p>The final topic for this section is how to build a project. ROS2 provides a build tool called <em>colcon</em>, which is used to compile packages within a ROS2 workspace. It manages dependencies and ensures everything is properly linked. Let’s go ahead and build your first project:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/
 colcon<span class="w"> </span>build
@@ -257,6 +273,12 @@ colcon<span class="w"> </span>build
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
+<li><p>Make it executable</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>minimal_node.py
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
 <li><p>Add the following content inside your file</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
@@ -310,25 +332,16 @@ colcon<span class="w"> </span>build
 <li><p><code class="docutils literal notranslate"><span class="pre">destroy_node()</span></code> and <code class="docutils literal notranslate"><span class="pre">rclpy.shutdown()</span></code>: Once the node is no longer required, it is properly destroyed and ROS2 communications are interrupted</p></li>
 </ul>
 </div></blockquote>
-<ol class="arabic simple" start="4">
-<li><p>As mentionned in the previous section, we also need to:</p></li>
+<ol class="arabic simple" start="5">
+<li><p>As mentionned in the previous section, we also need to declare the file as a ROS2 executable program in <em>setup.py</em>.</p></li>
 </ol>
 <blockquote>
-<div><ol class="loweralpha simple">
-<li><p>Define dependencies in <em>package.xml</em></p></li>
-</ol>
-<p>If you look at the imports in <em>minimal_node.py</em>, you can notice that the only dependency that we have is the <em>rclpy</em> library. Therefore we need to add the following line in <em>package.xml</em>:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;depend&gt;</span>rclpy<span class="nt">&lt;/depend&gt;</span>
-</pre></div>
-</div>
-<ol class="loweralpha simple" start="2">
-<li><p>Declare the file as a ROS2 executable program in <em>setup.py</em></p></li>
-</ol>
-<p>This is done by adding an entry point as follow:</p>
+<div><p>This is done by adding an entry point as follow:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
     <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
         <span class="s2">&quot;first_node = ros2_basics_pkg.minimal_node:main&quot;</span>
     <span class="p">],</span>
+<span class="p">},</span>
 </pre></div>
 </div>
 <div class="admonition important">
@@ -339,12 +352,13 @@ colcon<span class="w"> </span>build
         <span class="s2">&quot;&lt;executable_name_1&gt; = &lt;pkg_name&gt;.&lt;file_name_1&gt;:main&quot;</span><span class="p">,</span>
         <span class="s2">&quot;&lt;executable_name_2&gt; = &lt;pkg_name&gt;.&lt;file_name_2&gt;:main&quot;</span>
     <span class="p">],</span>
+<span class="p">},</span>
 </pre></div>
 </div>
 <p>Be sure to understand the difference between <em>executable_name</em>,  <em>file_name</em> and  <em>node_name</em>. When you will run a program from your terminal you will use the <em>executable_name</em> so be sure to know which one it is. Moreover, we would like to point out the <code class="docutils literal notranslate"><span class="pre">,</span></code> between the lines of the <em>entry_points</em> when your package contains multiple programs.</p>
 </div>
 </div></blockquote>
-<ol class="arabic simple" start="5">
+<ol class="arabic simple" start="6">
 <li><p>Build the project and run the node</p></li>
 </ol>
 <p>Now you are finally ready to build and run your first node!</p>
@@ -373,7 +387,7 @@ colcon<span class="w"> </span>build
 </ol>
 </div></blockquote>
 </div></blockquote>
-<ol class="arabic simple" start="6">
+<ol class="arabic simple" start="7">
 <li><p>Comment the spin function</p></li>
 </ol>
 <p>Go back to <em>minimal_node.py</em> and comment <code class="docutils literal notranslate"><span class="pre">rclpy.spin(minimal_node)</span></code>. Save the changes, build the project and run the program again.</p>
@@ -414,7 +428,7 @@ colcon<span class="w"> </span>build
 <a class="reference internal image-reference" href="_images/topics.gif"><img alt="_images/topics.gif" src="_images/topics.gif" style="width: 90%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Communication via Topics</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html" rel="noopener noreferrer" target="_blank">Communication via Topics</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition-key-aspects admonition">
@@ -429,6 +443,7 @@ colcon<span class="w"> </span>build
 <p>Now that you have a better understanding of how topic communication works in ROS2, let’s create our own publishers and subscribers:</p>
 <ol class="arabic simple">
 <li><p>Create two new Python files in the <em>ros2_basics_pkg</em> folder: <em>publisher.py</em> and <em>subscriber.py</em></p></li>
+<li><p>Make both files executable</p></li>
 <li><p>Add the following code for the publisher</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
@@ -464,11 +479,11 @@ colcon<span class="w"> </span>build
 </pre></div>
 </div>
 <p><strong>Question:</strong> What are the essential elements of a publisher?</p>
-<ol class="arabic simple" start="3">
+<ol class="arabic simple" start="4">
 <li><p>Run the publisher node</p></li>
 </ol>
-<p>Update the <em>setup.py</em> and <em>package.xml</em> files, then build the project and run the node. If you have any questions about these steps, please refer to the previous section or ask for assistance.</p>
-<ol class="arabic simple" start="4">
+<p>Update the <em>setup.py</em> file, then build the project and run the node. If you have any questions about these steps, please refer to the previous section or ask for assistance.</p>
+<ol class="arabic simple" start="5">
 <li><p>Examine the system</p></li>
 </ol>
 <p>Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>  to visualize what is happening.</p>
@@ -502,7 +517,7 @@ colcon<span class="w"> </span>build
 <p>These tools are essential for debugging your system, allowing you to check node status, view active topics, and analyze message flow. They also help identify message types and understand node interactions, making it easier to spot issues and ensure your ROS2 applications run smoothly.</p>
 </div>
 <p>We have finished with the publisher node for now, let’s move on to the subscriber node:</p>
-<ol class="arabic simple" start="5">
+<ol class="arabic simple" start="6">
 <li><p>Add the following code for the subscriber</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
@@ -532,11 +547,11 @@ colcon<span class="w"> </span>build
 </pre></div>
 </div>
 <p><strong>Question:</strong> What are the essential elements of a subscriber?</p>
-<ol class="arabic simple" start="6">
+<ol class="arabic simple" start="7">
 <li><p>Run the publisher node</p></li>
 </ol>
-<p>Update the <em>setup.py</em> and <em>package.xml</em> files, then build the project and run the node.</p>
-<ol class="arabic simple" start="7">
+<p>Update the <em>setup.py</em> file, then build the project and run the node.</p>
+<ol class="arabic simple" start="8">
 <li><p>Examine the system</p></li>
 </ol>
 <p>Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>  to visualize what is happening.</p>
@@ -565,11 +580,11 @@ colcon<span class="w"> </span>build
 </tbody>
 </table>
 <p>After inspection, kill the node by pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code>.</p>
-<ol class="arabic simple" start="8">
+<ol class="arabic simple" start="9">
 <li><p>Run the publisher and subscriber simultaneously</p></li>
 </ol>
 <p>At this stage, you can run both the <em>publisher</em> and <em>subscriber</em> at the same time. Utilize the commands introduced earlier to inspect the nodes and topics. Additionally, use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> to visualize the communication.</p>
-<ol class="arabic simple" start="9">
+<ol class="arabic simple" start="10">
 <li><p>Manage multiple publishers</p></li>
 </ol>
 <p>Keep the <em>publisher</em> and <em>subscriber</em> running, then launch a <strong>second publisher</strong> using the usual command.</p>
@@ -586,7 +601,7 @@ colcon<span class="w"> </span>build
 <p class="admonition-title">Task</p>
 <p>Launch two publishers and two subscribers, each with unique names. Verify that you get the expected results using the CLI commands and <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>.</p>
 </div>
-<ol class="arabic simple" start="10">
+<ol class="arabic simple" start="11">
 <li><p>Remap topic at runtime</p></li>
 </ol>
 <p>Just like nodes, topics can be renamed at runtime using remapping. You can achieve this with the following command:</p>
@@ -638,8 +653,10 @@ colcon<span class="w"> </span>build
 <ul class="simple">
 <li><p>It logs a warning if the heat index exceeds a threshold (125°F)</p></li>
 </ul>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
+</div></blockquote>
+<div class="admonition-hints admonition">
+<p class="admonition-title">Hints</p>
+<div class="toggle docutils container">
 <ul class="simple">
 <li><p>Consider developing your nodes in a new package (optional)</p></li>
 <li><p>Use the <em>numpy.random</em> library to generate random integers. To avoid potential type-related errors, it is recommended to cast the result to an <em>int</em>:</p></li>
@@ -656,7 +673,7 @@ colcon<span class="w"> </span>build
 <a class="reference internal image-reference" href="_images/exercise1.png"><img alt="_images/exercise1.png" class="align-center" src="_images/exercise1.png" style="width: 80%;" />
 </a>
 </div>
-</div></blockquote>
+</div>
 </section>
 </section>
 <section id="services-overview">
@@ -731,7 +748,7 @@ colcon<span class="w"> </span>build
 <a class="reference internal image-reference" href="_images/services.gif"><img alt="_images/services.gif" src="_images/services.gif" style="width: 90%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Communication via Services</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html" rel="noopener noreferrer" target="_blank">Communication via Services</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition-key-aspects admonition">
@@ -746,6 +763,7 @@ colcon<span class="w"> </span>build
 <p>With this foundation, let’s move on to creating our own servers and clients in ROS2:</p>
 <ol class="arabic simple">
 <li><p>Create two new Python files in <em>ros2_basics_pkg</em>: <em>server.py</em> and <em>client.py</em></p></li>
+<li><p>Make both files executable</p></li>
 <li><p>Add the following code for the server</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
@@ -776,7 +794,7 @@ colcon<span class="w"> </span>build
 </pre></div>
 </div>
 <p><strong>Question:</strong> What are the essential elements of a server?</p>
-<ol class="arabic simple" start="2">
+<ol class="arabic simple" start="4">
 <li><p>Add the following code for the client</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
@@ -849,14 +867,14 @@ colcon<span class="w"> </span>build
 </li>
 </ul>
 <p>This structure allows the client to make non-blocking service calls and process the server’s response asynchronously. The use of <code class="docutils literal notranslate"><span class="pre">functools.partial</span></code> is crucial for tracking which request generated which response.</p>
-<ol class="arabic simple" start="3">
+<ol class="arabic simple" start="5">
 <li><p>Build the project</p></li>
 </ol>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Have you updated <em>setup.py</em> and <em>package.xml</em>?</p>
+<p>Have you updated <em>setup.py</em>?</p>
 </div>
-<ol class="arabic simple" start="4">
+<ol class="arabic simple" start="6">
 <li><p>Run both the server and client we have just created</p></li>
 </ol>
 <p>We have just rewritten the <em>add_two_ints</em> example in our own package, so the result should be identical. You can use CLI commands to verify this. Additionally, we have added a client node, allowing you to call the server directly from the program instead of using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">call</span></code> command from the terminal.</p>
@@ -955,7 +973,7 @@ bool<span class="w"> </span>is_operational
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can find a list of the predefined data types available in ROS2 in the <a class="reference external" href="https://docs.ros.org/en/humble/Concepts/Basic/About-Interfaces.html">official documentation</a>.</p>
+<p>You can find a list of the predefined data types available in ROS2 in the <a class="reference external" href="https://docs.ros.org/en/humble/Concepts/Basic/About-Interfaces.html" rel="noopener noreferrer" target="_blank">official documentation</a>.</p>
 </div>
 <ol class="loweralpha simple" start="3">
 <li><p>Update <em>CMakeLists.txt</em></p></li>
@@ -1014,7 +1032,7 @@ bool<span class="w"> </span>success
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>While developing your own custom interfaces can be useful, keep in mind that there are many common interfaces already available in ROS2 that can meet the needs of your project. You can learn more about these interfaces <a class="reference external" href="https://github.com/ros2/common_interfaces">here</a>.</p>
+<p>While developing your own custom interfaces can be useful, keep in mind that there are many common interfaces already available in ROS2 that can meet the needs of your project. You can learn more about these interfaces <a class="reference external" href="https://github.com/ros2/common_interfaces" rel="noopener noreferrer" target="_blank">here</a>.</p>
 </div>
 </section>
 <section id="exercise-2">
@@ -1057,13 +1075,15 @@ bool<span class="w"> </span>success
 <li><p>Display the service’s response (approval, and advice or duration)</p></li>
 </ul>
 </div></blockquote>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
+<div class="admonition-hints admonition">
+<p class="admonition-title">Hints</p>
+<div class="toggle docutils container">
 <ul class="simple">
 <li><p>Utilize the <em>ros2_basics_interface</em> to define your custom service</p></li>
 <li><p>Consider developing your nodes in a new package (optional)</p></li>
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span> <span class="pre">--symlink-install</span></code> to easily test new parameters with the client</p></li>
 </ul>
+</div>
 </div>
 </section>
 </section>
