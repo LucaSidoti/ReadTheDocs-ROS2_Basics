@@ -161,6 +161,11 @@ Installing Docker Desktop
 
       Ubuntu MATE 22.04 desktop
 
+   .. important:: 
+
+      If you are logged out of the Ubuntu desktop due to inactivity, the following login information may be helpful:
+      **Username**: ubuntu | **Password**: ubuntu
+
 8. **Exit and Stop the Container**
 
    Once you have finished working in the environment, be sure to disconnect from the VNC server and stop the container in Docker Desktop.

@@ -311,6 +311,27 @@ Go back to *minimal_node.py* and comment ``rclpy.spin(minimal_node)``. Save the 
 
 **Question:** What difference do you observe?
 
+Communication Overview
+----------------------
+
+Previously, you were introduced to the main building block of a ROS2 system: the node. In any real robotic application, you will not be working with just one node. Instead, you will typically have multiple nodes, each handling a specific task. These nodes operate independently, which means they need a way to communicate with each other to work together effectively.
+
+ROS2 provides exactly what we need for this by offering a *message-passing* mechanism that allows nodes to exchange information without needing direct connections. This way, each node can stay focused on its own job, while still being part of a larger system. Importantly, this communication happens within the same network, allowing nodes on different devices or computers to interact as long as they are connected to the same network.
+
+.. figure:: img/communication.gif
+    :align: center
+    :width: 90%
+
+    `Communication between Nodes <https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html>`_ 
+
+
+To keep things organized, ROS2 uses two main communication methods:
+
+    * **Topics**: Used for continuous data exchange, allowing nodes to publish information that others can subscribe to.
+    * **Services**: Used for request-response interactions, letting nodes request specific actions from each other and receive replies.
+
+This communication setup helps keep the system modular and scalable, making it easier to design complex robotic systems. Now, let’s dive into the details and see how these mechanisms work in practice!
+
 Topics Overview
 ---------------
 
@@ -523,11 +544,19 @@ Just like nodes, topics can be renamed at runtime using remapping. You can achie
 
 .. admonition:: Task
 
-    Experiment with different publishers and subscribers by using remapping to create a graph similar to the one shown below.
+    Experiment with different publishers and subscribers by using remapping to create a graph similar to the one shown below. 
 
     .. image:: img/task2.png
       :align: center
       :width: 80%
+
+    .. |spacer| raw:: html
+
+       <div style="margin-top: 5px;"></div>
+
+    |spacer|
+
+    Note: In the rqt_graph interface, ensure you select ``Nodes/Topics (all)`` rather than ``Nodes only`` to obtain the same graph representation.
 
 Exercise 1
 ----------
@@ -773,6 +802,10 @@ As you can see, this program introduces more complexity compared to previous exa
 
 This structure allows the client to make non-blocking service calls and process the server’s response asynchronously. The use of ``functools.partial`` is crucial for tracking which request generated which response.
 
+.. note::
+
+    Keep in mind that a synchronous version of service calls is available in ROS2. However, we are using the asynchronous approach here, which is generally recommended by the ROS community (`Synchronous vs. asynchronous service clients <https://docs.ros.org/en/humble/How-To-Guides/Sync-Vs-Async.html>`_).
+
 5. Build the project
 
 .. warning::
@@ -953,45 +986,45 @@ In this example, the service checks whether a student has passed his exams based
     While developing your own custom interfaces can be useful, keep in mind that there are many common interfaces already available in ROS2 that can meet the needs of your project. You can learn more about these interfaces `here <https://github.com/ros2/common_interfaces>`_.
 
 
-Exercise 2
-----------
+.. Exercise 2
+.. ----------
 
-You are almost done, this is your final challenge! Explore services and custom interfaces to tackle the following exercise.
+.. You are almost done, this is your final challenge! Explore services and custom interfaces to tackle the following exercise.
 
-Mission Validation Service for a Rover
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Mission Validation Service for a Rover
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed. 
+.. Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed. 
 
-**Steps**
+.. **Steps**
 
-1. Create a custom service (MissionValidation.srv)
+.. 1. Create a custom service (MissionValidation.srv)
 
-  * Request: temperature (°C), battery_level (%), target_distance (km)
-  * Response: success (bool), advice (string), estimated_duration (hours)
+..   * Request: temperature (°C), battery_level (%), target_distance (km)
+..   * Response: success (bool), advice (string), estimated_duration (hours)
 
-2. Create a server node
+.. 2. Create a server node
 
-  * Validate the mission:
+..   * Validate the mission:
 
-    * Safe temperature: -20°C to 50°C
-    * Battery level: Above 30%
-    * Estimate duration based on distance (speed: 10 km/h)
+..     * Safe temperature: -20°C to 50°C
+..     * Battery level: Above 30%
+..     * Estimate duration based on distance (speed: 10 km/h)
 
-  * Return false and advice if conditions fail, or true and duration if valid
+..   * Return false and advice if conditions fail, or true and duration if valid
 
-3. Create a client node
+.. 3. Create a client node
 
-  * Send mission parameters from the client to the server
-  * Display the service’s response (approval, and advice or duration)
+..   * Send mission parameters from the client to the server
+..   * Display the service’s response (approval, and advice or duration)
 
-.. admonition:: Hints
+.. .. admonition:: Hints
 
-  .. toggle::
+..   .. toggle::
 
-    * Utilize the *ros2_basics_interface* to define your custom service
-    * Consider developing your nodes in a new package (optional)
-    * Use ``colcon build --symlink-install`` to easily test new parameters with the client
+..     * Utilize the *ros2_basics_interface* to define your custom service
+..     * Consider developing your nodes in a new package (optional)
+..     * Use ``colcon build --symlink-install`` to easily test new parameters with the client
 
 .. .. admonition:: Hints
 ..   :class: hint

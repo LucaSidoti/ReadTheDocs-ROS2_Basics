@@ -71,14 +71,18 @@
 <li class="toctree-l2"><a class="reference internal" href="#ros2-installation">ROS2 Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ros2-project-build">ROS2 Project Build</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-node">First Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#communication-overview">Communication Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#topics-overview">Topics Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#exercise-1">Exercise 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#services-overview">Services Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-interfaces">Custom Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exercise-2">Exercise 2</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="prep_work_2.html">Preparatory Work 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prep_work_2.html">Preparatory Work 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_2.html#thymio-example">Thymio Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_2.html#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-overview">Turtlesim Overview</a></li>
@@ -393,6 +397,26 @@ colcon<span class="w"> </span>build
 <p>Go back to <em>minimal_node.py</em> and comment <code class="docutils literal notranslate"><span class="pre">rclpy.spin(minimal_node)</span></code>. Save the changes, build the project and run the program again.</p>
 <p><strong>Question:</strong> What difference do you observe?</p>
 </section>
+<section id="communication-overview">
+<h2>Communication Overview<a class="headerlink" href="#communication-overview" title="Link to this heading"></a></h2>
+<p>Previously, you were introduced to the main building block of a ROS2 system: the node. In any real robotic application, you will not be working with just one node. Instead, you will typically have multiple nodes, each handling a specific task. These nodes operate independently, which means they need a way to communicate with each other to work together effectively.</p>
+<p>ROS2 provides exactly what we need for this by offering a <em>message-passing</em> mechanism that allows nodes to exchange information without needing direct connections. This way, each node can stay focused on its own job, while still being part of a larger system. Importantly, this communication happens within the same network, allowing nodes on different devices or computers to interact as long as they are connected to the same network.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/communication.gif"><img alt="_images/communication.gif" src="_images/communication.gif" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html" rel="noopener noreferrer" target="_blank">Communication between Nodes</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>To keep things organized, ROS2 uses two main communication methods:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Topics</strong>: Used for continuous data exchange, allowing nodes to publish information that others can subscribe to.</p></li>
+<li><p><strong>Services</strong>: Used for request-response interactions, letting nodes request specific actions from each other and receive replies.</p></li>
+</ul>
+</div></blockquote>
+<p>This communication setup helps keep the system modular and scalable, making it easier to design complex robotic systems. Now, let’s dive into the details and see how these mechanisms work in practice!</p>
+</section>
 <section id="topics-overview">
 <h2>Topics Overview<a class="headerlink" href="#topics-overview" title="Link to this heading"></a></h2>
 <p>Let’s move forward in our journey and add communication in this project. Let’s start by taking a closer look at the talker-listener example:</p>
@@ -424,11 +448,11 @@ colcon<span class="w"> </span>build
 <li><p>A node acting as a <strong>subscriber</strong> can receive data from a topic.</p></li>
 </ul>
 <p>The data exchanged through a topic is called a <strong>message</strong>, which follows a defined <strong>data structure</strong>.</p>
-<figure class="align-center" id="id1">
+<figure class="align-center" id="id2">
 <a class="reference internal image-reference" href="_images/topics.gif"><img alt="_images/topics.gif" src="_images/topics.gif" style="width: 90%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html" rel="noopener noreferrer" target="_blank">Communication via Topics</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html" rel="noopener noreferrer" target="_blank">Communication via Topics</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition-key-aspects admonition">
@@ -613,6 +637,8 @@ colcon<span class="w"> </span>build
 <p>Experiment with different publishers and subscribers by using remapping to create a graph similar to the one shown below.</p>
 <a class="reference internal image-reference" href="_images/task2.png"><img alt="_images/task2.png" class="align-center" src="_images/task2.png" style="width: 80%;" />
 </a>
+<p><div style="margin-top: 5px;"></div></p>
+<p>Note: In the rqt_graph interface, ensure you select <code class="docutils literal notranslate"><span class="pre">Nodes/Topics</span> <span class="pre">(all)</span></code> rather than <code class="docutils literal notranslate"><span class="pre">Nodes</span> <span class="pre">only</span></code> to obtain the same graph representation.</p>
 </div>
 </section>
 <section id="exercise-1">
@@ -744,11 +770,11 @@ colcon<span class="w"> </span>build
 <li><p>A node acting as a <strong>client</strong> send a request to a service and gets an answer back.</p></li>
 </ul>
 <p>The data exchanged through a service is structured into two parts: a <strong>request</strong> and a <strong>response</strong>, each with its own specific <strong>data structure</strong>.</p>
-<figure class="align-center" id="id2">
+<figure class="align-center" id="id3">
 <a class="reference internal image-reference" href="_images/services.gif"><img alt="_images/services.gif" src="_images/services.gif" style="width: 90%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html" rel="noopener noreferrer" target="_blank">Communication via Services</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html" rel="noopener noreferrer" target="_blank">Communication via Services</a></span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition-key-aspects admonition">
@@ -867,6 +893,10 @@ colcon<span class="w"> </span>build
 </li>
 </ul>
 <p>This structure allows the client to make non-blocking service calls and process the server’s response asynchronously. The use of <code class="docutils literal notranslate"><span class="pre">functools.partial</span></code> is crucial for tracking which request generated which response.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Keep in mind that a synchronous version of service calls is available in ROS2. However, we are using the asynchronous approach here, which is generally recommended by the ROS community (<a class="reference external" href="https://docs.ros.org/en/humble/How-To-Guides/Sync-Vs-Async.html" rel="noopener noreferrer" target="_blank">Synchronous vs. asynchronous service clients</a>).</p>
+</div>
 <ol class="arabic simple" start="5">
 <li><p>Build the project</p></li>
 </ol>
@@ -1034,58 +1064,6 @@ bool<span class="w"> </span>success
 <p class="admonition-title">Note</p>
 <p>While developing your own custom interfaces can be useful, keep in mind that there are many common interfaces already available in ROS2 that can meet the needs of your project. You can learn more about these interfaces <a class="reference external" href="https://github.com/ros2/common_interfaces" rel="noopener noreferrer" target="_blank">here</a>.</p>
 </div>
-</section>
-<section id="exercise-2">
-<h2>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading"></a></h2>
-<p>You are almost done, this is your final challenge! Explore services and custom interfaces to tackle the following exercise.</p>
-<section id="mission-validation-service-for-a-rover">
-<h3>Mission Validation Service for a Rover<a class="headerlink" href="#mission-validation-service-for-a-rover" title="Link to this heading"></a></h3>
-<p>Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed.</p>
-<p><strong>Steps</strong></p>
-<ol class="arabic simple">
-<li><p>Create a custom service (MissionValidation.srv)</p></li>
-</ol>
-<blockquote>
-<div><ul class="simple">
-<li><p>Request: temperature (°C), battery_level (%), target_distance (km)</p></li>
-<li><p>Response: success (bool), advice (string), estimated_duration (hours)</p></li>
-</ul>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><p>Create a server node</p></li>
-</ol>
-<blockquote>
-<div><ul class="simple">
-<li><p>Validate the mission:</p>
-<ul>
-<li><p>Safe temperature: -20°C to 50°C</p></li>
-<li><p>Battery level: Above 30%</p></li>
-<li><p>Estimate duration based on distance (speed: 10 km/h)</p></li>
-</ul>
-</li>
-<li><p>Return false and advice if conditions fail, or true and duration if valid</p></li>
-</ul>
-</div></blockquote>
-<ol class="arabic simple" start="3">
-<li><p>Create a client node</p></li>
-</ol>
-<blockquote>
-<div><ul class="simple">
-<li><p>Send mission parameters from the client to the server</p></li>
-<li><p>Display the service’s response (approval, and advice or duration)</p></li>
-</ul>
-</div></blockquote>
-<div class="admonition-hints admonition">
-<p class="admonition-title">Hints</p>
-<div class="toggle docutils container">
-<ul class="simple">
-<li><p>Utilize the <em>ros2_basics_interface</em> to define your custom service</p></li>
-<li><p>Consider developing your nodes in a new package (optional)</p></li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span> <span class="pre">--symlink-install</span></code> to easily test new parameters with the client</p></li>
-</ul>
-</div>
-</div>
-</section>
 </section>
 </section>
 

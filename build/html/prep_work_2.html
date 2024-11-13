@@ -75,10 +75,13 @@
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#exercise-1">Exercise 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#services-overview">Services Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#custom-interfaces">Custom Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="session_1.html#exercise-2">Exercise 2</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparatory Work 2</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparatory Work 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#thymio-example">Thymio Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-overview">Turtlesim Overview</a></li>
@@ -114,6 +117,110 @@
              
   <section id="preparatory-work-2">
 <h1>Preparatory Work 2<a class="headerlink" href="#preparatory-work-2" title="Link to this heading"></a></h1>
+<section id="thymio-example">
+<h2>Thymio Example<a class="headerlink" href="#thymio-example" title="Link to this heading"></a></h2>
+<p>Let’s be honnest, the previous session was quite intense! We covered a lot of foundational topics, and it is perfectly normal if everything is not fully clear yet. Today, we will go through an example to give you a practical reminder of what we learned. By the end, you should have a better idea of how a ROS2 project is typically structured and how its core components work together.</p>
+<p>Here, we will use an example with the Thymio robot, which you can see in the image below. This diagram represents a ROS2 project setup for the Thymio, organized into different components that reflect the main concepts we covered: workspaces, packages, nodes, topics, and services. Let’s go through each part to see how these concepts come to life in a real project.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/thymio_example.png"><img alt="_images/thymio_example.png" src="_images/thymio_example.png" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Thymio Example - Overview of a ROS2 project structure</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Workspace</strong></p>
+<p>Think of the workspace as the main project folder. In ROS2, all your packages live within a workspace, making it a hub for development. In our example, the workspace is called <code class="docutils literal notranslate"><span class="pre">thymio_ws</span></code>. Inside, you will find separate packages, each dedicated to specific parts of the robot’s functionality, which makes the project modular and easy to manage.</p>
+<p><strong>Packages</strong></p>
+<p>In ROS2, we organize code into packages, which are like mini-projects within the workspace, each with its own role.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">thymio_sensors_pkg</span></code>: This package handles data from the robot’s sensors, like proximity and ground sensors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thymio_behaviors_pkg</span></code>: This package is where the robot’s behavior logic lives, such as obstacle avoidance and line-following. It uses sensor data to decide on actions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thymio_control_pkg</span></code>: This package is responsible for controlling the robot’s hardware, like the motors and LEDs, based on the decisions made by the behavior nodes.</p></li>
+</ul>
+</div></blockquote>
+<p>This structure helps us keep different parts of the robot’s functionality organized and allows us to make changes to one part without affecting others.</p>
+<p><strong>Nodes</strong></p>
+<p>Nodes are individual programs in ROS2 that perform specific tasks. Each package in our example contains nodes that work together to control the Thymio robot:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Sensor nodes</strong>: The <code class="docutils literal notranslate"><span class="pre">Proximity</span> <span class="pre">Sensor</span> <span class="pre">Node</span></code> and <code class="docutils literal notranslate"><span class="pre">Ground</span> <span class="pre">Sensor</span> <span class="pre">Node</span></code> in <em>thymio_sensors_pkg</em> collect data from the robot’s environment, publishing it as messages to be used by other nodes.</p></li>
+<li><p><strong>Behavior nodes</strong>: The <code class="docutils literal notranslate"><span class="pre">Obstacle</span> <span class="pre">Avoidance</span> <span class="pre">Node</span></code> and <code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">Follower</span> <span class="pre">Node</span></code> in <em>thymio_behaviors_pkg</em> subscribe to the sensor data, analyze it, and make decisions on how the robot should react: moving freely, avoiding obstacles or following a line.</p></li>
+<li><p><strong>Control nodes</strong>: The <code class="docutils literal notranslate"><span class="pre">Motor</span> <span class="pre">Control</span> <span class="pre">Node</span></code> and <code class="docutils literal notranslate"><span class="pre">LED</span> <span class="pre">Control</span> <span class="pre">Node</span></code> in <em>thymio_control_pkg</em> take commands from the behavior nodes and translate them into actions like moving the motors or changing the LED colors.</p></li>
+</ul>
+</div></blockquote>
+<p>Nodes allow us to break down complex tasks into simpler parts, making our project more organized and modular.</p>
+<p><strong>Topics</strong></p>
+<p>Nodes often need to share information with each other, and they do this through topics, which are like message channels.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Sensor topics</strong>: The <code class="docutils literal notranslate"><span class="pre">Proximity</span> <span class="pre">Sensor</span> <span class="pre">Node</span></code> and <code class="docutils literal notranslate"><span class="pre">Ground</span> <span class="pre">Sensor</span> <span class="pre">Node</span></code> publish messages to <code class="docutils literal notranslate"><span class="pre">proximity_data</span></code> and <code class="docutils literal notranslate"><span class="pre">ground_data</span></code> topics, respectively. The behavior nodes subscribe to these topics to get real-time sensor information for decision-making.</p></li>
+<li><p><strong>Command velocity topic</strong>: When the behavior nodes decide on an action, such as moving forward or turning, they publish commands to the <code class="docutils literal notranslate"><span class="pre">cmd_vel</span></code> topic. The <code class="docutils literal notranslate"><span class="pre">Motor</span> <span class="pre">Control</span> <span class="pre">Node</span></code> then subscribes to this topic to execute the movement commands.</p></li>
+</ul>
+</div></blockquote>
+<p>Topics help different nodes communicate asynchronously, meaning that they don’t need to wait for each other and can process data as it becomes available.</p>
+<p><strong>Services</strong></p>
+<p>While topics are useful for continuous data streams, sometimes nodes need to perform specific actions at certain times and may require a response. This is where services come in. They are ideal for tasks like performing calculations or adjusting parameters on demand.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>set_led-color</strong>: The <code class="docutils literal notranslate"><span class="pre">Obstacle</span> <span class="pre">Avoidance</span> <span class="pre">Node</span></code> might call the <code class="docutils literal notranslate"><span class="pre">set_led_color</span></code> service to change the LED color, indicating the robot’s current status: green for free navigation, red for obstacle avoidance or blue for line-following. The service response confirms the new setting by returning the LED color.</p></li>
+<li><p><strong>set_max_speed</strong>: Both the <code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">Follower</span> <span class="pre">Node</span></code> and the <code class="docutils literal notranslate"><span class="pre">Obstacle</span> <span class="pre">Avoidance</span> <span class="pre">Node</span></code> may call the <code class="docutils literal notranslate"><span class="pre">set_max_speed</span></code> service to adjust the robot’s maximum speed depending on whether it is in line-following or obstacle avoidance mode. The service response provides the updated speed value to confirm the new setting.</p></li>
+</ul>
+</div></blockquote>
+<p>In ROS2, a service has a request-response structure, where a node sends a request to a service and waits for a response. This structure is suitable for commands that are not continuous, such as adjusting settings.</p>
+</section>
+<section id="exercise-2">
+<h2>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading"></a></h2>
+<p>In session 1, we introduced the basics of services and custom interfaces, but we did not dive into hands-on practice with these concepts. Now, you will take on a new challenge designed to provide practical experience and deepen your understanding of how they operate in ROS2.</p>
+<section id="mission-validation-service-for-a-rover">
+<h3>Mission Validation Service for a Rover<a class="headerlink" href="#mission-validation-service-for-a-rover" title="Link to this heading"></a></h3>
+<p>Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed.</p>
+<p><strong>Steps</strong></p>
+<ol class="arabic simple">
+<li><p>Create a custom service (MissionValidation.srv)</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Request: temperature (°C), battery_level (%), target_distance (km)</p></li>
+<li><p>Response: success (bool), advice (string), estimated_duration (hours)</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Create a server node</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Validate the mission:</p>
+<ul>
+<li><p>Safe temperature: -20°C to 50°C</p></li>
+<li><p>Battery level: Above 30%</p></li>
+<li><p>Estimate duration based on distance (speed: 10 km/h)</p></li>
+</ul>
+</li>
+<li><p>Return false and advice if conditions fail, or true and duration if valid</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Create a client node</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Send mission parameters from the client to the server</p></li>
+<li><p>Display the service’s response (approval, and advice or duration)</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition-hints admonition">
+<p class="admonition-title">Hints</p>
+<div class="toggle docutils container">
+<ul class="simple">
+<li><p>Utilize the <em>ros2_basics_interface</em> to define your custom service</p></li>
+<li><p>Consider developing your nodes in a new package (optional)</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span> <span class="pre">--symlink-install</span></code> to easily test new parameters with the client</p></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
 </section>
 
 
