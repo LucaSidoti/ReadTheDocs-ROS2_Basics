@@ -71,6 +71,7 @@
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#ros2-installation">ROS2 Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#ros2-project-build">ROS2 Project Build</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#first-node">First Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#communication-overview">Communication Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#topics-overview">Topics Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#exercise-1">Exercise 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#services-overview">Services Overview</a></li>
@@ -82,7 +83,20 @@
 <li class="toctree-l2"><a class="reference internal" href="prep_work_2.html#exercise-2">Exercise 2</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Session 2</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Session 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#urdf-tutorial-example">URDF Tutorial Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#urdf-overview">URDF Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minimal-urdf-visual">Minimal URDF - Visual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#improved-urdf-xacro">Improved URDF - Xacro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters-overview">Parameters Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#launch-files-overview">Launch Files Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gazebo-overview">Gazebo Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-urdf-collision-inertial">Complete URDF - Collision &amp; Inertial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gazebo-plugins">Gazebo Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gazebo-worlds">Gazebo Worlds</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-overview">Turtlesim Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-challenge">Turtlesim Challenge</a></li>
@@ -117,6 +131,827 @@
              
   <section id="session-2">
 <h1>Session 2<a class="headerlink" href="#session-2" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>Welcome to session 2 of our ROS2 Basics labs! Today, we will be exploring the visualization and simulation tools integrated with ROS2. In this session, we will dive into Rviz, Transforms (TFs), URDF, Xacro, parameters, launch files, and Gazebo, building the essential skills for designing and simulating robotic systems.</p>
+<p>Our main goal for today is to create a model of the Thymio robot that is fully integrated with ROS2 and capable of smooth operation in Gazebo simulation. We will guide you step-by-step through the essential elements needed to achieve this. Starting with simple examples to introduce each concept, you will progressively build the Thymio model in parallel, gaining practical experience with each component as you go. Now, let’s get to work!</p>
+</section>
+<section id="urdf-tutorial-example">
+<h2>URDF Tutorial Example<a class="headerlink" href="#urdf-tutorial-example" title="Link to this heading"></a></h2>
+<p>In this first part of the session, we will start by exploring <strong>Rviz</strong>, a 3D visualization tool, and <strong>TFs</strong> (transform frames), which are essential for managing coordinate frames in ROS2. We will use an example <strong>URDF</strong> (Unified Robot Description Format) model to learn how to visualize and interact with a robot model in Rviz. Do not worry if these concepts do not fully make sense yet, we will go through each of them step by step throughout today’s session.</p>
+<p>Let’s get started by ensuring that everything we need is installed and set up. The first step is to install the <em>urdf_tutorial</em> package. This package is not part of the default ROS2 installation, so let’s install it now.</p>
+<ol class="arabic simple">
+<li><p>Open a terminal and run:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ros-humble-urdf-tutorial<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>/opt/ros/humble/setup.bash
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have been paying attention to the terminal messages, you may have noticed that this package is already installed in the Docker environment. Due to time considerations, we have not covered all the steps of the installation process. However, the following outlines the general procedure you can follow to install any new package in ROS2.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Task</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><strong>Update</strong> your package
+list</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><strong>Upgrade</strong> existing
+packages</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">upgrade</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p><strong>Install</strong> the desired
+package</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">ros-&lt;distro&gt;-&lt;package_name&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p><strong>Source</strong> the ROS2
+setup file</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">/opt/ros/&lt;distro&gt;/setup.bash</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><strong>Verify</strong> the package
+installation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">pkg</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">&lt;package_name&gt;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Let’s check where this package and others are installed:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/opt/ros/humble/share<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ls
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Navigate to the URDF folder of the <em>urdf_tutorial</em> package and check its content:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/opt/ros/humble/share/urdf_tutorial/urdf<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ls
+</pre></div>
+</div>
+<p>Among the files listed, you will see <cite>08-macroed.urdf.xacro</cite>, which is the example we will use now.</p>
+<ol class="arabic simple" start="4">
+<li><p>Launch the example:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>/opt/ros/humble/share/urdf_tutorial/urdf/08-macroed.urdf.xacro
+</pre></div>
+</div>
+<p>Now that Rviz is running and the robot model is loaded, let’s take a moment to explore what Rviz offers and why it is such a valuable tool in the ROS2 ecosystem. Visualizing the robot in a 3D environment provides an intuitive way to understand its structure, relationships, and interactions.</p>
+<p>In particular, Rviz allows you to visualize:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Robot models</strong>: These are detailed representations of the robot’s physical structure.</p></li>
+<li><p><strong>Transforms frames (TFs)</strong>: Coordinate frames that define the spatial relationships between different parts of the robot, essential for motion and interaction.</p></li>
+<li><p><strong>Sensors data</strong>:  Information from sensors such as LiDAR, cameras, or depth sensors, displayed in real-time to help interpret the robot’s environment.</p></li>
+</ul>
+</div></blockquote>
+<p>As you can see in the image below, Rviz offers a variety of default plugins that enable you to monitor different aspects of your system. These plugins can be accessed and added to your workspace by clicking the <code class="docutils literal notranslate"><span class="pre">Add</span></code> button in the Rviz interface.</p>
+<a class="reference internal image-reference" href="_images/rviz_plugins.png"><img alt="_images/rviz_plugins.png" class="align-center" src="_images/rviz_plugins.png" style="width: 20%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<p>Rviz also allows you to interact with tools like the <em>Joint State Publisher</em>, a GUI that lets you manipulate the robot’s joints. This enables you to see how joint movements affect the robot’s structure.</p>
+<p>A key question to consider here is: <strong>How does ROS2 determine the positions and movements of the different links relative to one another over time?</strong></p>
+<p>The answer lies in <strong>Transform Frames (TFs)</strong>. These frames represent the spatial relationships (positions and orientations) between the robot’s parts and its environment. TFs enable ROS2 to continuously track how each part of the robot moves in relation to others. By maintaining structured relationships between frames, TFs play a crucial role in various robotic tasks.</p>
+<p>Each frame has three axes: x (red), y (green), and z (blue), representing its orientation in 3D space. If you uncheck the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> in Rviz, you can see that the TFs form a tree-like structure, showing how the robot’s rigid parts are connected.</p>
+<p>To better visualize the TF hierarchy, you can use the <em>view_frames</em> tool provided by the <em>tf2_tools</em> package. Open a terminal and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ros2_basics_ws/
+ros2<span class="w"> </span>run<span class="w"> </span>tf2_tools<span class="w"> </span>view_frames
+</pre></div>
+</div>
+<p>After about five seconds, a PDF will be generated in your workspace. This file provides a clear tree structure of the robot’s TFs. The <code class="docutils literal notranslate"><span class="pre">base_link</span></code> is the root of the TF tree, and all other frames are connected as branches. Each branch connects a <strong>parent link</strong> to a <strong>child link</strong>, meaning that if the parent link moves, the child link will move accordingly.</p>
+<p>Now that you understand the purpose of TFs, you can experiment in Rviz to see how they work alongside the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code>. Start by focusing on the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Hide TFs and explore the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> by displaying all links or only a few.</p></li>
+<li><p>Adjust joints using the <em>Joint State Publisher</em> and observe changes.</p></li>
+</ol>
+<p>Next, enable the TFs and hide the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> to focus on the transform frames:</p>
+<ol class="arabic simple">
+<li><p>Display all or specific frames to examine their relationships.</p></li>
+<li><p>Observe how frames update dynamically with joint adjustments.</p></li>
+</ol>
+<p>By now, you should have a foundational understanding of Rviz and TFs. Here’s a quick recap:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Rviz</strong> is a visualization tool that helps display robot models, TFs, and many other essential elements .</p></li>
+<li><p><strong>TFs</strong> are essential for representing spatial relationships and movement between different parts of the robot.</p></li>
+</ul>
+</div></blockquote>
+<p>These tools are invaluable for building and visualizing robot models in ROS2.</p>
+<p>Let’s keep going! In the next chapters, we will dive deeper into understanding and working with URDF files to create our own robot model.</p>
+</section>
+<section id="urdf-overview">
+<h2>URDF Overview<a class="headerlink" href="#urdf-overview" title="Link to this heading"></a></h2>
+<p>In this introductory example, the need for TFs (Transform Frames) in robotics was highlighted. TFs play a crucial role in tracking the positions of different parts of a robot over time. They are essential for most control packages in ROS2 to function effectively.</p>
+<p>For example:</p>
+<ul class="simple">
+<li><p><strong>Odometry</strong> in navigation requires the positions of the wheels to estimate a mobile robot’s pose.</p></li>
+<li><p><strong>Robotic arms</strong> need joint positions to calculate the pose of the end-effector.</p></li>
+</ul>
+<p>In short, accurate TFs are vital for running a robot in ROS2. Fortunately, ROS2 handles the management of TFs. The only requirement is to provide a <strong>URDF file</strong>, which describes the robot’s elements in <strong>XML format</strong>.</p>
+<p>A URDF, Unified Robot Description Format, consists of two main components:</p>
+<ul class="simple">
+<li><p><strong>Links</strong>: Represent the physical, rigid parts of the robot. These correspond to the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> in Rviz.</p></li>
+<li><p><strong>Joints</strong>: Define the relationships between links and are used by ROS2 to generate TFs.</p></li>
+</ul>
+<p>Links are the rigid bodies of a robot. They can be described using one of four geometry types:</p>
+<ol class="arabic simple">
+<li><p><strong>Boxes</strong></p></li>
+<li><p><strong>Cylinders</strong></p></li>
+<li><p><strong>Spheres</strong></p></li>
+<li><p><strong>Meshes</strong></p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this class, only basic geometry shapes will be used. While meshes can be included in a URDF, they require a CAD-designed mesh file (e.g. an STL file). When using meshes, it is important to pay attention to scaling and orientation.</p>
+</div>
+<p>To fully define a link, three properties must be specified:</p>
+<ul class="simple">
+<li><p><strong>Visual</strong>: How the link appears in visualization tools.</p></li>
+<li><p><strong>Inertial</strong>: The physical properties (mass, center of gravity, etc.).</p></li>
+<li><p><strong>Collision</strong>: The geometry used for collision detection.</p></li>
+</ul>
+<p>These properties will be introduced progressively throughout the session.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/links.png"><img alt="_images/links.png" src="_images/links.png" style="width: 50%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="http://wiki.ros.org/urdf/XML/link" rel="noopener noreferrer" target="_blank">Link representation</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Joints define the connections between links. The most common types of joints in ROS2 are:</p>
+<ol class="arabic simple">
+<li><p><strong>Fixed</strong>: No movement between the parent and child links.</p></li>
+<li><p><strong>Revolute</strong>: Rotation around a single axis within a defined range.</p></li>
+<li><p><strong>Continuous</strong>: Rotation around a single axis without limits.</p></li>
+<li><p><strong>Prismatic</strong>: Linear motion along a single axis.</p></li>
+</ol>
+<p>A joint is always defined by its <strong>parent link</strong> and <strong>child link</strong>.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/joints.png"><img alt="_images/joints.png" src="_images/joints.png" style="width: 50%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="http://wiki.ros.org/urdf/XML/joint" rel="noopener noreferrer" target="_blank">Joint representation</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>For more information, consult the official documentation: <a class="reference external" href="http://wiki.ros.org/urdf/XML/link" rel="noopener noreferrer" target="_blank">Links</a> or <a class="reference external" href="http://wiki.ros.org/urdf/XML/joint" rel="noopener noreferrer" target="_blank">Joints</a>.</p>
+</div>
+</section>
+<section id="minimal-urdf-visual">
+<h2>Minimal URDF - Visual<a class="headerlink" href="#minimal-urdf-visual" title="Link to this heading"></a></h2>
+<p>With the necessary theoretical background in place, it is time to create our first robot model. We will start by setting up a new package to develop the <strong>Thymio</strong> model. Following standard conventions, the package will be named <code class="docutils literal notranslate"><span class="pre">&lt;robot_name&gt;_description</span></code> and structured as a C++ package.</p>
+<ol class="arabic simple">
+<li><p>Create a new package:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/
+ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>thymio_description
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Remove unnecessary folders:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/thymio_description/
+rm<span class="w"> </span>-rf<span class="w"> </span>include/<span class="w"> </span>src/
+ls
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Create directories for today’s materials:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>urdf/example<span class="w"> </span>urdf/thymio<span class="w"> </span>launch<span class="w"> </span>rviz<span class="w"> </span>worlds
+ls
+</pre></div>
+</div>
+<p>Now, let’s build the package and verify its structure.</p>
+<ol class="arabic simple" start="4">
+<li><p>Build the package:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws
+colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>thymio_description
+<span class="nb">source</span><span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
+<p>By default, ROS2 stores all packages in the <em>install</em> directory. Inside, you will find your package along with a <em>share</em> directory.</p>
+<ol class="arabic simple" start="5">
+<li><p>Verify package installation:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/install/thymio_description/share/thymio_description
+ls
+</pre></div>
+</div>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>You will notice that the folders we created are missing. This means ROS2 cannot access them. To fix this, we need to update the <em>CMakeLists.txt</em> file to include these directories in the installation process.</p>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Update <em>CMakeLists.txt</em>:</p></li>
+</ol>
+<p>Add the following block above <code class="docutils literal notranslate"><span class="pre">if(BUILD_TESTING)</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>install<span class="o">(</span>
+<span class="w">    </span>DIRECTORY<span class="w"> </span>urdf<span class="w"> </span>launch<span class="w"> </span>rviz<span class="w"> </span>worlds
+<span class="w">    </span>DESTINATION<span class="w"> </span>share/<span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span>/
+<span class="w">    </span><span class="o">)</span>
+</pre></div>
+</div>
+<p>This command ensures the directories are installed at the correct location. Rebuild the package and verify again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws
+colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>thymio_description
+<span class="nb">source</span><span class="w"> </span>install/setup.bash
+<span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/install/thymio_description/share/thymio_description
+ls
+</pre></div>
+</div>
+<p>Now, we are ready to create our first URDF file. We will start simple, defining a single box and displaying it in Rviz.</p>
+<ol class="arabic simple" start="7">
+<li><p>Create an <em>example.urdf</em> file:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/thymio_description/urdf/example
+touch<span class="w"> </span>example.urdf
+</pre></div>
+</div>
+<ol class="arabic" start="8">
+<li><p>Fill the <em>example.urdf</em> file with the first link:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Define the structure of the URDF file</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>This structure specifies the XML format and gives a name to the robot model.</p>
+<ol class="loweralpha simple" start="2">
+<li><p>Add a link with visual properties</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.2 0.3 0.6&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>The <strong>base_link</strong> is a standard name for the core element of a robot. Its dimensions are specified in meters. The <strong>origin</strong> uses <strong>xyz</strong> for position and <strong>rpy</strong> (roll, pitch, yaw) for orientation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tags in XML must be opened (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;visual&gt;</span></code>) and closed (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;/visual&gt;</span></code>). If a tag is empty, it can be written as a self-closing tag (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;box</span> <span class="pre">size=&quot;0.2</span> <span class="pre">0.3</span> <span class="pre">0.6&quot;/&gt;</span></code> instead of <code class="docutils literal notranslate"><span class="pre">&lt;box</span> <span class="pre">size=&quot;0.2</span> <span class="pre">0.3</span> <span class="pre">0.6&quot;&gt;</span> <span class="pre">&lt;/box&gt;</span></code>).</p>
+</div>
+<ol class="loweralpha simple" start="3">
+<li><p>Visualize the box in Rviz</p></li>
+</ol>
+<p>First, build the package. Since more components will be added shortly, it is convenient to use the <code class="docutils literal notranslate"><span class="pre">--symlink-install</span></code> option for quicker updates.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">colcon</span> <span class="n">build</span> <span class="o">--</span><span class="n">packages</span><span class="o">-</span><span class="n">select</span> <span class="n">thymio_description</span> <span class="o">--</span><span class="n">symlink</span><span class="o">-</span><span class="n">install</span>
+<span class="n">source</span> <span class="n">install</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This command is useful when working with URDFs as it allows you to progressively verify your progress. However, remember to rebuild the package whenever you add a new file.</p>
+</div>
+<p>Now, we are ready to visualize the result. Use the <em>urdf_tutorial</em> package to launch the URDF in Rviz. Later, we will explore how to achieve this without relying on this package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">launch</span> <span class="n">urdf_tutorial</span> <span class="n">display</span><span class="o">.</span><span class="n">launch</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">:=/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">ros2_basics_ws</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">thymio_description</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">thymio_description</span><span class="o">/</span><span class="n">urdf</span><span class="o">/</span><span class="n">example</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">urdf</span>
+</pre></div>
+</div>
+<p>We have successfully created a box with dimensions: 20 cm in length (x-direction), 30 cm in width (y-direction), and 10 cm in height (z-direction). However, it appears with a default color in Rviz. Let’s modify it to add a custom color.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You can ignore the warning message in Rviz as it will be resolved shortly.</p>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>Add color to the visual</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0 0 1 1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/material&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.2 0.3 0.6&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>Colors are defined using the <cite>material</cite> tag. A common practice is to define colors at the top of the file and reference them by name in the <cite>visual</cite> tag. The color attributes include four arguments: <strong>rgb</strong> for red, green, and blue, and <strong>a</strong> for transparency.</p>
+<p>View the result in Rviz using the same command as before (rebuilding the package is not necessary).</p>
+</div></blockquote>
+</li>
+<li><p>Fill the <em>example.urdf</em> file with the first joint:</p>
+<blockquote>
+<div><p>To introduce joints, we will add a second link and then connect it to the base link.</p>
+<ol class="loweralpha simple">
+<li><p>Define a second link</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0 0 1 1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/material&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.2 0.3 0.6&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.8&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.05&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>Here, we have simply added a second link with a different shape. The name can be chosen arbitrarily. You can now try visualizing it in Rviz.</p>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>The result cannot be visualized yet because unconnected links are not allowed. Let’s resolve this by adding a joint.</p>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Create a joint between the links</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0 0 1 1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/material&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.2 0.3 0.6&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.8&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.05&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;second_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/joint&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>The second link has been added. Use a naming convention for the joint that makes it easy to identify. As mentioned earlier, a joint is defined by its <strong>type</strong>, <strong>parent link</strong>, and <strong>child link</strong>. Additionally, it includes an <strong>origin</strong>, which specifies its position and orientation relative to the parent link. Now, let’s visualize this in Rviz.</p>
+<ol class="loweralpha simple" start="3">
+<li><p>Set the origins</p></li>
+</ol>
+<p>We have not discussed origins yet, as they can be a bit confusing when working with URDFs for the first time. To simplify, we will provide a straightforward approach to correctly position your links. This step is critical for creating a robot model that works accurately in simulation.</p>
+<p>As mentioned earlier, ROS2 uses the URDF file to generate the robot’s TFs. If the joints are not properly placed, the TFs will also be misaligned, leading to unexpected behavior during simulation.</p>
+<p>Let’s go through a simple four-step process to correctly position two links. Currently, our setup looks like this:</p>
+<a class="reference internal image-reference" href="_images/urdf_example.png"><img alt="_images/urdf_example.png" class="align-center" src="_images/urdf_example.png" style="width: 20%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<p>Our goal now is to replicate this:</p>
+<a class="reference internal image-reference" href="_images/urdf_example_final.png"><img alt="_images/urdf_example_final.png" class="align-center" src="_images/urdf_example_final.png" style="width: 50%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<p>For each of the following steps, update the code and visualize the result in Rviz. Reflect on the purpose of each origin setting. If you have any questions, don’t hesitate to ask, it is crucial to understand this process.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Set all origins to zero (this is already the case)</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Set the origin for the visual of the base_link</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0.3&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Set the joint origin</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.1 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Set the origin for the visual of the second_link</p></li>
+</ol>
+<ol class="loweralpha simple">
+<li><p>Rotation</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 1.57 0&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Translation</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.4 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 1.57 0&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Question</strong>: Which origin setting is most critical for ensuring that your robot’s movements and positions are accurately represented in ROS2 simulations?</p>
+<ol class="loweralpha simple" start="4">
+<li><p>Explore the different joint types</p></li>
+</ol>
+<p>Now, let’s experiment with the two links by trying out different joint types. Simply replace the existing joint with one of the examples below. For each joint type, visualize the result in Rviz and use the Joint State Publisher GUI to observe how the parts move.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Revolute</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;revolute&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;second_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.1 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;axis</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;1 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;limit</span><span class="w"> </span><span class="na">lower=</span><span class="s">&quot;-1.57&quot;</span><span class="w"> </span><span class="na">upper=</span><span class="s">&quot;1.57&quot;</span><span class="w"> </span><span class="na">velocity=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">effort=</span><span class="s">&quot;10&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/joint&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Continuous</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;second_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.1 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;axis</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;1 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/joint&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Prismatic</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;prismatic&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;second_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.1 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;axis</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;1 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;limit</span><span class="w"> </span><span class="na">lower=</span><span class="s">&quot;0.0&quot;</span><span class="w"> </span><span class="na">upper=</span><span class="s">&quot;0.5&quot;</span><span class="w"> </span><span class="na">velocity=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">effort=</span><span class="s">&quot;10&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/joint&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ol>
+<p>Reaching this point means you now have a better understanding of what a URDF is. You are equipped with the essential tools to finally practice building your first robot model on your own. Let’s get started!</p>
+<section id="thymio-step-1">
+<h3>Thymio - Step 1<a class="headerlink" href="#thymio-step-1" title="Link to this heading"></a></h3>
+<p>As mentioned in the introduction, today’s goal is to create a Thymio model that works well in simulation. In addition to building the model, you will set up custom methods to launch applications like Rviz and Gazebo, ensuring they function correctly with your robot. The task is divided into 10 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.</p>
+<p>Start by creating a new file named <em>thymio.urdf</em> in the <em>/urdf/thymio</em> directory. Use the provided specifications to guide you through the process, and remember to consistently use Rviz to visualize your progress.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Specifications</p></th>
+<th class="head"><p>Color</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Base link</strong></p></td>
+<td><p><em>Box:</em>
+Length = 11 cm |
+Width = 11.2 cm |
+Height = 4.4 cm
+<div style="margin-top: 5px;"></div>
+<em>Ground clearance:</em> 4.5 mm</p></td>
+<td><p>White</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Caster wheel</strong></p></td>
+<td><p><em>Sphere:</em>
+Radius = 9 mm</p></td>
+<td><p>White</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Wheels</strong></p></td>
+<td><p><em>Cylinder:</em>
+Length = 1.5 cm |
+Radius = 2.2 cm</p></td>
+<td><p>Black</p></td>
+</tr>
+</tbody>
+</table>
+<p>Refer to the following drawing to correctly place the different links:</p>
+<a class="reference internal image-reference" href="_images/thymio_spec.png"><img alt="_images/thymio_spec.png" class="align-center" src="_images/thymio_spec.png" style="width: 60%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<div class="admonition-hints admonition">
+<p class="admonition-title">Hints</p>
+<div class="toggle docutils container">
+<ul class="simple">
+<li><p>The ground clearance information should be sufficient to define all the heights</p></li>
+<li><p>Carefully consider where the TFs should be positioned (this is crucial!)</p></li>
+<li><p>Use the following command to visualize the model in Rviz:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">launch</span> <span class="n">urdf_tutorial</span> <span class="n">display</span><span class="o">.</span><span class="n">launch</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">:=/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">ros2_basics_ws</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">thymio_description</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">thymio_description</span><span class="o">/</span><span class="n">urdf</span><span class="o">/</span><span class="n">thymio</span><span class="o">/</span><span class="n">thymio</span><span class="o">.</span><span class="n">urdf</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The final visual result should look like this:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/thymio_look.png"><img alt="_images/thymio_look.png" class="align-center" src="_images/thymio_look.png" style="width: 60%;" />
+</a>
+</div>
+</div>
+</section>
+</section>
+<section id="improved-urdf-xacro">
+<h2>Improved URDF - Xacro<a class="headerlink" href="#improved-urdf-xacro" title="Link to this heading"></a></h2>
+<p>Congratulations on completing the simplified Thymio model! Now, to prepare for the next step, consider this question: <strong>What happens if we change the dimensions of the base_link?</strong></p>
+<p>Try answering this by modifying the width of the <code class="docutils literal notranslate"><span class="pre">base_link</span></code> to 6.6 cm instead of 11.2 cm.</p>
+<p>You will notice that the wheels are no longer correctly aligned with the sides of the <code class="docutils literal notranslate"><span class="pre">base_link</span></code>. This is because the current URDF uses hardcoded values. Any change to one dimension requires manual updates to other dependent dimensions. While manageable for a small file, this approach is likely to cause mistakes and become inefficient for larger models.</p>
+<p>In programming, this problem is typically solved by using variables to define relationships between dimensions, ensuring automatic updates when one value changes. While URDF does not support variables, <strong>Xacro</strong>, an extension of URDF, solves this issue. Xacro allows for:</p>
+<ul class="simple">
+<li><p><strong>Parametrization</strong>: Define variables for dynamic adjustments.</p></li>
+<li><p><strong>Simplification</strong>: Use macros, constants, math operations, and conditional logic.</p></li>
+<li><p><strong>Modularity</strong>: Organize your robot description into multiple files.</p></li>
+</ul>
+<p>To use Xacro, you write your file using its extended syntax and process it with the <em>xacro</em> tool to generate a complete URDF that ROS2 can use. Let’s apply this to our example and see how it works in practice.</p>
+<ol class="arabic simple">
+<li><p>Rename the file</p></li>
+</ol>
+<p>First, rename the previous example file to include the Xacro extension: <em>example.urdf.xacro</em></p>
+<ol class="arabic simple" start="2">
+<li><p>Xacro compatibility</p></li>
+</ol>
+<p>To enable the use of xacro in our file, we need to adjust the robot tag as follow:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="w"> </span><span class="na">xmlns:xacro=</span><span class="s">&quot;http://wwww.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Mathematical operations</p></li>
+</ol>
+<p>Xacro enables various mathematical operations, including the use of the constant pi, often needed for adjusting link orientations. For example, the <code class="docutils literal notranslate"><span class="pre">second_link</span></code> origin can be rewritten as:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.4 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 ${pi / 2.0} 0&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Variables</p></li>
+</ol>
+<p>Variables can be defined like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link_length&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.2&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link_width&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.3&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link_height&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.6&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>And used as shown here:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;${base_link_length} ${base_link_width} ${base_link_height}&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Macros</p></li>
+</ol>
+<p>Xacro supports defining reusable functions called macros. For example, a macro to define a box with length, width, and height as parameters can be written as:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;xacro:macro</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;box&quot;</span><span class="w"> </span><span class="na">params=</span><span class="s">&quot;length width height&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;${length} ${width} ${height}&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/xacro:macro&gt;</span>
+</pre></div>
+</div>
+<p>You can then call it at the desired location with the required parameters:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;xacro:box</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;${base_link_length}&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;${base_link_width}&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;${base_link_height}&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Multiple files</p></li>
+</ol>
+<p>To simplify the process, it is a good practice to split the URDF into multiple files. Typically, one main file includes all other Xacro files. To distinguish them, use the extension <em>.urdf.xacro</em> for the main file and <em>.xacro</em> for the others.</p>
+<p>For example, let’s create a new file to define colors. Name it <em>example_materials.xacro</em> and save it in the <em>/urdf/example</em> directory. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">xmlns:xacro=</span><span class="s">&quot;http://wwww.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0 0 1 1&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/material&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;green&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0 1 0 1&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/material&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>You can include this file in other files using:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;xacro:include</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;example_materials.xacro&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When including multiple files:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;xacro:include</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;file1.xacro&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xacro:include</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;file2.xacro&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>The second file can use variables or materials defined in the first file because it is included beforehand. You do not need to re-include <em>file1.xacro</em> in <em>file2.xacro</em>.</p>
+</div>
+<ol class="arabic simple" start="7">
+<li><p><em>example.urdf.xacro</em></p></li>
+</ol>
+<p>Below is the final version of the improved URDF file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="w"> </span><span class="na">xmlns:xacro=</span><span class="s">&quot;http://wwww.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;xacro:include</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;example_materials.xacro&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link_length&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.2&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link_width&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.3&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link_height&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.6&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_length&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.8&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;xacro:property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_radius&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.05&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;xacro:macro</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;box&quot;</span><span class="w"> </span><span class="na">params=</span><span class="s">&quot;length width height&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;${length} ${width} ${height}&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/xacro:macro&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 ${base_link_height / 2.0}&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;xacro:box</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;${base_link_length}&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;${base_link_width}&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;${base_link_height}&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;green&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">            </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;${second_link_length / 2.0} 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 ${pi / 2.0} 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">                </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;${second_link_length}&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;${second_link_radius}&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/visual&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;second_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;${base_link_length / 2.0} 0 ${base_link_height / 2.0}&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/joint&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice that the file no longer contains hardcoded values. Instead, five variables are used to define the links and joint accurately. While using a macro to define a single box may be excessive here, it serves to demonstrate how macros work.</p>
+</div>
+<section id="thymio-step-2">
+<h3>Thymio - Step 2<a class="headerlink" href="#thymio-step-2" title="Link to this heading"></a></h3>
+<p>Let’s put this knowledge into practice. The goal is to enhance the previous URDF by utilizing Xacro’s features. Follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Use the pi constant where needed</p></li>
+<li><p>Define variables and replace hardcoded values</p></li>
+<li><p>Create a macro for the wheel links and reuse it for both wheels</p></li>
+<li><p>Split the URDF into three files: <em>materials.xacro</em>, <em>thymio_chassis.xacro</em>, and <em>thymio.urdf.xacro</em></p></li>
+</ol>
+<p>Additionally, remember to apply mathematical operations wherever possible.</p>
+<p>Once again, refer to the drawing below for the key dimensions:</p>
+<a class="reference internal image-reference" href="_images/thymio_spec.png"><img alt="_images/thymio_spec.png" class="align-center" src="_images/thymio_spec.png" style="width: 60%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<div class="admonition-hints admonition">
+<p class="admonition-title">Hints</p>
+<div class="toggle docutils container">
+<ul class="simple">
+<li><p>Eight variables are sufficient to define all links and joints: <code class="docutils literal notranslate"><span class="pre">base_length</span></code>, <code class="docutils literal notranslate"><span class="pre">base_width</span></code>, <code class="docutils literal notranslate"><span class="pre">base_height</span></code>, <code class="docutils literal notranslate"><span class="pre">ground_clearance</span></code>, <code class="docutils literal notranslate"><span class="pre">caster_wheel_radius</span></code>, <code class="docutils literal notranslate"><span class="pre">wheel_radius</span></code>, <code class="docutils literal notranslate"><span class="pre">wheel_width</span></code>, <code class="docutils literal notranslate"><span class="pre">wheel_offset</span></code></p></li>
+<li><p>Some variables can depend on others</p></li>
+<li><p>Position the caster wheel and wheels relative to the base’s length and width</p></li>
+<li><p>The final visual, with the <code class="docutils literal notranslate"><span class="pre">base_length</span></code> increased and the <code class="docutils literal notranslate"><span class="pre">base_width</span></code> reduced by a factor of two, should appear as follows:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/thymio_xacro.png"><img alt="_images/thymio_xacro.png" class="align-center" src="_images/thymio_xacro.png" style="width: 60%;" />
+</a>
+</div>
+</div>
+</section>
+</section>
+<section id="parameters-overview">
+<h2>Parameters Overview<a class="headerlink" href="#parameters-overview" title="Link to this heading"></a></h2>
+<p>Let’s take a break from URDFs for a moment and explore another essential concept in ROS2: <strong>parameters</strong>. Parameters are configurable values that allow to reuse the same node with differents settings.</p>
+<p>To understand their importance, let’s revisit an example from the previous session: the <em>Heat Index Monitoring System</em>. We used a temperature sensor and a humidity sensor to calculate the heat index. Now, imagine we want to extend this setup by adding a second temperature sensor, but with different settings, such as a unique publish frequency.</p>
+<p>What happens if we try to achieve this without parameters? We might end up duplicating the existing node just to adjust the frequency. This approach quickly becomes inefficient and difficult to manage as the system grows in complexity.</p>
+<p>Fortunately, ROS2 parameters provide an elegant solution. They let us configure settings, like the publish frequency, directly from the run command without modifying or duplicating the node’s code. A parameter passed as an argument dynamically updates a variable in the node, enabling efficient customization.</p>
+<p>To summarize, ROS2 parameters enable:</p>
+<ul class="simple">
+<li><p><strong>Customization</strong>: Define robot-specific configurations (e.g. sensor settings)</p></li>
+<li><p><strong>Flexibility</strong>: Adjust node behavior without modifying or rebuilding the code</p></li>
+<li><p><strong>Efficiency</strong>: Reuse the same node with different parameter values</p></li>
+</ul>
+<p>Let’s see how parameters work in practice by modifying the first publisher node we created in session 1. We will define the publish frequency as a parameter, allowing us to change its value directly when running the node from the terminal.</p>
+<ol class="arabic simple">
+<li><p>Open the file</p></li>
+</ol>
+<p>Open <em>publisher.py</em> in the <em>ros2_basics_pkg</em> package.</p>
+<ol class="arabic simple" start="2">
+<li><p>Modify the publisher</p></li>
+</ol>
+<p>Replace the contents of <em>publisher.py</em> with the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
+<span class="kn">from</span> <span class="nn">rclpy.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="k">class</span> <span class="nc">MinimalPublisher</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;minimal_publisher&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publisher_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_publisher</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_parameter</span><span class="p">(</span><span class="s2">&quot;publish_frequency&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publish_frequency_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="s2">&quot;publish_frequency&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_timer</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_frequency_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer_callback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">timer_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;Hello World: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publisher_</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Publishing: &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">minimal_publisher</span> <span class="o">=</span> <span class="n">MinimalPublisher</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">minimal_publisher</span><span class="p">)</span>
+    <span class="n">minimal_publisher</span><span class="o">.</span><span class="n">destroy_node</span><span class="p">()</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Question:</strong> What are the essential steps involved in working with a parameter?</p>
+<ol class="arabic simple" start="3">
+<li><p>Build the package</p></li>
+</ol>
+<p><div style="margin-top: 5px;"></div></p>
+<ol class="arabic simple" start="4">
+<li><p>Test the publisher with different frequencies</p></li>
+</ol>
+<p>Run the node and set the publish frequency using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>ros2_basics_pkg<span class="w"> </span>publisher_node<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>publish_frequency:<span class="o">=</span><span class="m">4</span>.0
+</pre></div>
+</div>
+<p><strong>Question</strong>: What happens if no parameter value is provided during execution? Why?</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can verify the frequency at which messages are published using the following command: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">hz</span> <span class="pre">&lt;topic_name&gt;</span></code>.</p>
+</div>
+</section>
+<section id="launch-files-overview">
+<h2>Launch Files Overview<a class="headerlink" href="#launch-files-overview" title="Link to this heading"></a></h2>
+</section>
+<section id="gazebo-overview">
+<h2>Gazebo Overview<a class="headerlink" href="#gazebo-overview" title="Link to this heading"></a></h2>
+</section>
+<section id="complete-urdf-collision-inertial">
+<h2>Complete URDF - Collision &amp; Inertial<a class="headerlink" href="#complete-urdf-collision-inertial" title="Link to this heading"></a></h2>
+</section>
+<section id="gazebo-plugins">
+<h2>Gazebo Plugins<a class="headerlink" href="#gazebo-plugins" title="Link to this heading"></a></h2>
+</section>
+<section id="gazebo-worlds">
+<h2>Gazebo Worlds<a class="headerlink" href="#gazebo-worlds" title="Link to this heading"></a></h2>
+</section>
 </section>
 
 

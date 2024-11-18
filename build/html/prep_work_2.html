@@ -71,6 +71,7 @@
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#ros2-installation">ROS2 Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#ros2-project-build">ROS2 Project Build</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#first-node">First Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#communication-overview">Communication Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#topics-overview">Topics Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#exercise-1">Exercise 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#services-overview">Services Overview</a></li>
@@ -82,7 +83,20 @@
 <li class="toctree-l2"><a class="reference internal" href="#exercise-2">Exercise 2</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session_2.html">Session 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#urdf-tutorial-example">URDF Tutorial Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#urdf-overview">URDF Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#minimal-urdf-visual">Minimal URDF - Visual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#improved-urdf-xacro">Improved URDF - Xacro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#parameters-overview">Parameters Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#launch-files-overview">Launch Files Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-overview">Gazebo Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#complete-urdf-collision-inertial">Complete URDF - Collision &amp; Inertial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-plugins">Gazebo Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-worlds">Gazebo Worlds</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-overview">Turtlesim Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-challenge">Turtlesim Challenge</a></li>
@@ -122,7 +136,7 @@
 <p>Let’s be honnest, the previous session was quite intense! We covered a lot of foundational topics, and it is perfectly normal if everything is not fully clear yet. Today, we will go through an example to give you a practical reminder of what we learned. By the end, you should have a better idea of how a ROS2 project is typically structured and how its core components work together.</p>
 <p>Here, we will use an example with the Thymio robot, which you can see in the image below. This diagram represents a ROS2 project setup for the Thymio, organized into different components that reflect the main concepts we covered: workspaces, packages, nodes, topics, and services. Let’s go through each part to see how these concepts come to life in a real project.</p>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="_images/thymio_example.png"><img alt="_images/thymio_example.png" src="_images/thymio_example.png" style="width: 90%;" />
+<a class="reference internal image-reference" href="img/thymio_example.png"><img alt="img/thymio_example.png" src="img/thymio_example.png" style="width: 90%;" />
 </a>
 <figcaption>
 <p><span class="caption-text">Thymio Example - Overview of a ROS2 project structure</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
@@ -213,9 +227,9 @@
 <p class="admonition-title">Hints</p>
 <div class="toggle docutils container">
 <ul class="simple">
-<li><p>Utilize the <em>ros2_basics_interface</em> to define your custom service</p></li>
+<li><p>Utilize the <em>ros2_basics_interfaces</em> package to define your custom service</p></li>
 <li><p>Consider developing your nodes in a new package (optional)</p></li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span> <span class="pre">--symlink-install</span></code> to easily test new parameters with the client</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span> <span class="pre">--packages-select</span> <span class="pre">&lt;pkg_name&gt;</span> <span class="pre">--symlink-install</span></code> to easily test new parameters with the client</p></li>
 </ul>
 </div>
 </div>

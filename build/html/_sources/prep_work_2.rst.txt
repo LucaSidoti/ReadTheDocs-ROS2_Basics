@@ -95,6 +95,6 @@ Create a ROS2 system with a service that validates a rover’s mission before la
 
   .. toggle::
 
-    * Utilize the *ros2_basics_interface* to define your custom service
+    * Utilize the *ros2_basics_interfaces* package to define your custom service
     * Consider developing your nodes in a new package (optional)
-    * Use ``colcon build --symlink-install`` to easily test new parameters with the client
+    * Use ``colcon build --packages-select <pkg_name> --symlink-install`` to easily test new parameters with the client
