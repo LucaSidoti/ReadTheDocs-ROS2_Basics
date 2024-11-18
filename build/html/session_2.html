@@ -222,7 +222,7 @@ installation</p></td>
 <p>The answer lies in <strong>Transform Frames (TFs)</strong>. These frames represent the spatial relationships (positions and orientations) between the robot’s parts and its environment. TFs enable ROS2 to continuously track how each part of the robot moves in relation to others. By maintaining structured relationships between frames, TFs play a crucial role in various robotic tasks.</p>
 <p>Each frame has three axes: x (red), y (green), and z (blue), representing its orientation in 3D space. If you uncheck the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> in Rviz, you can see that the TFs form a tree-like structure, showing how the robot’s rigid parts are connected.</p>
 <p>To better visualize the TF hierarchy, you can use the <em>view_frames</em> tool provided by the <em>tf2_tools</em> package. Open a terminal and run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ros2_basics_ws/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/
 ros2<span class="w"> </span>run<span class="w"> </span>tf2_tools<span class="w"> </span>view_frames
 </pre></div>
 </div>
@@ -939,6 +939,244 @@ Radius = 2.2 cm</p></td>
 </section>
 <section id="launch-files-overview">
 <h2>Launch Files Overview<a class="headerlink" href="#launch-files-overview" title="Link to this heading"></a></h2>
+<p>In this section, we shift focus back to the visualization aspects of ROS2, closing the parenthesis on parameters. So far, we have relied on a convenient command from the <em>urdf_tutorial</em> package to visualize URDF files in Rviz. But how exactly does this command work? Let’s delve into the concept of launch files to uncover the mechanics behind it.</p>
+<p>First, let’s recall the command we used previously to display a URDF in Rviz:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>&lt;path_to_urdf&gt;
+</pre></div>
+</div>
+<p>You might have been wondering, what does the <em>launch</em> command do? Simply put, it runs a <strong>launch file</strong>. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.</p>
+<p>Launch files provide a structured way to define:</p>
+<ul class="simple">
+<li><p>Which nodes to run</p></li>
+<li><p>Node-specific parameters</p></li>
+<li><p>Topic or service remappings</p></li>
+</ul>
+<p>Launch files can be written in <strong>Python</strong>, <strong>XML</strong>, or <strong>YAML</strong>. For simplicity and conciseness, we will use XML in this course.</p>
+<p>Let’s revisit an example from session 1 to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously start four nodes with their appropriate configurations.</p>
+<a class="reference internal image-reference" href="_images/task2.png"><img alt="_images/task2.png" class="align-center" src="_images/task2.png" style="width: 60%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<ol class="arabic simple">
+<li><p>Create the launch file</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/thymio_description/launch/
+touch<span class="w"> </span>touch<span class="w"> </span>example.launch.xml
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Add content to the file</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;launch&gt;</span>
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;talker&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;stress&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;talker&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;BA1_students&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;listener&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;BA2&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;listener&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MAN&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+<p><strong>Question</strong>: What are the essential elements of a launch file?</p>
+<ol class="arabic simple" start="3">
+<li><p>Build the package</p></li>
+</ol>
+<p><div style="margin-top: 5px;"></div></p>
+<ol class="arabic simple" start="4">
+<li><p>Launch the launch file</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>example.launch.xml
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Visualize the result</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rqt_graph
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.</p>
+</div>
+<p>Now that you know that a launch file start multiple nodes at the same time, let’s discover what the <em>display.launch.py</em> actually launch.</p>
+<ol class="arabic simple">
+<li><p>Run the launch command with the Thymio model</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Visualize the graph</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rqt_graph
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Configure the <em>Node Graph</em></p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/rqt_config.png"><img alt="_images/rqt_config.png" class="align-center" src="_images/rqt_config.png" style="width: 70%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<p>Looking at the <em>rqt_graph</em>, we see two main nodes interacting: <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code> and <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code>. The <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> handles TFs in ROS2 by relying on joint information published by the <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code> is a GUI tool that lets us adjust joint positions virtually. In a real-world scenario, joint positions would be published by hardware sensors, such as encoders.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> to work, it needs the URDF, which defines the robot’s structure and joint placements. This URDF file is passed as a parameter during the launch process. But where exactly can we find it? Let’s explore this:</p>
+<ol class="arabic simple">
+<li><p>List the different nodes</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>node<span class="w"> </span>list
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>List the parameter of the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> node</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>param<span class="w"> </span>list<span class="w"> </span>/robot_state_publisher
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Check the content of the <em>robot_description</em> parameter</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>param<span class="w"> </span>get<span class="w"> </span>/robot_state_publisher<span class="w"> </span>robot_description
+</pre></div>
+</div>
+<p>Now that we have located the parameter containing the Thymio robot’s URDF, let’s take a closer look. This parameter holds the complete description of the robot, which was originally split across three files. Using the <em>xacro</em> tool, these files were combined into a single, unified URDF. You can confirm this in the terminal, where the file header states: <em>This document was autogenerated by xacro</em>.</p>
+<p>To summarize, let’s refer to the following image for a visual representation:</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="_images/robot_description.png"><img alt="_images/robot_description.png" src="_images/robot_description.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="https://articulatedrobotics.xyz/tutorials/ready-for-ros/urdf" rel="noopener noreferrer" target="_blank">Describing robots with URDF (Articulated Robotics)</a></span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Here’s a quick recap of the roles of the two nodes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Updates the robot model and TFs in real-time</p></li>
+<li><p>Requires the URDF file as a parameter to define the robot’s structure</p></li>
+<li><p>Relies on joint position data to reflect changes in the robot’s state</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Provides virtual joint positions in simulation</p></li>
+<li><p>Replaced by hardware sensors, such as encoders, in real-world applications</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>Now that we understand the key components behind this launch process, let’s run each node individually in separate terminals to see how they work.</p>
+<ol class="arabic simple">
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> node</p></li>
+</ol>
+<p>From the previous explanation, we need to launch the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> node and provide the URDF file as a parameter. Additionally, we must use the <em>xacro</em> tool to combine the Xacro files into a single URDF file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>robot_state_publisher<span class="w"> </span>robot_state_publisher<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>robot_description:<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>xacro<span class="w"> </span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro<span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code> node</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>joint_state_publisher_gui<span class="w"> </span>joint_state_publisher_gui
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Run <em>Rviz</em></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>rviz2<span class="w"> </span>rviz2
+</pre></div>
+</div>
+<p>At this stage, nothing is visible in Rviz. To proceed, you need to configure the interface with the required display settings. Start by adding the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> and <code class="docutils literal notranslate"><span class="pre">TF</span></code> plugins, and then adjust their options as follows:</p>
+<a class="reference internal image-reference" href="_images/Rviz_config.png"><img alt="_images/Rviz_config.png" class="align-center" src="_images/Rviz_config.png" style="width: 40%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Save the configuration in the <em>rviz</em> directory of the <em>thymio_description</em> package. In Rviz, navigate to <em>File &gt; Save Config As</em> and select the appropriate location. This saves your current setup exactly as it appears on your screen. In the next task, you will add this configuration to a launch file, making it convenient to avoid reconfiguring Rviz each time.</p>
+<p>The terminal command would look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">run</span> <span class="n">rviz2</span> <span class="n">rviz2</span> <span class="o">-</span><span class="n">d</span> <span class="s2">&quot;/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/rviz/&lt;config_name&gt;.rviz&quot;</span>
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Run <em>rqt_graph</em></p></li>
+</ol>
+<p>Finally, notice that the result is identical to what we achieved using the <em>display.launch.py</em> file from the <em>urdf_tutorial</em> package.</p>
+<section id="thymio-step-3">
+<h3>Thymio - Step 3<a class="headerlink" href="#thymio-step-3" title="Link to this heading"></a></h3>
+<p>The next challenge is to create a launch file that starts the following three executables simultaneously: <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code>, <code class="docutils literal notranslate"><span class="pre">joint_state_publisher_gui</span></code>, and <code class="docutils literal notranslate"><span class="pre">rviz2</span></code>. Ensure that Rviz is launched with the configuration file you previously saved to maintain your custom display settings.</p>
+<p>To assist you, a generic example is provided below, which should give you the tools necessary to complete the task. Additionally, it is highly recommended to review the terminal commands previously used to start each executable individually, as these will help you structure your launch file.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;launch&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Define an argument for a file path --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file_path&quot;</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;$(find-pkg-share &lt;package_name&gt;)/&lt;path_to_file&gt;&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Use the argument to parse a file with a command and set it as a parameter --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;&lt;package_name&gt;&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;&lt;executable_name&gt;&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;&lt;parameter_name&gt;&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(command &#39;tool_name $(var file_path)&#39;)&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Use the argument as a command-line argument --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;&lt;package_name&gt;&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;&lt;executable_name&gt;&quot;</span><span class="w"> </span><span class="na">args=</span><span class="s">&quot;-a $(var file_path)&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+<p>After successfully creating and testing your launch file, compare it with the Python version provided below:</p>
+<div class="admonition-python-launch-file admonition">
+<p class="admonition-title">Python Launch File</p>
+<div class="toggle docutils container">
+<p>Python launch files may be slightly more complex to write, but they provide greater flexibility.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">launch_ros.actions</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span> <span class="nn">launch.substitutions</span> <span class="kn">import</span> <span class="n">Command</span>
+<span class="kn">from</span> <span class="nn">launch_ros.parameter_descriptions</span> <span class="kn">import</span> <span class="n">ParameterValue</span>
+<span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_path</span>
+
+<span class="k">def</span> <span class="nf">generate_launch_description</span><span class="p">():</span>
+
+    <span class="n">urdf_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_package_share_path</span><span class="p">(</span><span class="s1">&#39;thymio_description&#39;</span><span class="p">),</span>
+                             <span class="s1">&#39;urdf&#39;</span><span class="p">,</span> <span class="s1">&#39;thymio.urdf.xacro&#39;</span><span class="p">)</span>
+
+    <span class="n">rviz_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_package_share_path</span><span class="p">(</span><span class="s1">&#39;thymio_description&#39;</span><span class="p">),</span>
+                                    <span class="s1">&#39;rviz&#39;</span><span class="p">,</span> <span class="s1">&#39;rviz_config.rviz&#39;</span><span class="p">)</span>
+
+    <span class="n">robot_description</span> <span class="o">=</span> <span class="n">ParameterValue</span><span class="p">(</span><span class="n">Command</span><span class="p">([</span><span class="s1">&#39;xacro &#39;</span><span class="p">,</span> <span class="n">urdf_path</span><span class="p">]),</span> <span class="n">value_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="n">robot_state_publisher_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+        <span class="n">package</span><span class="o">=</span><span class="s2">&quot;robot_state_publisher&quot;</span><span class="p">,</span>
+        <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;robot_state_publisher&quot;</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;robot_description&#39;</span><span class="p">:</span> <span class="n">robot_description</span><span class="p">}]</span>
+    <span class="p">)</span>
+
+    <span class="n">joint_state_publisher_gui_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+        <span class="n">package</span><span class="o">=</span><span class="s2">&quot;joint_state_publisher_gui&quot;</span><span class="p">,</span>
+        <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;joint_state_publisher_gui&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">rviz2_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+        <span class="n">package</span><span class="o">=</span><span class="s2">&quot;rviz2&quot;</span><span class="p">,</span>
+        <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;rviz2&quot;</span><span class="p">,</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">rviz_config_path</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">robot_state_publisher_node</span><span class="p">,</span>
+        <span class="n">joint_state_publisher_gui_node</span><span class="p">,</span>
+        <span class="n">rviz2_node</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="gazebo-overview">
 <h2>Gazebo Overview<a class="headerlink" href="#gazebo-overview" title="Link to this heading"></a></h2>

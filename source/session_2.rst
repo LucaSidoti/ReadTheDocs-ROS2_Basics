@@ -97,7 +97,7 @@ To better visualize the TF hierarchy, you can use the *view_frames* tool provide
 
 .. code-block:: bash
 
-    cd ros2_basics_ws/
+    cd ~/ros2_basics_ws/
     ros2 run tf2_tools view_frames 
 
 After about five seconds, a PDF will be generated in your workspace. This file provides a clear tree structure of the robot’s TFs. The ``base_link`` is the root of the TF tree, and all other frames are connected as branches. Each branch connects a **parent link** to a **child link**, meaning that if the parent link moves, the child link will move accordingly.
@@ -983,6 +983,278 @@ Run the node and set the publish frequency using the following command:
 
 Launch Files Overview
 ---------------------
+
+In this section, we shift focus back to the visualization aspects of ROS2, closing the parenthesis on parameters. So far, we have relied on a convenient command from the *urdf_tutorial* package to visualize URDF files in Rviz. But how exactly does this command work? Let’s delve into the concept of launch files to uncover the mechanics behind it.
+
+First, let’s recall the command we used previously to display a URDF in Rviz:
+
+.. code-block:: bash
+
+    ros2 launch urdf_tutorial display.launch.py model:=<path_to_urdf>
+
+You might have been wondering, what does the *launch* command do? Simply put, it runs a **launch file**. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.
+
+Launch files provide a structured way to define:
+
+* Which nodes to run
+* Node-specific parameters
+* Topic or service remappings
+
+Launch files can be written in **Python**, **XML**, or **YAML**. For simplicity and conciseness, we will use XML in this course.
+
+Let’s revisit an example from session 1 to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously start four nodes with their appropriate configurations.
+
+.. image:: img/task2.png
+    :align: center
+    :width: 60%
+
+.. |spacer| raw:: html
+
+    <div style="margin-top: 5px;"></div>
+
+|spacer|
+
+1. Create the launch file
+
+.. code-block:: bash
+
+    cd ~/ros2_basics_ws/src/thymio_description/launch/
+    touch touch example.launch.xml
+
+2. Add content to the file
+
+.. code-block:: xml
+
+    <launch>
+        <node pkg="demo_nodes_py" exec="talker" name="stress">
+            <remap from="chatter" to="exams"/>
+        </node>
+
+        <node pkg="demo_nodes_py" exec="talker" name="BA1_students">
+            <remap from="chatter" to="exams"/>
+        </node>
+
+        <node pkg="demo_nodes_py" exec="listener" name="BA2">
+            <remap from="chatter" to="exams"/>
+        </node>
+
+        <node pkg="demo_nodes_py" exec="listener" name="MAN">
+            <remap from="chatter" to="exams"/>
+        </node>
+    </launch>
+
+**Question**: What are the essential elements of a launch file?
+
+3. Build the package
+
+|spacer|
+
+4. Launch the launch file
+
+.. code-block:: bash
+
+    ros2 launch thymio_description example.launch.xml 
+
+5. Visualize the result
+
+.. code-block:: bash
+
+    rqt_graph
+
+.. note:: 
+
+    Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.
+
+Now that you know that a launch file start multiple nodes at the same time, let's discover what the *display.launch.py* actually launch.
+
+1. Run the launch command with the Thymio model
+
+.. code-block:: bash
+    
+    ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro
+
+2. Visualize the graph
+
+.. code-block:: bash
+
+    rqt_graph 
+
+3. Configure the *Node Graph*
+
+.. image:: img/rqt_config.png
+    :align: center
+    :width: 70%
+
+|spacer|
+
+.. As you can see, we have two main nodes that are running: ``joint_state_publisher`` and ``robot_state_publisher``. The ``robot_state_publisher`` is the node that is in charge of keeping track of the TFs in ROS2. All its needs is to know is where the joints are placed and this is provided by the ``joint_state_publisher`` node that publishes on the ``joint_states`` topic. Here, the ``joint_state_publisher`` is GUI interface that allows us to play with the movable joints and provides the virtual positioning of the joints. In real life, the joint information would be given by sensors such as encoders.
+.. Previously, we mentioned that we needed to provide the URDF to ROS2 so that it can correctly manage the TFs. Indeed, this is a requirement for the ``robot_state_publisher`` to work. But, where is the URDF located? This is time to exploit our knowledge on parameters! When we use the launch command we always provide the path to our URDF file which is a parameter that we give to this ``robot_state_publisher`` node. Are you not convinced? Ok, let's prove it then:
+
+Looking at the *rqt_graph*, we see two main nodes interacting: ``joint_state_publisher`` and ``robot_state_publisher``. The ``robot_state_publisher`` handles TFs in ROS2 by relying on joint information published by the ``joint_state_publisher``. In this case, the ``joint_state_publisher`` is a GUI tool that lets us adjust joint positions virtually. In a real-world scenario, joint positions would be published by hardware sensors, such as encoders.
+
+For the ``robot_state_publisher`` to work, it needs the URDF, which defines the robot's structure and joint placements. This URDF file is passed as a parameter during the launch process. But where exactly can we find it? Let’s explore this:
+
+1. List the different nodes
+
+.. code-block:: bash
+
+    ros2 node list
+
+2. List the parameter of the ``robot_state_publisher`` node
+
+.. code-block:: bash
+
+    ros2 param list /robot_state_publisher 
+
+3. Check the content of the *robot_description* parameter
+
+.. code-block:: bash
+
+    ros2 param get /robot_state_publisher robot_description 
+
+Now that we have located the parameter containing the Thymio robot’s URDF, let’s take a closer look. This parameter holds the complete description of the robot, which was originally split across three files. Using the *xacro* tool, these files were combined into a single, unified URDF. You can confirm this in the terminal, where the file header states: *This document was autogenerated by xacro*.
+
+To summarize, let’s refer to the following image for a visual representation:
+
+.. figure:: img/robot_description.png
+    :align: center
+    :width: 80%
+
+    `Describing robots with URDF (Articulated Robotics) <https://articulatedrobotics.xyz/tutorials/ready-for-ros/urdf>`_
+
+.. In conclusion, the ``robot_state_publisher`` update the robot model and TFs over time as long as it has been provided with the URDF file as a parameter and as long as it receives information on the joint positions. The ``joint_state_publisher`` gives the virtual position of the joints which is replace by sensors in real-life applications.
+
+Here’s a quick recap of the roles of the two nodes:
+
+* ``robot_state_publisher``:
+
+    * Updates the robot model and TFs in real-time
+    * Requires the URDF file as a parameter to define the robot's structure
+    * Relies on joint position data to reflect changes in the robot's state
+
+* ``joint_state_publisher``:
+
+    * Provides virtual joint positions in simulation
+    * Replaced by hardware sensors, such as encoders, in real-world applications
+
+Now that we understand the key components behind this launch process, let’s run each node individually in separate terminals to see how they work.
+
+1. Run the ``robot_state_publisher`` node
+
+From the previous explanation, we need to launch the ``robot_state_publisher`` node and provide the URDF file as a parameter. Additionally, we must use the *xacro* tool to combine the Xacro files into a single URDF file.
+
+.. code-block:: bash
+
+    ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$(xacro /home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro)"
+
+2. Run the ``joint_state_publisher`` node
+
+.. code-block:: bash
+
+    ros2 run joint_state_publisher_gui joint_state_publisher_gui 
+
+3. Run *Rviz*
+
+.. code-block:: bash
+
+    ros2 run rviz2 rviz2
+
+At this stage, nothing is visible in Rviz. To proceed, you need to configure the interface with the required display settings. Start by adding the ``RobotModel`` and ``TF`` plugins, and then adjust their options as follows:
+
+.. image:: img/Rviz_config.png
+    :align: center
+    :width: 40%
+
+|spacer|
+
+.. important::
+
+    Save the configuration in the *rviz* directory of the *thymio_description* package. In Rviz, navigate to *File > Save Config As* and select the appropriate location. This saves your current setup exactly as it appears on your screen. In the next task, you will add this configuration to a launch file, making it convenient to avoid reconfiguring Rviz each time.
+
+    The terminal command would look like this: 
+
+    .. code-block::
+
+        ros2 run rviz2 rviz2 -d "/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/rviz/<config_name>.rviz"
+
+4. Run *rqt_graph*
+
+Finally, notice that the result is identical to what we achieved using the *display.launch.py* file from the *urdf_tutorial* package.
+
+Thymio - Step 3
+~~~~~~~~~~~~~~~
+
+The next challenge is to create a launch file that starts the following three executables simultaneously: ``robot_state_publisher``, ``joint_state_publisher_gui``, and ``rviz2``. Ensure that Rviz is launched with the configuration file you previously saved to maintain your custom display settings.
+
+To assist you, a generic example is provided below, which should give you the tools necessary to complete the task. Additionally, it is highly recommended to review the terminal commands previously used to start each executable individually, as these will help you structure your launch file.
+
+.. code-block:: xml
+
+    <launch>
+        <!-- Define an argument for a file path -->
+        <arg name="file_path" default="$(find-pkg-share <package_name>)/<path_to_file>"/>
+
+        <!-- Use the argument to parse a file with a command and set it as a parameter -->
+        <node pkg="<package_name>" exec="<executable_name>"> 
+            <param name="<parameter_name>" value="$(command 'tool_name $(var file_path)')"/>
+        </node>
+
+        <!-- Use the argument as a command-line argument -->
+        <node pkg="<package_name>" exec="<executable_name>" args="-a $(var file_path)"/>
+    </launch>
+
+After successfully creating and testing your launch file, compare it with the Python version provided below:
+
+.. admonition:: Python Launch File
+
+  .. toggle::
+
+    Python launch files may be slightly more complex to write, but they provide greater flexibility.
+
+    .. code-block::
+
+        import os
+        from launch_ros.actions import Node
+        from launch import LaunchDescription
+        from launch.substitutions import Command
+        from launch_ros.parameter_descriptions import ParameterValue
+        from ament_index_python.packages import get_package_share_path
+
+        def generate_launch_description():
+
+            urdf_path = os.path.join(get_package_share_path('thymio_description'),
+                                     'urdf', 'thymio.urdf.xacro')
+            
+            rviz_config_path = os.path.join(get_package_share_path('thymio_description'),
+                                            'rviz', 'rviz_config.rviz')
+
+            robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
+
+            robot_state_publisher_node = Node(
+                package="robot_state_publisher",
+                executable="robot_state_publisher",
+                parameters=[{'robot_description': robot_description}]
+            )
+
+            joint_state_publisher_gui_node = Node(
+                package="joint_state_publisher_gui",
+                executable="joint_state_publisher_gui"
+            )
+
+            rviz2_node = Node(
+                package="rviz2",
+                executable="rviz2",
+                arguments = ["-d", rviz_config_path]
+            )
+
+            return LaunchDescription([
+                robot_state_publisher_node,
+                joint_state_publisher_gui_node,
+                rviz2_node
+            ])
+
+
+
 
 Gazebo Overview
 ---------------
