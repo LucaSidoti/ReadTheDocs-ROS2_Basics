@@ -11,3 +11,10 @@
       }
     }
   }
+
+  .table-centered {
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content; /* Keeps the table at its natural size */
+    text-align: left; /* Ensures table content remains aligned */
+}

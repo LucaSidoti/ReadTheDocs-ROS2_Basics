@@ -6,7 +6,7 @@ Introduction
 
 Welcome to session 2 of our ROS2 Basics labs! Today, we will be exploring the visualization and simulation tools integrated with ROS2. In this session, we will dive into Rviz, Transforms (TFs), URDF, Xacro, parameters, launch files, and Gazebo, building the essential skills for designing and simulating robotic systems.
 
-Our main goal for today is to create a model of the Thymio robot that is fully integrated with ROS2 and capable of smooth operation in Gazebo simulation. We will guide you step-by-step through the essential elements needed to achieve this. Starting with simple examples to introduce each concept, you will progressively build the Thymio model in parallel, gaining practical experience with each component as you go. Now, let's get to work!
+Our main goal for today is to create a model of the Thymio robot that is fully integrated with ROS2 and capable of smooth operation in Gazebo simulation. We will guide you step-by-step through the essential elements needed to achieve this. You will begin with simple examples to introduce each concept and gradually apply this knowledge to build the Thymio model. Now, let's get to work!
 
 
 URDF Tutorial Example
@@ -25,7 +25,7 @@ Let’s get started by ensuring that everything we need is installed and set up.
 .. note::
 
     If you have been paying attention to the terminal messages, you may have noticed that this package is already installed in the Docker environment. Due to time considerations, we have not covered all the steps of the installation process. However, the following outlines the general procedure you can follow to install any new package in ROS2.
-
+    
     +-------+----------------------------+--------------------------------------------------+
     | Step  | Task                       | Command                                          |
     +=======+============================+==================================================+
@@ -139,12 +139,7 @@ A URDF, Unified Robot Description Format, consists of two main components:
 * **Links**: Represent the physical, rigid parts of the robot. These correspond to the ``RobotModel`` in Rviz.
 * **Joints**: Define the relationships between links and are used by ROS2 to generate TFs.
 
-Links are the rigid bodies of a robot. They can be described using one of four geometry types:
-
-1. **Boxes**
-2. **Cylinders**
-3. **Spheres**
-4. **Meshes**
+Links are the rigid bodies of a robot. They can be described using one of the four types of geometry: **Boxes**, **Cylinders**, **Spheres**, **Meshes**.
 
 .. note::
 
@@ -305,7 +300,7 @@ Now, we are ready to create our first URDF file. We will start simple, defining 
 
     First, build the package. Since more components will be added shortly, it is convenient to use the ``--symlink-install`` option for quicker updates.
 
-    .. code-block::
+    .. code-block:: bash
 
         colcon build --packages-select thymio_description --symlink-install
         source install/setup.bash
@@ -316,7 +311,7 @@ Now, we are ready to create our first URDF file. We will start simple, defining 
 
     Now, we are ready to visualize the result. Use the *urdf_tutorial* package to launch the URDF in Rviz. Later, we will explore how to achieve this without relying on this package.
 
-    .. code-block::
+    .. code-block:: bash
 
         ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf
 
@@ -349,7 +344,7 @@ Now, we are ready to create our first URDF file. We will start simple, defining 
 
         </robot>
 
-    Colors are defined using the `material` tag. A common practice is to define colors at the top of the file and reference them by name in the `visual` tag. The color attributes include four arguments: **rgb** for red, green, and blue, and **a** for transparency.
+    Colors are defined using the ``<material>`` tag. A common practice is to define colors at the top of the file and reference them by name in the ``<visual>`` tag. The color attributes include four arguments: **rgb** for red, green, and blue, and **a** for transparency.
 
     View the result in Rviz using the same command as before (rebuilding the package is not necessary). 
 
@@ -451,10 +446,6 @@ Now, we are ready to create our first URDF file. We will start simple, defining 
         :align: center
         :width: 20%
 
-    .. |spacer| raw:: html
-
-        <div style="margin-top: 5px;"></div>
-
     |spacer|
 
     Our goal now is to replicate this: 
@@ -462,10 +453,6 @@ Now, we are ready to create our first URDF file. We will start simple, defining 
     .. image:: img/urdf_example_final.png
         :align: center
         :width: 50%
-
-    .. |spacer| raw:: html
-
-        <div style="margin-top: 5px;"></div>
 
     |spacer|
 
@@ -503,7 +490,9 @@ Now, we are ready to create our first URDF file. We will start simple, defining 
 
             <origin xyz="0.4 0 0" rpy="0 1.57 0"/>
 
-    **Question**: Which origin setting is most critical for ensuring that your robot's movements and positions are accurately represented in ROS2 simulations?
+    .. admonition:: Question
+        
+        Which origin setting is most critical for ensuring that your robot's movements and positions are accurately represented in ROS2 simulations?
 
     d. Explore the different joint types
 
@@ -546,77 +535,55 @@ Now, we are ready to create our first URDF file. We will start simple, defining 
 
 Reaching this point means you now have a better understanding of what a URDF is. You are equipped with the essential tools to finally practice building your first robot model on your own. Let’s get started!
 
-Thymio - Step 1
-~~~~~~~~~~~~~~~
+.. admonition:: Thymio - Step 1
 
-As mentioned in the introduction, today's goal is to create a Thymio model that works well in simulation. In addition to building the model, you will set up custom methods to launch applications like Rviz and Gazebo, ensuring they function correctly with your robot. The task is divided into 10 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.
+    As mentioned in the introduction, today's goal is to create a Thymio model that works well in simulation. In addition to building the model, you will set up custom methods to launch applications like Rviz and Gazebo, ensuring they function correctly with your robot. The task is divided into 9 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.
 
-Start by creating a new file named *thymio.urdf* in the */urdf/thymio* directory. Use the provided specifications to guide you through the process, and remember to consistently use Rviz to visualize your progress.
+    Start by creating a new file named *thymio.urdf* in the */urdf/thymio* directory. Use the provided specifications to guide you through the process, and remember to consistently use Rviz to visualize your progress.
 
-.. +----------------------+----------------------------------+------------------+
-.. | Component            | Specifications                   | Additional Info  |
-.. +======================+==================================+==================+
-.. | **base link**        | Box:                             | Ground clearance:|
-.. |                      | Length = 11 cm |                 | 4.5 mm           |
-.. |                      | Width = 11.2 cm |                |                  |
-.. |                      | Height = 4.4 cm                  |                  |
-.. +----------------------+----------------------------------+------------------+
-.. | **caster wheel**     | Sphere:                          |                  |
-.. |                      | Radius = 9 mm                    |                  |
-.. +----------------------+----------------------------------+------------------+
-.. | **wheels**           | Cylinder:                        |                  |
-.. |                      | Length = 1.5 cm |                |                  |
-.. |                      | Radius = 2.2 cm                  |                  |
-.. +----------------------+----------------------------------+------------------+
+    +----------------------+---------------------------------------------+--------+
+    | Component            | Specifications                              | Color  |
+    +======================+=============================================+========+
+    | **Base link**        | *Box:*                                      | White  |
+    |                      | Length = 11 cm |                            |        |
+    |                      | Width = 11.2 cm |                           |        |
+    |                      | Height = 4.4 cm                             |        |
+    |                      | |spacer|                                    |        |
+    |                      | *Ground clearance:* 4.5 mm                  |        |
+    +----------------------+---------------------------------------------+--------+
+    | **Caster wheel**     | *Sphere:*                                   | White  |
+    |                      | Radius = 9 mm                               |        |
+    +----------------------+---------------------------------------------+--------+
+    | **Wheels**           | *Cylinder:*                                 | Black  |
+    |                      | Length = 1.5 cm |                           |        |
+    |                      | Radius = 2.2 cm                             |        |
+    +----------------------+---------------------------------------------+--------+
 
-+----------------------+---------------------------------------------+--------+
-| Component            | Specifications                              | Color  |
-+======================+=============================================+========+
-| **Base link**        | *Box:*                                      | White  |
-|                      | Length = 11 cm |                            |        |
-|                      | Width = 11.2 cm |                           |        |
-|                      | Height = 4.4 cm                             |        |
-|                      | |spacer|                                    |        |
-|                      | *Ground clearance:* 4.5 mm                  |        |
-+----------------------+---------------------------------------------+--------+
-| **Caster wheel**     | *Sphere:*                                   | White  |
-|                      | Radius = 9 mm                               |        |
-+----------------------+---------------------------------------------+--------+
-| **Wheels**           | *Cylinder:*                                 | Black  |
-|                      | Length = 1.5 cm |                           |        |
-|                      | Radius = 2.2 cm                             |        |
-+----------------------+---------------------------------------------+--------+
+    Refer to the following drawing to correctly place the different links:
 
-Refer to the following drawing to correctly place the different links:
-
-.. image:: img/thymio_spec.png
-    :align: center
-    :width: 60%
-
-.. |spacer| raw:: html
-
-    <div style="margin-top: 5px;"></div>
-
-|spacer|
-
-.. admonition:: Hints
-
-  .. toggle::
-
-    * The ground clearance information should be sufficient to define all the heights  
-    * Carefully consider where the TFs should be positioned (this is crucial!)  
-    * Use the following command to visualize the model in Rviz:
-
-    .. code-block::
-
-        ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf
-
-    * The final visual result should look like this:  
-
-    .. image:: img/thymio_look.png
+    .. image:: img/thymio_spec.png
         :align: center
         :width: 60%
 
+    |spacer|
+
+    .. admonition:: Hints
+
+        .. toggle::
+
+            * The ground clearance information should be sufficient to define all the heights  
+            * Carefully consider where the TFs should be positioned (this is crucial!)  
+            * Use the following command to visualize the model in Rviz:
+
+            .. code-block:: bash
+
+                ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf
+
+            * The final visual result should look like this:  
+
+            .. image:: img/thymio_look.png
+                :align: center
+                :width: 60%
 
 Improved URDF - Xacro
 ---------------------
@@ -654,9 +621,17 @@ To use Xacro, you write your file using its extended syntax and process it with 
 
 First, rename the previous example file to include the Xacro extension: *example.urdf.xacro*
 
+.. note::
+
+    As a result, the new display command is:
+
+    .. code-block:: bash
+
+        ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf.xacro
+
 2) Xacro compatibility
 
-To enable the use of xacro in our file, we need to adjust the robot tag as follow:
+To enable the use of xacro in our file, we need to adjust the ``<robot>`` tag as follow:
 
 .. code-block:: xml
 
@@ -793,45 +768,40 @@ Below is the final version of the improved URDF file:
 
     Notice that the file no longer contains hardcoded values. Instead, five variables are used to define the links and joint accurately. While using a macro to define a single box may be excessive here, it serves to demonstrate how macros work.
 
-Thymio - Step 2
-~~~~~~~~~~~~~~~
+.. admonition:: Thymio - Step 2
 
-Let’s put this knowledge into practice. The goal is to enhance the previous URDF by utilizing Xacro's features. Follow these steps:
+    Let’s put this knowledge into practice. The goal is to enhance the previous URDF by utilizing Xacro's features. Follow these steps:
 
-1. Use the pi constant where needed
+    1. Use the pi constant where needed
 
-2. Define variables and replace hardcoded values
+    2. Define variables and replace hardcoded values
 
-3. Create a macro for the wheel links and reuse it for both wheels
+    3. Create a macro for the wheel links and reuse it for both wheels
 
-4. Split the URDF into three files: *materials.xacro*, *thymio_chassis.xacro*, and *thymio.urdf.xacro*
+    4. Split the URDF into three files: *materials.xacro*, *thymio_chassis.xacro*, and *thymio.urdf.xacro*
 
-Additionally, remember to apply mathematical operations wherever possible.
+    Additionally, remember to apply mathematical operations wherever possible.
 
-Once again, refer to the drawing below for the key dimensions:
+    Once again, refer to the drawing below for the key dimensions:
 
-.. image:: img/thymio_spec.png
-    :align: center
-    :width: 60%
-
-.. |spacer| raw:: html
-
-    <div style="margin-top: 5px;"></div>
-
-|spacer|
-
-.. admonition:: Hints
-
-  .. toggle::
-
-    *  Eight variables are sufficient to define all links and joints: ``base_length``, ``base_width``, ``base_height``, ``ground_clearance``, ``caster_wheel_radius``, ``wheel_radius``, ``wheel_width``, ``wheel_offset``
-    * Some variables can depend on others
-    * Position the caster wheel and wheels relative to the base's length and width
-    * The final visual, with the ``base_length`` increased and the ``base_width`` reduced by a factor of two, should appear as follows:
-
-    .. image:: img/thymio_xacro.png
+    .. image:: img/thymio_spec.png
         :align: center
         :width: 60%
+
+    |spacer|
+
+    .. admonition:: Hints
+
+        .. toggle::
+
+            *  Eight variables are sufficient to define all links and joints: ``base_length``, ``base_width``, ``base_height``, ``ground_clearance``, ``caster_wheel_radius``, ``wheel_radius``, ``wheel_width``, ``wheel_offset``
+            * Some variables can depend on others
+            * Position the caster wheel and wheels relative to the base's length and width
+            * The final visual, with the ``base_length`` increased and the ``base_width`` reduced by a factor of two, should appear as follows:
+
+            .. image:: img/thymio_xacro.png
+                :align: center
+                :width: 60%
 
 
 Parameters Overview
@@ -909,7 +879,9 @@ Run the node and set the publish frequency using the following command:
 
     ros2 run ros2_basics_pkg publisher_node --ros-args -p publish_frequency:=4.0
 
-**Question**: What happens if no parameter value is provided during execution? Why?
+.. admonition:: Question
+    
+    What happens if no parameter value is provided during execution? Why?
 
 .. tip::
 
@@ -1008,10 +980,6 @@ Let’s revisit an example from session 1 to better understand launch files. Thi
     :align: center
     :width: 60%
 
-.. |spacer| raw:: html
-
-    <div style="margin-top: 5px;"></div>
-
 |spacer|
 
 1. Create the launch file
@@ -1043,7 +1011,9 @@ Let’s revisit an example from session 1 to better understand launch files. Thi
         </node>
     </launch>
 
-**Question**: What are the essential elements of a launch file?
+.. admonition:: Question
+    
+    What are the essential elements of a launch file?
 
 3. Build the package
 
@@ -1173,7 +1143,7 @@ At this stage, nothing is visible in Rviz. To proceed, you need to configure the
 
     The terminal command would look like this: 
 
-    .. code-block::
+    .. code-block:: bash
 
         ros2 run rviz2 rviz2 -d "/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/rviz/<config_name>.rviz"
 
@@ -1181,29 +1151,28 @@ At this stage, nothing is visible in Rviz. To proceed, you need to configure the
 
 Finally, notice that the result is identical to what we achieved using the *display.launch.py* file from the *urdf_tutorial* package.
 
-Thymio - Step 3
-~~~~~~~~~~~~~~~
+.. admonition:: Thymio - Step 3
 
-The next challenge is to create a launch file that starts the following three executables simultaneously: ``robot_state_publisher``, ``joint_state_publisher_gui``, and ``rviz2``. Ensure that Rviz is launched with the configuration file you previously saved to maintain your custom display settings.
+    The next challenge is to create a launch file (*thymio_display.launch.xml*) that starts the following three executables simultaneously: ``robot_state_publisher``, ``joint_state_publisher_gui``, and ``rviz2``. Ensure that Rviz is launched with the configuration file you previously saved to maintain your custom display settings.
 
-To assist you, a generic example is provided below, which should give you the tools necessary to complete the task. Additionally, it is highly recommended to review the terminal commands previously used to start each executable individually, as these will help you structure your launch file.
+    To assist you, a generic example is provided below, which should give you the tools necessary to complete the task. Additionally, it is highly recommended to review the terminal commands previously used to start each executable individually, as these will help you structure your launch file.
 
-.. code-block:: xml
+    .. code-block:: xml
 
-    <launch>
-        <!-- Define an argument for a file path -->
-        <arg name="file_path" default="$(find-pkg-share <package_name>)/<path_to_file>"/>
+        <launch>
+            <!-- Define an argument for a file path -->
+            <arg name="file_path" default="$(find-pkg-share <package_name>)/<path_to_file>"/>
 
-        <!-- Use the argument to parse a file with a command and set it as a parameter -->
-        <node pkg="<package_name>" exec="<executable_name>"> 
-            <param name="<parameter_name>" value="$(command 'tool_name $(var file_path)')"/>
-        </node>
+            <!-- Use the argument to parse a file with a command and set it as a parameter -->
+            <node pkg="<package_name>" exec="<executable_name>"> 
+                <param name="<parameter_name>" value="$(command 'tool_name $(var file_path)')"/>
+            </node>
 
-        <!-- Use the argument as a command-line argument -->
-        <node pkg="<package_name>" exec="<executable_name>" args="-a $(var file_path)"/>
-    </launch>
+            <!-- Use the argument as a command-line argument -->
+            <node pkg="<package_name>" exec="<executable_name>" args="-a $(var file_path)"/>
+        </launch>
 
-After successfully creating and testing your launch file, compare it with the Python version provided below:
+After successfully creating and testing your launch file, compare it with the Python version provided below.
 
 .. admonition:: Python Launch File
 
@@ -1211,7 +1180,7 @@ After successfully creating and testing your launch file, compare it with the Py
 
     Python launch files may be slightly more complex to write, but they provide greater flexibility.
 
-    .. code-block::
+    .. code-block:: python
 
         import os
         from launch_ros.actions import Node
@@ -1254,16 +1223,505 @@ After successfully creating and testing your launch file, compare it with the Py
             ])
 
 
-
-
 Gazebo Overview
 ---------------
+
+Now, let's take the next step and introduce simulation into our workflow using **Gazebo**. Gazebo is a **physics-based simulation tool** that integrates with ROS2 to provide:
+
+* A virtual environment for testing robot behaviors
+* Accurate simulations of physical interactions and sensor outputs
+
+Simulation is an essential part of robotics development for several reasons:
+
+* **Algorithm testing**: Optimizes control algorithms in a repeatable, controlled environment
+* **Physical interactions**: Models collisions, dynamics, gravity, inertia, and sensor noise
+* **Sensors and actuators simulation**: Provides sensor data and enables actuator control
+
+Gazebo is an independent tool and not a native part of the ROS2 environment. However, it integrates with ROS2 using the *gazebo_ros* package, which acts as a bridge between the two. This integration is made possible through various Gazebo plugins that allow interaction with the ROS2 ecosystem and simulation of robot hardware, including actuators and sensors.
+
+.. note::
+
+    To clarify the differences between **Rviz** and **Gazebo**, here is a summary table:
+
+    .. raw:: html
+
+        <div class="table-centered">
+
+    +------------------------+-----------------------------+----------------------------------+
+    | **Feature**            | **Rviz**                    | **Gazebo**                       |
+    +========================+=============================+==================================+
+    | **Purpose**            | 3D visualization tool for   | Simulation tool that models      |
+    |                        |                             |                                  |
+    |                        | monitoring robot state      | real-world physical properties   |
+    +------------------------+-----------------------------+----------------------------------+
+    | **Control**            | No control capabilities     | Provides control functionalities |
+    |                        |                             |                                  |
+    |                        | (purely visualization)      |                                  |
+    +------------------------+-----------------------------+----------------------------------+
+    | **Use Case**           | Debugging and analyzing     | Simulating and testing robots in |
+    |                        |                             |                                  |
+    |                        | robot data                  | a realistic environment          |
+    +------------------------+-----------------------------+----------------------------------+
+
+.. Let's move to the next step and try to add simulation in our journey. For this we will use **Gazebo**. Gazebo is a physics-based simulation tool that operates with ROS2 for:
+
+.. * Testing robot behaviors in a virtual environment
+.. * Simulating physical interactions and sensor data
+
+.. Like any other simulation tool, Gazebo is essential as it:
+
+.. * Enables testing and refining robot control algorithms in a repeatable, controlled environment before real-world deployment
+.. * Simulates physical interactions (collisions, dynamics), sensor inputs (cameras, LiDAR), and robot control systems
+.. * Incorporates real-world factors like gravity, inertia, and sensor noise
+
+.. It is also good to mention that Gazebo is an independent tool that is not part of the ROS2 environment. However, its use is possible thanks to the *gazebo_ros* package that makes the bridge between the two. Therefore, there exists some Gazebo plugins that can be used to interact with the ROS2 ecosystem and that enable to simulate the robot hardware (actuators, sensors).
+
+.. To avoid any confusion between Rviz and Gazebo, here is a table that summarizes their main features:
+
 
 Complete URDF - Collision & Inertial
 ------------------------------------
 
+So far, we have been focusing exclusively on the visual representation of the Thymio robot. To make the model functional in a simulation, the URDF must be updated to include collision and physical properties. These additions will enable the robot to interact realistically with the virtual environment. Let's begin by incorporating the collision properties:
+
+1. Launch our simple example in Rviz
+
+.. code-block:: bash
+
+    ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf.xacro
+
+2. Adjust the Rviz configuration
+
+Under the ``RobotModel`` options, uncheck *Visual Enabled* and check *Collision Enabled*. You will see that nothing appear. In fact, this is normal, we have not defined the collision properties yet.
+
+3. Update *example.urdf.xacro*
+
+To add collision properties to the links in the URDF, you need to include ``<collision>`` tags. These are similar to ``<visual>`` tags: both require an origin and a geometry. However, ``<collision>`` tags do **not** require a material definition.
+
+Here is the revised version of the code with collision properties included for the links:
+
+.. code-block:: xml
+
+    <link name="base_link">
+        <visual>    
+            <origin xyz="0 0 ${base_link_height / 2.0}"  rpy="0 0 0"/>
+            <geometry>
+                <xacro:box length="${base_link_length}" width="${base_link_width}" height="${base_link_height}"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+        <collision>    
+            <origin xyz="0 0 ${base_link_height / 2.0}"  rpy="0 0 0"/>
+            <geometry>
+                <xacro:box length="${base_link_length}" width="${base_link_width}" height="${base_link_height}"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="second_link">
+        <visual>
+            <origin xyz="${second_link_length / 2.0} 0 0" rpy="0 ${pi / 2.0} 0"/>
+            <geometry>
+                <cylinder length="${second_link_length}" radius="${second_link_radius}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="${second_link_length / 2.0} 0 0" rpy="0 ${pi / 2.0} 0"/>
+            <geometry>
+                <cylinder length="${second_link_length}" radius="${second_link_radius}"/>
+            </geometry>
+        </collision>
+    </link>
+
+4. Verify the result in Rviz
+
+.. admonition:: Question
+
+    Is the geometry defined in the ``<collision>`` tag always identical to the visual geometry? You can base your reflection on the following example. Think about why they might differ and how this affects simulation and robot interactions.
+
+    .. image:: img/BlockBuster.png
+        :align: center
+        :width: 65%
+    
+    |spacer|
+
+Now, let's focus on defining the physical properties of the model by adding the ``<inertial>`` tags. These tags play a crucial role in accurately simulating the robot's motion by specifying properties such as mass and moments of inertia. This ensures the model responds realistically to forces like gravity and other dynamics.
+
+As you may recall from your physics courses, the formulas for the moment of inertia tensor are well-established for basic geometric shapes. These tensors are uniquely determined by the object's dimensions and mass. Let’s explore how to incorporate these inertia properties:
+
+1. Create an *example_inertia.xacro* file
+
+In the */urdf/example* directory, create a file named *example_inertia.xacro* to define reusable macros for the inertia properties of our basic shapes. 
+
+2. Add the inertia macros to the file
+
+Like the other tags we have encountered, the ``<inertial>`` tag requires an origin to be defined. In addition, it needs a mass and an inertia matrix. Since this matrix is symmetric, only 6 of its 9 components need to be specified. You can consult the formulas for defining inertia matrices in the corresponding Wikipedia webpage: `List of 3D inertia tensors <https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors>`_.
+
+.. code-block:: xml
+
+    <?xml version="1.0"?>
+    <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+        <xacro:macro name="box_inertia" params="m l w h xyz rpy">
+            <inertial>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+                <mass value="${m}"/>
+                <inertia ixx="${(m/12) * (h*h + l*l)}" ixy="0" ixz="0"
+                        iyy="${(m/12) * (w*w + l*l)}" iyz="0"
+                        izz="${(m/12) * (w*w + h*h)}"/>
+            </inertial>
+        </xacro:macro>
+
+        <xacro:macro name="cylinder_inertia" params="m r h xyz rpy">
+            <inertial>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+                <mass value="${m}" />
+                <inertia ixx="${(m/12) * (3*r*r + h*h)}" ixy="0" ixz="0"
+                        iyy="${(m/12) * (3*r*r + h*h)}" iyz="0"
+                        izz="${(m/2) * (r*r)}"/>
+            </inertial>
+        </xacro:macro>
+
+    </robot>
+
+3. Adjust *example.urdf.xacro*
+
+To use the defined macros, include the previously created file and invoke them with the desired parameters. 
+
+.. code-block:: xml
+
+    <xacro:include filename="example_inertia.xacro"/>
+
+    <xacro:property name="base_link_mass" value="0.5"/> <!-- Mass in [kg] -->
+    <xacro:property name="second_link_mass" value="0.2"/> <!-- Mass in [kg] -->
+
+    <link name="base_link">
+        <visual>    
+            <origin xyz="0 0 ${base_link_height / 2.0}"  rpy="0 0 0"/>
+            <geometry>
+                <xacro:box length="${base_link_length}" width="${base_link_width}" height="${base_link_height}"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+        <collision>    
+            <origin xyz="0 0 ${base_link_height / 2.0}"  rpy="0 0 0"/>
+            <geometry>
+                <xacro:box length="${base_link_length}" width="${base_link_width}" height="${base_link_height}"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="${base_link_mass}" l="${base_link_length}" w="${base_link_width}" h="${base_link_height}"
+                           xyz="0 0 ${base_link_height / 2.0}"  rpy="0 0 0"/>
+    </link>
+
+    <link name="second_link">
+        <visual>
+            <origin xyz="${second_link_length / 2.0} 0 0" rpy="0 ${pi / 2.0} 0"/>
+            <geometry>
+                <cylinder length="${second_link_length}" radius="${second_link_radius}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="${second_link_length / 2.0} 0 0" rpy="0 ${pi / 2.0} 0"/>
+            <geometry>
+                <cylinder length="${second_link_length}" radius="${second_link_radius}"/>
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertia m="${second_link_mass}" r="${second_link_radius}" h="${second_link_length}" 
+                                xyz="${second_link_length / 2.0} 0 0" rpy="0 ${pi / 2.0} 0"/>
+
+.. note::
+
+    If you are interested, you can visualize the result in Rviz (*RobotModel > Mass Properties > Inertia*), but this method is not ideal for intuitively verifying the correctness of our implementation. Instead, we recommend testing the physical behavior directly in Gazebo. However, as we do not yet have all the necessary tools, we will revisit this step later.
+
+.. admonition:: Thymio - Step 4
+
+    The new task is to enhance the current Thymio model by adding ``<collision>`` and ``<inertial>`` tags.
+
+    .. raw:: html
+
+        <div class="table-centered">
+
+    +------------------------+-----------------------------+
+    | **Component**          | **Specification**           |
+    +========================+=============================+
+    | *Total mass*           | *270 g*                     |
+    +------------------------+-----------------------------+
+    | Wheels                 | 20% of total mass           |
+    +------------------------+-----------------------------+
+    | Chassis                | 80% of total mass           |
+    | |spacer|               | |spacer|                    |
+    | ┣━ Base_link           | 95% of chassis mass         |
+    |                        |                             |
+    | ┗━ Caster wheel        | 5% of chassis mass          |
+    +------------------------+-----------------------------+
+
+
+Spawn Robot in Gazebo
+---------------------
+
+Your Thymio robot is now ready for simulation testing. Let’s see how to launch it in Gazebo:
+
+1. Launch *thymio_display.launch.xml*
+
+.. code-block:: bash
+
+    ros2 launch thymio_description thymio_display.launch.xml 
+
+2. Launch *Gazebo*
+
+.. code-block:: bash
+
+    ros2 launch gazebo_ros gazebo.launch.py
+
+3. Spawn the Thymio in Gazebo
+
+.. code-block:: bash
+
+    ros2 run gazebo_ros spawn_entity.py -topic robot_description -entity thymio
+
+.. note::
+    
+    These commands are provided by the *gazebo_ros* package, which serves as the interface connecting ROS2 and Gazebo.
+
+.. admonition:: Thymio - Step 5
+
+    For convenience, include the two commands in *thymio_display.launch.xml*.
+
+    .. admonition:: Hints
+
+        .. toggle::
+
+            * To include a launch file within another launch file, use the following command:
+
+            .. code-block:: xml
+
+                <include file="$(find-pkg-share <package_name>)/<path_to_file>"/>
+
+            The ``find-pkg-share <package_name>`` command locates packages installed in ``/opt/ros/humble/share``. If you are unsure of a launch file's path, this directory is a good starting point for exploration.
+
+            * To add command-line arguments to your launch file, use the following syntax:
+
+            .. code-block:: xml
+
+                <node pkg="<package_name>" exec="<executable_name>" args="-a arg"/>
+
+After completing this task, return to Gazebo and experiment with the physics to observe the robot's behavior:
+
+* *Translation*: Press ``T``, click the robot, and drag to move or lift it. Try to make it fall.
+* *Rotation*: Press ``R``, click the robot, and rotate or tilt it. Observe how it stabilizes.
+
+Once you have observed the physics in action, go back to the URDF file. Comment out the ``<collision>`` tag for the wheel links, save the changes, and relaunch the simulation.
+
+.. admonition:: Question
+
+    What do you observe? How does the absence of a collision property affect the robot's interaction with its environment?
+
+After addressing this question, revisit the URDF file, restore the ``<collision>`` tag, and now comment out the ``<inertial>`` tag for the wheels. Save your changes and relaunch the simulation.
+
+.. admonition:: Question
+
+    How does the behavior differ this time? Why do you think this occurs?
+
+If you paid attention to the simulation results, you may have noticed two problems:
+
+    1. The Thymio moves slightly on its own after spawning
+    2. Colors are missing in Gazebo
+
+Let’s tackle these one by one. The unexpected motion occurs because the simplified Thymio model lacks accurate inertia properties and precise mass values. To resolve this, we will adjust the dynamics of the wheel joints and reduce the friction of the caster wheel.
+
+    1. Modify the wheel joint dynamics
+
+    For each wheel joint, add the following line:
+
+    .. code-block:: xml
+
+        <dynamics damping="0.1" friction="0.2"/>
+
+    2. Create a *gazebo.xacro* 
+
+    Gazebo provides specific ``<gazebo>`` tags to define simulation properties. To keep things organized, create a new Xacro file (*gazebo.xacro*) where we will add all Gazebo-specific properties.
+
+    3. Reduce the caster wheel friction
+
+    The caster wheel in the current robot model adds too much friction and drags against the ground. To fix this, reduce the friction coefficients using the following values:
+
+    .. code-block:: xml
+
+        <gazebo reference="caster_wheel_link">
+            <mu1 value="0.31" />
+            <mu2 value="0.31" />
+        </gazebo>
+
+    After making these adjustments, the Thymio should remain motionless upon spawning. Test it to confirm.
+
+To address the missing colors, we can use ``<gazebo>`` tags to define materials for the links. For example, to apply a green color to a link named *example_link*:
+
+.. code-block:: xml
+
+    <gazebo reference="example_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+.. admonition:: Thymio - Step 6
+
+    Update the colors in *gazebo.xacro* to achieve the desired visual appearance in Gazebo.
+    
+
 Gazebo Plugins
 --------------
 
+Your Thymio is almost ready for simulation. The next step is to add control capabilities so the robot can move, and optionally, proximity sensors to detect obstacles. This chapter will guide you through these steps. Gazebo provides a range of plugins that simplify this process, as seen in the `gazebo_plugins <https://github.com/ros-simulation/gazebo_ros_pkgs/tree/ros2/gazebo_plugins/include/gazebo_plugins>`_ repository for ROS2.
+
+To begin, let’s focus on control. The Thymio is a differential drive robot, so we need a plugin that functions as a differential drive controller. From the repository linked above, you can find the ``gazebo_ros_diff_drive`` plugin, which fulfills this role. The `gazebo_ros_diff_drive.hpp <https://github.com/ros-simulation/gazebo_ros_pkgs/blob/ros2/gazebo_plugins/include/gazebo_plugins/gazebo_ros_diff_drive.hpp>`_ file provides details on how to use this plugin effectively, which we will adapt for our application.
+
+.. admonition:: Thymio - Step 7
+
+    Open the *gazebo.xacro* file and paste the following code:
+
+    .. code-block:: xml
+
+            <gazebo>
+            <plugin name="diff_drive_controller" filename="libgazebo_ros_diff_drive.so">
+        
+            <!-- Update rate in Hz -->
+            <update_rate>50</update_rate>
+        
+            <!-- wheels -->
+            <left_joint>???</left_joint>
+            <right_joint>???</right_joint>
+        
+            <!-- kinematics -->
+            <wheel_separation>???</wheel_separation>
+            <wheel_diameter>???</wheel_diameter>
+
+            <!-- input -->
+            <command_topic>cmd_vel</command_topic>
+        
+            <!-- output -->
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_wheel_tf>true</publish_wheel_tf>
+        
+            <odometry_topic>odom</odometry_topic>
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>???</robot_base_frame>
+        
+            </plugin>
+        </gazebo>
+
+    This snippet includes the essential elements needed for the Thymio. Replace the ``???`` with the appropriate values. Accurately defining these parameters is critical for precise motion control.  
+
+.. note:: 
+
+    The ``gazebo_ros_diff_drive`` plugin takes velocity commands from the ``cmd_vel`` topic and rotates the wheels accordingly to achieve the desired motion. It also updates TFs and computes odometry for the robot.  
+
+Once the plugin configuration is complete, follow these steps to test it:  
+
+    1. Update *thymio_display.launch.xml*
+
+    The plugin handles wheel control and simulates real-life encoders by tracking the wheel joints' positions. This makes the *joint_state_publisher_gui* redundant for wheel joints, so comment it out in the launch file.  
+
+    2. Launch the Gazebo simulation
+
+    |spacer|
+
+    3. Send velocity commands from the terminal
+
+    Open a new terminal and run:
+
+    .. code-block::
+
+        ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.0}}"
+
+    This command sends a *Twist* message, which controls the robot's velocities. The *Twist* type allows control of three linear velocities and three angular velocities. For a differential drive robot like Thymio, you can only adjust the linear speed in the x-direction and angular speed around the z-axis. 
+    
+    Experiment with different commands and observe how the robot responds. Additionally, try removing the friction coefficients added to the caster wheel link to explore how this impacts the Thymio's behavior in the simulation. 
+
+.. error::
+
+    Despite addressing most motion-related issues, the robot may still behave unexpectedly when moving backward. Specifically, the Thymio tends to deviate and turn instead of maintaining a straight line. Forward and rotational movements are more stable, so it is recommended to prioritize these and avoid using backward motion whenever possible.
+
+The diagram below provides a concise summary of everything covered so far. Review it to ensure you understand the components and their connections. If anything is unclear, do not hesitate to ask questions.
+
+.. figure:: img/gazebo.png
+    :align: center
+    :width: 90%
+
+    `Understanding control in Gazebo (Articulated Robotics) <https://articulatedrobotics.xyz/tutorials/mobile-robot/concept-design/concept-gazebo>`_
+
+.. admonition:: Break Time
+
+    If this session felt intense, take a moment to relax and have some fun with your Thymio. You can control it using your keyboard by running the following command:
+
+    .. code-block:: bash
+
+        ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
+.. admonition:: Thymio - Step 8
+
 Gazebo Worlds
 -------------
+
+To conclude today's session, let's add the final element needed to achieve a fully functional simulation in ROS2 with Gazebo. So far, we have been working in an empty environment, but to test local avoidance algorithms, it would be beneficial to introduce obstacles into the world. There are two main ways to customize your world:
+
+1. Adding objects
+
+    Open the ``Insert`` panel in Gazebo, where you can find libraries (e.g. http://models.gazebosim.org/) offering various objects to include in your world. When moving an object, hold down ``Shift`` to snap it to the grid for better alignment.
+
+    .. warning::
+
+        When launching Gazebo, it may take some time for the object libraries to load. Be patient, and the list of objects should appear shortly.  
+
+2. Adding walls
+
+    Navigate to *Edit > Building Editor*, which opens a window where you can create custom rooms. The interface consists of two main parts:
+
+    * **Editing interface** (squared sheet): This is where you design your room layout by selecting *Walls* and drawing directly on the grid. You can also add features such as doors and windows by placing them onto the walls.
+    * **Preview area**: This section provides a visualization of the room as you design it. You can add textures to the walls directly in this area.
+
+    |spacer|
+
+    Once finished, save your work by going to *File > Save*. Save the room at the default location with your chosen name. Exit the editor via *File > Exit Building Editor*.
+
+    The room you created will now appear as a new object that you can place in your environment. 
+
+After finalizing your environment, ensure the Thymio robot is not part of the saved world. If it is, delete it to avoid having it treated as an object when the world is reopened. Save the world by going to *File > Save World As* and save it as *gazebo_world.world* in the */urdf/world* directory of the *thymio_description* package.
+
+Once saved, build the package and run:
+
+.. code-block:: bash
+
+    ros2 launch gazebo_ros gazebo.launch.py world:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/worlds/gazebo_world.world
+
+.. note::
+
+    If you open *gazebo_world.world*, you will notice that it is written in SDF (Simulation Description Format), which, like the URDF file, is an XML-based format. The SDF defines Gazebo's simulation environment, specifying objects, lights, physics and environmental parameters.
+
+.. admonition:: Thymio - Step 9
+
+    If you have not created your custom Gazebo world yet, start by doing so. Once completed and saved in the */urdf/world* directory, update the launch file to ensure Thymio spawns directly into the world.  
+
+    .. admonition:: Hints
+
+        .. toggle::
+
+            To pass arguments when including other launch files, use the following structure:  
+
+            .. code-block:: xml
+
+                <include file="$(find-pkg-share <package_name>)/<path_to_file>"/>
+                    <arg name="<arg_name>" value="<arg_value>"/>
+                </include>
+
+.. note::
+
+    You can also adjust the spawn position of the Thymio using this syntax:  
+
+    .. code-block:: xml
+
+        <node pkg="gazebo_ros" exec="spawn_entity.py"
+           args="-topic robot_description -entity thymio 
+                 -x 5.0 -y 0.0 -z 2.0
+                 -R 0.0 -P 0.0 -Y -1.57"/>

@@ -220,7 +220,7 @@ In the container you just installed, we have preconfigured an Ubuntu environment
 
 * **VSCode**: Visual Studio Code (VSCode) is the Integrated Development Environment (IDE) we will use to write our code. It is suitable for ROS2 development, offering essential features like syntax highlighting and code completion.
 
-  .. admonition:: Remark
+  .. note::
    
    If you prefer using different tools or editors, you are welcome to download and install them on your desktop. Customize your workspace to suit your preferences and workflow!
 

@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
       <link rel="stylesheet" type="text/css" href="_static/code-tabs.css?v=1bc26e2f" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=756e2391" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=47caed35" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -29,6 +29,7 @@
       <script src="_static/code-tabs.js?v=c983d12e"></script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="_static/custom.js?v=0de935b9"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -93,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#launch-files-overview">Launch Files Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-overview">Gazebo Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#complete-urdf-collision-inertial">Complete URDF - Collision &amp; Inertial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#spawn-robot-in-gazebo">Spawn Robot in Gazebo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-plugins">Gazebo Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-worlds">Gazebo Worlds</a></li>
 </ul>
@@ -185,7 +187,10 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>talker
 </pre></div>
 </div>
-<p><strong>Question:</strong> What do you observe?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What do you observe?</p>
+</div>
 <ol class="arabic simple" start="6">
 <li><p>Now run the source command in the terminal and run the <em>talker</em> node again</p></li>
 </ol>
@@ -193,9 +198,15 @@
 ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>talker
 </pre></div>
 </div>
-<p><strong>Question:</strong> What do you conclude? What does the source command do?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What do you conclude? What does the source command do?</p>
+</div>
 <p>Once you have understood the meaning of this command, go back to <em>.bashrc</em> file, uncomment the <em>source</em> command and save the file.</p>
-<p><strong>Question:</strong> What is the benefit of having the <em>source</em> command in <em>.bashrc</em>?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What is the benefit of having the <em>source</em> command in <em>.bashrc</em>?</p>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>If you have been copying and pasting commands into the terminal, that is great! But remember the <em>tab completion tricks</em> we covered in the preparatory work. These also work with ROS2 commands. Give it a try by typing the following in your terminal:</p>
@@ -408,12 +419,18 @@ colcon<span class="w"> </span>build
 <li><p>Comment the spin function</p></li>
 </ol>
 <p>Go back to <em>minimal_node.py</em> and comment <code class="docutils literal notranslate"><span class="pre">rclpy.spin(minimal_node)</span></code>. Save the changes, build the project and run the program again.</p>
-<p><strong>Question:</strong> What difference do you observe?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What difference do you observe?</p>
+</div>
 </section>
 <section id="communication-overview">
 <h2>Communication Overview<a class="headerlink" href="#communication-overview" title="Link to this heading"></a></h2>
-<p>Previously, you were introduced to the main building block of a ROS2 system: the node. In any real robotic application, you will not be working with just one node. Instead, you will typically have multiple nodes, each handling a specific task. These nodes operate independently, which means they need a way to communicate with each other to work together effectively.</p>
-<p>ROS2 provides exactly what we need for this by offering a <em>message-passing</em> mechanism that allows nodes to exchange information without needing direct connections. This way, each node can stay focused on its own job, while still being part of a larger system. Importantly, this communication happens within the same network, allowing nodes on different devices or computers to interact as long as they are connected to the same network.</p>
+<p>One of the key features of ROS2 is its <strong>distributed</strong> computing <strong>architecture</strong>, designed to simplify complex robotic systems. At its core is a graph-like structure where <strong>nodes</strong>, which are individual software processes handling specific tasks, communicate with each other using <strong>topics</strong> and <strong>services</strong>. This communication is built on <strong>message-passing mechanisms</strong> that allows data exchange. Each method serves a specific purpose:</p>
+<ul class="simple">
+<li><p><strong>Topics</strong>: Enable <strong>publish-subscribe messaging</strong>, allowing nodes to publish data that others can subscribe to. Ideal for continuous data flows, such as sensor readings or real-time monitoring of robot status.</p></li>
+<li><p><strong>Services</strong>: Provide a <strong>request-response mechanism</strong> for discrete tasks, where one node requests an action and waits for a response from another node. Useful for operations such as checking a status or sending a command.</p></li>
+</ul>
 <figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="_images/communication.gif"><img alt="_images/communication.gif" src="_images/communication.gif" style="width: 90%;" />
 </a>
@@ -421,14 +438,6 @@ colcon<span class="w"> </span>build
 <p><span class="caption-text"><a class="reference external" href="https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html" rel="noopener noreferrer" target="_blank">Communication between Nodes</a></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p>To keep things organized, ROS2 uses two main communication methods:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><strong>Topics</strong>: Used for continuous data exchange, allowing nodes to publish information that others can subscribe to.</p></li>
-<li><p><strong>Services</strong>: Used for request-response interactions, letting nodes request specific actions from each other and receive replies.</p></li>
-</ul>
-</div></blockquote>
-<p>This communication setup helps keep the system modular and scalable, making it easier to design complex robotic systems. Now, let’s dive into the details and see how these mechanisms work in practice!</p>
 </section>
 <section id="topics-overview">
 <h2>Topics Overview<a class="headerlink" href="#topics-overview" title="Link to this heading"></a></h2>
@@ -515,7 +524,10 @@ colcon<span class="w"> </span>build
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Question:</strong> What are the essential elements of a publisher?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What are the essential elements of a publisher?</p>
+</div>
 <ol class="arabic simple" start="4">
 <li><p>Run the publisher node</p></li>
 </ol>
@@ -583,7 +595,10 @@ colcon<span class="w"> </span>build
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Question:</strong> What are the essential elements of a subscriber?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What are the essential elements of a subscriber?</p>
+</div>
 <ol class="arabic simple" start="7">
 <li><p>Run the publisher node</p></li>
 </ol>
@@ -625,7 +640,10 @@ colcon<span class="w"> </span>build
 <li><p>Manage multiple publishers</p></li>
 </ol>
 <p>Keep the <em>publisher</em> and <em>subscriber</em> running, then launch a <strong>second publisher</strong> using the usual command.</p>
-<p><strong>Question:</strong> What happens when we run two publishers with the same node name?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What happens when we run two publishers with the same node name?</p>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">list</span></code> or <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">info</span></code> to help you answer this question.</p>
@@ -832,7 +850,10 @@ colcon<span class="w"> </span>build
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Question:</strong> What are the essential elements of a server?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What are the essential elements of a server?</p>
+</div>
 <ol class="arabic simple" start="4">
 <li><p>Add the following code for the client</p></li>
 </ol>
@@ -921,7 +942,10 @@ colcon<span class="w"> </span>build
 <li><p>Run both the server and client we have just created</p></li>
 </ol>
 <p>We have just rewritten the <em>add_two_ints</em> example in our own package, so the result should be identical. You can use CLI commands to verify this. Additionally, we have added a client node, allowing you to call the server directly from the program instead of using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">call</span></code> command from the terminal.</p>
-<p><strong>Question:</strong> What happends if the client node starts before the server? Why?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What happends if the client node starts before the server? Why?</p>
+</div>
 </section>
 <section id="custom-interfaces">
 <h2>Custom Interfaces<a class="headerlink" href="#custom-interfaces" title="Link to this heading"></a></h2>

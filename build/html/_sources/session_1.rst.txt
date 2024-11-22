@@ -66,7 +66,9 @@ However, that is not the only thing that has been pre-installed for your comfort
     
     ros2 run demo_nodes_cpp talker
 
-**Question:** What do you observe? 
+.. admonition:: Question
+    
+    What do you observe? 
 
 6. Now run the source command in the terminal and run the *talker* node again
 
@@ -75,11 +77,15 @@ However, that is not the only thing that has been pre-installed for your comfort
     source /opt/ros/humble/setup.bash
     ros2 run demo_nodes_cpp talker
 
-**Question:** What do you conclude? What does the source command do?
+.. admonition:: Question 
+    
+    What do you conclude? What does the source command do?
 
 Once you have understood the meaning of this command, go back to *.bashrc* file, uncomment the *source* command and save the file.
 
-**Question:** What is the benefit of having the *source* command in *.bashrc*?
+.. admonition:: Question
+    
+    What is the benefit of having the *source* command in *.bashrc*?
 
 .. tip::
 
@@ -309,14 +315,21 @@ Now you are finally ready to build and run your first node!
 
 Go back to *minimal_node.py* and comment ``rclpy.spin(minimal_node)``. Save the changes, build the project and run the program again.
 
-**Question:** What difference do you observe?
+.. admonition:: Question
+    
+    What difference do you observe?
 
 Communication Overview
 ----------------------
 
-Previously, you were introduced to the main building block of a ROS2 system: the node. In any real robotic application, you will not be working with just one node. Instead, you will typically have multiple nodes, each handling a specific task. These nodes operate independently, which means they need a way to communicate with each other to work together effectively.
+.. Previously, you were introduced to the main building block of a ROS2 system: the node. In any real robotic application, you will not be working with just one node. Instead, you will typically have multiple nodes, each handling a specific task. These nodes operate independently, which means they need a way to communicate with each other to work together effectively.
 
-ROS2 provides exactly what we need for this by offering a *message-passing* mechanism that allows nodes to exchange information without needing direct connections. This way, each node can stay focused on its own job, while still being part of a larger system. Importantly, this communication happens within the same network, allowing nodes on different devices or computers to interact as long as they are connected to the same network.
+.. ROS2 provides exactly what we need for this by offering a *message-passing* mechanism that allows nodes to exchange information without needing direct connections. This way, each node can stay focused on its own job, while still being part of a larger system. Importantly, this communication happens within the same network, allowing nodes on different devices or computers to interact as long as they are connected to the same network.
+
+One of the key features of ROS2 is its **distributed** computing **architecture**, designed to simplify complex robotic systems. At its core is a graph-like structure where **nodes**, which are individual software processes handling specific tasks, communicate with each other using **topics** and **services**. This communication is built on **message-passing mechanisms** that allows data exchange. Each method serves a specific purpose:
+
+* **Topics**: Enable **publish-subscribe messaging**, allowing nodes to publish data that others can subscribe to. Ideal for continuous data flows, such as sensor readings or real-time monitoring of robot status.
+* **Services**: Provide a **request-response mechanism** for discrete tasks, where one node requests an action and waits for a response from another node. Useful for operations such as checking a status or sending a command.
 
 .. figure:: img/communication.gif
     :align: center
@@ -325,12 +338,12 @@ ROS2 provides exactly what we need for this by offering a *message-passing* mech
     `Communication between Nodes <https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html>`_ 
 
 
-To keep things organized, ROS2 uses two main communication methods:
+.. To keep things organized, ROS2 uses two main communication methods:
 
-    * **Topics**: Used for continuous data exchange, allowing nodes to publish information that others can subscribe to.
-    * **Services**: Used for request-response interactions, letting nodes request specific actions from each other and receive replies.
+    .. * **Topics**: Used for continuous data exchange, allowing nodes to publish information that others can subscribe to.
+    .. * **Services**: Used for request-response interactions, letting nodes request specific actions from each other and receive replies.
 
-This communication setup helps keep the system modular and scalable, making it easier to design complex robotic systems. Now, let’s dive into the details and see how these mechanisms work in practice!
+.. This communication setup helps keep the system modular and scalable, making it easier to design complex robotic systems. Now, let’s dive into the details and see how these mechanisms work in practice!
 
 Topics Overview
 ---------------
@@ -423,7 +436,9 @@ Now that you have a better understanding of how topic communication works in ROS
     if __name__ == '__main__':
         main()
 
-**Question:** What are the essential elements of a publisher?
+.. admonition:: Question
+    
+    What are the essential elements of a publisher?
 
 4. Run the publisher node
 
@@ -484,7 +499,9 @@ We have finished with the publisher node for now, let's move on to the subscribe
     if __name__ == '__main__':
         main()
 
-**Question:** What are the essential elements of a subscriber?
+.. admonition:: Question
+    
+    What are the essential elements of a subscriber?
 
 7. Run the publisher node
 
@@ -518,7 +535,9 @@ At this stage, you can run both the *publisher* and *subscriber* at the same tim
 
 Keep the *publisher* and *subscriber* running, then launch a **second publisher** using the usual command.
 
-**Question:** What happens when we run two publishers with the same node name?
+.. admonition:: Question 
+    
+    What happens when we run two publishers with the same node name?
 
 .. tip::
 
@@ -731,7 +750,9 @@ With this foundation, let's move on to creating our own servers and clients in R
     if __name__ == '__main__':
         main()
 
-**Question:** What are the essential elements of a server?
+.. admonition:: Question
+    
+    What are the essential elements of a server?
 
 4. Add the following code for the client
 
@@ -816,7 +837,9 @@ This structure allows the client to make non-blocking service calls and process 
 
 We have just rewritten the *add_two_ints* example in our own package, so the result should be identical. You can use CLI commands to verify this. Additionally, we have added a client node, allowing you to call the server directly from the program instead of using the ``ros2 service call`` command from the terminal.
 
-**Question:** What happends if the client node starts before the server? Why?
+.. admonition:: Question
+    
+    What happends if the client node starts before the server? Why?
 
 
 Custom Interfaces

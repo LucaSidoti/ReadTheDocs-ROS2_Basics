@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
       <link rel="stylesheet" type="text/css" href="_static/code-tabs.css?v=1bc26e2f" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=756e2391" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=47caed35" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -29,6 +29,7 @@
       <script src="_static/code-tabs.js?v=c983d12e"></script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script src="_static/custom.js?v=0de935b9"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -93,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#launch-files-overview">Launch Files Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-overview">Gazebo Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#complete-urdf-collision-inertial">Complete URDF - Collision &amp; Inertial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_2.html#spawn-robot-in-gazebo">Spawn Robot in Gazebo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-plugins">Gazebo Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_2.html#gazebo-worlds">Gazebo Worlds</a></li>
 </ul>
@@ -133,10 +135,10 @@
 <h1>Preparatory Work 2<a class="headerlink" href="#preparatory-work-2" title="Link to this heading"></a></h1>
 <section id="thymio-example">
 <h2>Thymio Example<a class="headerlink" href="#thymio-example" title="Link to this heading"></a></h2>
-<p>Let’s be honnest, the previous session was quite intense! We covered a lot of foundational topics, and it is perfectly normal if everything is not fully clear yet. Today, we will go through an example to give you a practical reminder of what we learned. By the end, you should have a better idea of how a ROS2 project is typically structured and how its core components work together.</p>
-<p>Here, we will use an example with the Thymio robot, which you can see in the image below. This diagram represents a ROS2 project setup for the Thymio, organized into different components that reflect the main concepts we covered: workspaces, packages, nodes, topics, and services. Let’s go through each part to see how these concepts come to life in a real project.</p>
+<p>Let’s be honest, the previous session was quite intense! We covered a lot of foundational topics, and it is perfectly normal if everything is not fully clear yet. Today, we will revisit these concepts through a practical example. By the end, you should better understand the structure  of a ROS2 project and how its core components interact.</p>
+<p>The diagram below represents a ROS2 project setup for the Thymio robot, organized into key components: <em>workspace</em>, <em>packages</em>, <em>nodes</em>, <em>topics</em>, and <em>services</em>. Let’s explore each part to see how these concepts are applied in a real project.</p>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="img/thymio_example.png"><img alt="img/thymio_example.png" src="img/thymio_example.png" style="width: 90%;" />
+<a class="reference internal image-reference" href="_images/thymio_example.png"><img alt="_images/thymio_example.png" src="_images/thymio_example.png" style="width: 90%;" />
 </a>
 <figcaption>
 <p><span class="caption-text">Thymio Example - Overview of a ROS2 project structure</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>

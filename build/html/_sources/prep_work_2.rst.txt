@@ -5,9 +5,9 @@ Preparatory Work 2
 Thymio Example
 --------------
 
-Let's be honnest, the previous session was quite intense! We covered a lot of foundational topics, and it is perfectly normal if everything is not fully clear yet. Today, we will go through an example to give you a practical reminder of what we learned. By the end, you should have a better idea of how a ROS2 project is typically structured and how its core components work together.
+Let's be honest, the previous session was quite intense! We covered a lot of foundational topics, and it is perfectly normal if everything is not fully clear yet. Today, we will revisit these concepts through a practical example. By the end, you should better understand the structure  of a ROS2 project and how its core components interact.
 
-Here, we will use an example with the Thymio robot, which you can see in the image below. This diagram represents a ROS2 project setup for the Thymio, organized into different components that reflect the main concepts we covered: workspaces, packages, nodes, topics, and services. Let’s go through each part to see how these concepts come to life in a real project.
+The diagram below represents a ROS2 project setup for the Thymio robot, organized into key components: *workspace*, *packages*, *nodes*, *topics*, and *services*. Let’s explore each part to see how these concepts are applied in a real project.
 
 .. figure:: img/thymio_example.png
     :align: center
