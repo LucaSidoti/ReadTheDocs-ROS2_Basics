@@ -96,7 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#complete-urdf-collision-inertial">Complete URDF - Collision &amp; Inertial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spawn-robot-in-gazebo">Spawn Robot in Gazebo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gazebo-plugins">Gazebo Plugins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gazebo-worlds">Gazebo Worlds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gazebo-worlds-optional">Gazebo Worlds - Optional</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
@@ -219,7 +219,7 @@ installation</p></td>
 <a class="reference internal image-reference" href="_images/rviz_plugins.png"><img alt="_images/rviz_plugins.png" class="align-center" src="_images/rviz_plugins.png" style="width: 20%;" />
 </a>
 <p><div style="margin-top: 5px;"></div></p>
-<p>Rviz also allows you to interact with tools like the <em>Joint State Publisher</em>, a GUI that lets you manipulate the robot’s joints. This enables you to see how joint movements affect the robot’s structure.</p>
+<p>Rviz also allows you to interact with tools like the <em>Joint State Publisher</em> (the second pop-up window), a GUI that lets you manipulate the robot’s joints. This enables you to see how joint movements affect the robot’s structure.</p>
 <p>A key question to consider here is: <strong>How does ROS2 determine the positions and movements of the different links relative to one another over time?</strong></p>
 <p>The answer lies in <strong>Transform Frames (TFs)</strong>. These frames represent the spatial relationships (positions and orientations) between the robot’s parts and its environment. TFs enable ROS2 to continuously track how each part of the robot moves in relation to others. By maintaining structured relationships between frames, TFs play a crucial role in various robotic tasks.</p>
 <p>Each frame has three axes: x (red), y (green), and z (blue), representing its orientation in 3D space. If you uncheck the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> in Rviz, you can see that the TFs form a tree-like structure, showing how the robot’s rigid parts are connected.</p>
@@ -969,7 +969,7 @@ Radius = 2.2 cm</p></td>
 <li><p>Create the launch file</p></li>
 </ol>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/thymio_description/launch/
-touch<span class="w"> </span>touch<span class="w"> </span>example.launch.xml
+touch<span class="w"> </span>example.launch.xml
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -1530,7 +1530,7 @@ touch<span class="w"> </span>touch<span class="w"> </span>example.launch.xml
 <div class="admonition-thymio-step-7 admonition">
 <p class="admonition-title">Thymio - Step 7</p>
 <p>Open the <em>gazebo.xacro</em> file and paste the following code:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">&lt;gazebo&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;gazebo&gt;</span>
 <span class="w">    </span><span class="nt">&lt;plugin</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;diff_drive_controller&quot;</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;libgazebo_ros_diff_drive.so&quot;</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="cm">&lt;!-- Update rate in Hz --&gt;</span>
@@ -1605,9 +1605,36 @@ touch<span class="w"> </span>touch<span class="w"> </span>example.launch.xml
 </pre></div>
 </div>
 </div>
+<p>So far, you have constructed a Thymio model capable of movement using Gazebo’s differential drive plugin. However, an essential feature is still missing: <strong>sensors</strong>.</p>
+<p>Typically, adding sensors in a URDF involves the following steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Create and position sensor links</strong>: Each sensor requires a dedicated link in the URDF file, accurately placed to match the robot’s structure.</p></li>
+<li><p><strong>Define sensor properties</strong>: Use <code class="docutils literal notranslate"><span class="pre">&lt;sensor&gt;</span></code> tags to specify parameters like type, range, and topic names.</p></li>
+<li><p><strong>Integrate Gazebo plugins</strong>: Add plugins to enable the sensors to function in the simulation environment.</p></li>
+</ul>
+</div></blockquote>
+<p>In our case, we want to add proximity sensors to the Thymio, enabling it to detect obstacles.</p>
+<div class="admonition-thymio-step-8 admonition">
+<p class="admonition-title">Thymio - Step 8</p>
+<p>Adding multiple sensors manually can be a complex and time-consuming process. To simplify this, we provide a pre-configured file that facilitates the integration of proximity sensors into your Thymio model. Just follow the steps below:</p>
+<ol class="arabic simple">
+<li><p><a class="reference download internal" download="" href="_downloads/d3dfb6a213df74858b69f0631a1bd26f/proximity_sensors.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a> the configuration file</p></li>
+</ol>
+<p>Save the provided <em>proximity_sensors.xacro</em> file in the <em>/urdf/thymio directory</em>.</p>
+<ol class="arabic simple" start="2">
+<li><p>Include the file in your URDF</p></li>
+</ol>
+<p>Add the file to <em>thymio.urdf.xacro</em>, ensuring it is included after <em>thymio_chassis.xacro</em> as it references the <code class="docutils literal notranslate"><span class="pre">base_link</span></code>.</p>
+<ol class="arabic simple" start="3">
+<li><p>Adjust the <code class="docutils literal notranslate"><span class="pre">base_link</span></code> dimensions</p></li>
+</ol>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">base_link</span></code> length to 0.091 (reduced from 0.11) to correctly position the proximity sensors at the front of the Thymio. This adjustment ensures the sensors are properly positioned outside the chassis while maintaining the robot’s real-world dimensions.</p>
+</div>
+<p>Now, you are ready to test the updated model. Build the package and launch the enhanced Thymio in Gazebo to observe the result.</p>
 </section>
-<section id="gazebo-worlds">
-<h2>Gazebo Worlds<a class="headerlink" href="#gazebo-worlds" title="Link to this heading"></a></h2>
+<section id="gazebo-worlds-optional">
+<h2>Gazebo Worlds - Optional<a class="headerlink" href="#gazebo-worlds-optional" title="Link to this heading"></a></h2>
 <p>To conclude today’s session, let’s add the final element needed to achieve a fully functional simulation in ROS2 with Gazebo. So far, we have been working in an empty environment, but to test local avoidance algorithms, it would be beneficial to introduce obstacles into the world. There are two main ways to customize your world:</p>
 <ol class="arabic">
 <li><p>Adding objects</p>

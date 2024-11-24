@@ -32,6 +32,6 @@ html_theme_options = {
     'navigation_depth': 2,
     'titles_only': False
 }
-html_static_path = ['_static']
+html_static_path = ['_static', 'downloads']
 html_css_files = ['custom.css']
 html_js_files = ['custom.js']

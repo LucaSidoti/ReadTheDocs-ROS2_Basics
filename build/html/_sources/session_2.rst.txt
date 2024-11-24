@@ -85,7 +85,7 @@ As you can see in the image below, Rviz offers a variety of default plugins that
 
 |spacer|
 
-Rviz also allows you to interact with tools like the *Joint State Publisher*, a GUI that lets you manipulate the robot’s joints. This enables you to see how joint movements affect the robot’s structure.
+Rviz also allows you to interact with tools like the *Joint State Publisher* (the second pop-up window), a GUI that lets you manipulate the robot’s joints. This enables you to see how joint movements affect the robot’s structure.
 
 A key question to consider here is: **How does ROS2 determine the positions and movements of the different links relative to one another over time?**
 
@@ -987,7 +987,7 @@ Let’s revisit an example from session 1 to better understand launch files. Thi
 .. code-block:: bash
 
     cd ~/ros2_basics_ws/src/thymio_description/launch/
-    touch touch example.launch.xml
+    touch example.launch.xml
 
 2. Add content to the file
 
@@ -1582,7 +1582,7 @@ To begin, let’s focus on control. The Thymio is a differential drive robot, so
 
     .. code-block:: xml
 
-            <gazebo>
+        <gazebo>
             <plugin name="diff_drive_controller" filename="libgazebo_ros_diff_drive.so">
         
             <!-- Update rate in Hz -->
@@ -1659,10 +1659,37 @@ The diagram below provides a concise summary of everything covered so far. Revie
 
         ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
+So far, you have constructed a Thymio model capable of movement using Gazebo's differential drive plugin. However, an essential feature is still missing: **sensors**. 
+
+Typically, adding sensors in a URDF involves the following steps:
+
+    * **Create and position sensor links**: Each sensor requires a dedicated link in the URDF file, accurately placed to match the robot's structure.
+    * **Define sensor properties**: Use ``<sensor>`` tags to specify parameters like type, range, and topic names.
+    * **Integrate Gazebo plugins**: Add plugins to enable the sensors to function in the simulation environment.
+
+In our case, we want to add proximity sensors to the Thymio, enabling it to detect obstacles.
+
 .. admonition:: Thymio - Step 8
 
-Gazebo Worlds
--------------
+    Adding multiple sensors manually can be a complex and time-consuming process. To simplify this, we provide a pre-configured file that facilitates the integration of proximity sensors into your Thymio model. Just follow the steps below:
+
+    1. :download:`Download <downloads/proximity_sensors.zip>` the configuration file
+
+    Save the provided *proximity_sensors.xacro* file in the */urdf/thymio directory*.
+
+    2. Include the file in your URDF
+
+    Add the file to *thymio.urdf.xacro*, ensuring it is included after *thymio_chassis.xacro* as it references the ``base_link``.
+
+    3. Adjust the ``base_link`` dimensions
+
+    Set the ``base_link`` length to 0.091 (reduced from 0.11) to correctly position the proximity sensors at the front of the Thymio. This adjustment ensures the sensors are properly positioned outside the chassis while maintaining the robot's real-world dimensions.
+
+Now, you are ready to test the updated model. Build the package and launch the enhanced Thymio in Gazebo to observe the result.
+
+
+Gazebo Worlds - Optional
+------------------------
 
 To conclude today's session, let's add the final element needed to achieve a fully functional simulation in ROS2 with Gazebo. So far, we have been working in an empty environment, but to test local avoidance algorithms, it would be beneficial to introduce obstacles into the world. There are two main ways to customize your world:
 
