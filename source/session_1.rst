@@ -448,6 +448,10 @@ Update the *setup.py* file, then build the project and run the node. If you have
 
 Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use ``rqt_graph``  to visualize what is happening.
 
+.. raw:: html
+
+    <div class="table-centered">
+
 +-----------------------------------------+----------------------------------------+
 | CLI                                     | Command                                |
 +=========================================+========================================+
@@ -461,6 +465,10 @@ Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools 
 +-----------------------------------------+----------------------------------------+
 | Display messages published to a topic   | ``ros2 topic echo <topic_name>``       |
 +-----------------------------------------+----------------------------------------+
+
+    .. raw:: html
+
+        </div>
 
 After inspection, kill the node by pressing ``Ctrl+C``.
 
@@ -511,6 +519,10 @@ Update the *setup.py* file, then build the project and run the node.
 
 Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools to inspect the system. Additionally, use ``rqt_graph``  to visualize what is happening.
 
+.. raw:: html
+
+    <div class="table-centered">
+
 +--------------------------------+-----------------------------------------------------------------+
 | CLI                            | Command                                                         |
 +================================+=================================================================+
@@ -524,6 +536,10 @@ Open a new terminal and explore various ROS2 Command Line Interface (CLI) tools 
 +--------------------------------+-----------------------------------------------------------------+
 | Publish a message to a topic   | ``ros2 topic pub <topic_name> <msg_type> "{msg_field: 'msg'}"`` |
 +--------------------------------+-----------------------------------------------------------------+
+
+.. raw:: html
+
+    </div>
 
 After inspection, kill the node by pressing ``Ctrl+C``.
 
@@ -575,62 +591,159 @@ Just like nodes, topics can be renamed at runtime using remapping. You can achie
 
     |spacer|
 
-    Note: In the rqt_graph interface, ensure you select ``Nodes/Topics (all)`` rather than ``Nodes only`` to obtain the same graph representation.
+    In the rqt_graph interface, ensure you select ``Nodes/Topics (all)`` rather than ``Nodes only`` to obtain the same graph representation.
 
 Exercise 1
 ----------
 
 Now it is time to put your skills to the test! Apply what you have learned so far to complete the following exercise.
 
-Heat Index Monitoring System
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. raw:: html
+
+    <h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Heat Index Monitoring System</h3>
 
 Create a ROS2 system where two different sensors (simulated as publishers) publish temperature and humidity data to separate topics. A third node (subscriber) listens to both topics, combines the data, and logs an alert if the *heat index* (a combination of temperature and humidity) exceeds a certain threshold.
 
-**Steps**
+.. admonition:: Steps
 
-1. Create two publishers
+    1. **Create two publishers**
 
-  * One publisher will simulate a **temperature sensor** and publish random temperature values in **Celsius** (between 27°C and 43°C) on the *temperature* topic
-  * The second publisher will simulate a **humidity sensor** and publish random humidity values (between 40% and 100%) on the *humidity* topic
-  * These values should be published at regular intervals (every 5 seconds)
+    * One publisher will simulate a **temperature sensor** and publish random temperature values in **Celsius** (between 27°C and 43°C) on the *temperature* topic
+    * The second publisher will simulate a **humidity sensor** and publish random humidity values (between 40% and 100%) on the *humidity* topic
+    * These values should be published at regular intervals (every 5 seconds)
 
-2. Create a subscriber
+    2. **Create a subscriber**
 
-  * This node subscribes to both *temperature* and *humidity* topics
-  * It calculates the heat index using the following formula:
-
-  .. code-block:: python
-
-    heat_index = -42.379 + 2.04901523 * T + 10.14333127 * H - 0.22475541 * T * H \
-                 - 6.83783e-3 * T ** 2 - 5.481717e-2 * H ** 2 \
-                 + 1.22874e-3 * T ** 2 * H + 8.5282e-4 * T * H ** 2 - 1.99e-6 * T ** 2 * H ** 2
-
-.. 
- 
-   where T is the temperature in **Fahrenheit** and H is the humidity as a percentage
-
-  * It logs a warning if the heat index exceeds a threshold (125°F)
-
-.. admonition:: Hints
-
-  .. toggle::
-
-    * Consider developing your nodes in a new package (optional)
-    * Use the *numpy.random* library to generate random integers. To avoid potential type-related errors, it is recommended to cast the result to an *int*:
+    * This node subscribes to both *temperature* and *humidity* topics
+    * It calculates the heat index using the following formula:
 
     .. code-block:: python
 
-        import numpy.random as np_random
+        heat_index = -42.379 + 2.04901523 * T + 10.14333127 * H - 0.22475541 * T * H \
+                    - 6.83783e-3 * T ** 2 - 5.481717e-2 * H ** 2 \
+                    + 1.22874e-3 * T ** 2 * H + 8.5282e-4 * T * H ** 2 - 1.99e-6 * T ** 2 * H ** 2
 
-        random_value = int(np_random.randint(min, max+1)) 
+    .. 
+    
+    where T is the temperature in **Fahrenheit** and H is the humidity as a percentage
 
-    * Utilize the **UInt8** from *std_msgs* as the message type for your topics
-    * The final result should look like this in *rqt_graph*:
+    * It logs a warning if the heat index exceeds a threshold (125°F)
 
-    .. image:: img/exercise1.png
-        :align: center
-        :width: 80%
+    .. admonition:: Hints
+
+        .. toggle::
+
+            * Consider developing your nodes in a new package (optional)
+            * Use the *numpy.random* library to generate random integers. To avoid potential type-related errors, it is recommended to cast the result to an *int*:
+
+            .. code-block:: python
+
+                import numpy.random as np_random
+
+                random_value = int(np_random.randint(min, max+1)) 
+
+            * Utilize the **UInt8** from *std_msgs* as the message type for your topics
+            * The final result should look like this in *rqt_graph*:
+
+            .. image:: img/exercise1.png
+                :align: center
+                :width: 80%
+
+Parameters Overview - Optional
+------------------------------
+
+In the *Heat Index Monitoring System*, you implemented a program that calculates the heat index using data from temperature and humidity sensors. While this solution works well for a single setup, what happens when we want to extend or modify it?  For instance, imagine adding a second temperature sensor with a different publish frequency.
+
+.. For instance:
+
+..     * Imagine adding a second temperature sensor with a different publish frequency
+..     * Or adjusting the heat index warning threshold dynamically during runtime
+
+Without parameters, these changes would require duplicating or modifying the existing nodes, leading to unnecessary complexity.
+
+ROS2 **parameters** provide a powerful way to handle such scenarios. Parameters are configurable values that allow nodes to adapt to varying requirements without altering their code. For example, you can specify a sensor's publish frequency directly from the command line.
+
+.. Let's take a break from URDFs for a moment and explore another essential concept in ROS2: **parameters**. Parameters are configurable values that allow to reuse the same node with differents settings.
+
+.. To understand their importance, let’s revisit an example from the previous session: the *Heat Index Monitoring System*. We used a temperature sensor and a humidity sensor to calculate the heat index. Now, imagine we want to extend this setup by adding a second temperature sensor, but with different settings, such as a unique publish frequency.
+
+.. What happens if we try to achieve this without parameters? We might end up duplicating the existing node just to adjust the frequency. This approach quickly becomes inefficient and difficult to manage as the system grows in complexity.
+
+.. Fortunately, ROS2 parameters provide an elegant solution. They let us configure settings, like the publish frequency, directly from the run command without modifying or duplicating the node’s code. A parameter passed as an argument dynamically updates a variable in the node, enabling efficient customization.
+
+To summarize, ROS2 parameters enable:
+
+* **Customization**: Define robot-specific configurations (e.g. sensor settings)
+* **Flexibility**: Adjust node behavior without modifying or rebuilding the code
+* **Efficiency**: Reuse the same node with different parameter values
+
+Let’s see how parameters work in practice by modifying the first publisher node created in this session. We will define the publish frequency as a parameter, allowing us to change its value directly when running the node from the terminal.
+
+1. Open the file *publisher.py*
+
+|spacer|
+
+2. Modify the publisher
+
+Replace the contents of *publisher.py* with the following code:
+
+.. code-block:: python
+
+    import rclpy
+    from rclpy.node import Node
+
+    from std_msgs.msg import String
+
+    class MinimalPublisher(Node):
+
+        def __init__(self):
+            super().__init__('minimal_publisher')
+            self.publisher_ = self.create_publisher(String, 'topic', 10)
+            self.declare_parameter("publish_frequency", 1.0)
+            self.publish_frequency_ = self.get_parameter("publish_frequency").value
+            self.timer = self.create_timer(1.0 / self.publish_frequency_, self.timer_callback)
+            self.i = 0
+
+        def timer_callback(self):
+            msg = String()
+            msg.data = 'Hello World: %d' % self.i
+            self.publisher_.publish(msg)
+            self.get_logger().info('Publishing: "%s"' % msg.data)
+            self.i += 1
+
+    def main(args=None):
+        rclpy.init(args=args)
+        minimal_publisher = MinimalPublisher()
+        rclpy.spin(minimal_publisher)
+        minimal_publisher.destroy_node()
+        rclpy.shutdown()
+
+    if __name__ == '__main__':
+        main()
+
+.. admonition:: Question
+    
+     What are the essential steps involved in working with a parameter?
+
+3. Build the package
+
+|spacer|
+
+4. Test the publisher with different frequencies
+
+Run the node and set the publish frequency using the following command:
+
+.. code-block:: bash
+
+    ros2 run ros2_basics_pkg publisher_node --ros-args -p publish_frequency:=4.0
+
+.. admonition:: Question
+    
+    What happens if no parameter value is provided during execution? Why?
+
+.. tip::
+
+    You can verify the frequency at which messages are published using the following command: ``ros2 topic hz <topic_name>``.
 
 
 Services Overview
@@ -648,6 +761,10 @@ Topics are a fundamental communication tool, but they are not the only option av
 
 Use the following commands to see what is running, pay special attention to */add_two_ints*.
 
+.. raw:: html
+
+    <div class="table-centered">
+
 +-----------------------------------------+----------------------------------------+
 | CLI                                     | Command                                |
 +=========================================+========================================+
@@ -661,6 +778,10 @@ Use the following commands to see what is running, pay special attention to */ad
 +-----------------------------------------+----------------------------------------+
 | Get details on a service type           | ``ros2 interface show <srv_type>``     |
 +-----------------------------------------+----------------------------------------+
+
+.. raw:: html
+
+    </div>
 
 .. note::
 
@@ -913,7 +1034,7 @@ Similar to Python packages, C++ packages also have a *package.xml* file. Additio
 
     We will cover this in more detail when the time comes.
 
-6. Create a custom message
+5. Create a custom message
 
     a. Create a message file indside the *msg* directory
 
@@ -974,7 +1095,7 @@ Similar to Python packages, C++ packages also have a *package.xml* file. Additio
 
     
 
-7. Create a custom service
+6. Create a custom service
 
 To create a custom service definition, follow a procedure similar to creating a custom message. You will need to add a *.srv* file to the *srv/* folder and respect the request/response structure specific to services, which is as follows:
 

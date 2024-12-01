@@ -4,9 +4,9 @@ Session 2
 Introduction
 ------------
 
-Welcome to session 2 of our ROS2 Basics labs! Today, we will be exploring the visualization and simulation tools integrated with ROS2. In this session, we will dive into Rviz, Transforms (TFs), URDF, Xacro, parameters, launch files, and Gazebo, building the essential skills for designing and simulating robotic systems.
+Welcome to session 2 of our ROS2 Basics labs! Today, we will be exploring the visualization and simulation tools integrated with ROS2. In this session, we will dive into Rviz, Transforms (TFs), launch files, URDF, Xacro, and Gazebo, building the essential skills for designing and simulating robotic systems.
 
-Our main goal for today is to create a model of the Thymio robot that is fully integrated with ROS2 and capable of smooth operation in Gazebo simulation. We will guide you step-by-step through the essential elements needed to achieve this. You will begin with simple examples to introduce each concept and gradually apply this knowledge to build the Thymio model. Now, let's get to work!
+Our main goal for today is to create a model of the Thymio robot that is fully integrated with ROS2 and capable of smooth operation in Gazebo simulation. We will guide you step by step through the essential elements needed to achieve this. You will begin with simple examples to introduce each concept and gradually apply this knowledge to build the Thymio model. Now, let's get to work!
 
 
 URDF Tutorial Example
@@ -25,6 +25,10 @@ Let’s get started by ensuring that everything we need is installed and set up.
 .. note::
 
     If you have been paying attention to the terminal messages, you may have noticed that this package is already installed in the Docker environment. Due to time considerations, we have not covered all the steps of the installation process. However, the following outlines the general procedure you can follow to install any new package in ROS2.
+
+    .. raw:: html
+
+        <div class="table-centered">
     
     +-------+----------------------------+--------------------------------------------------+
     | Step  | Task                       | Command                                          |
@@ -44,6 +48,10 @@ Let’s get started by ensuring that everything we need is installed and set up.
     | 5     | **Verify** the package     | ``ros2 pkg list | grep <package_name>``          |
     |       | installation               |                                                  |
     +-------+----------------------------+--------------------------------------------------+
+
+    .. raw:: html
+
+        </div>
 
 2. Let’s check where this package and others are installed:
 
@@ -121,11 +129,208 @@ These tools are invaluable for building and visualizing robot models in ROS2.
 
 Let’s keep going! In the next chapters, we will dive deeper into understanding and working with URDF files to create our own robot model.
 
+Launch Files Overview
+---------------------
+
+At this stage, you have already visualized a robot model in Rviz using the following command:
+
+.. code-block:: bash
+
+    ros2 launch urdf_tutorial display.launch.py model:=<path_to_urdf>
+
+You might have been wondering, what does the *launch* command do? Simply put, it runs a **launch file**. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.
+
+Launch files provide a structured way to:
+
+* Start multiple nodes simultaneously
+* Apply specific parameters
+* Remap topics and services
+* Load additional configurations
+
+Launch files can be written in **Python**, **XML**, or **YAML**. For simplicity and conciseness, we will use the XML format in this course.
+
+.. admonition:: Action Required
+
+    Please :download:`Download <downloads/thymio_description.zip>` the ``thymio_description`` package required for this session and place it in the ``/src`` directory of your ``ros2_basics_ws`` workspace.
+
+.. note::
+
+    Following a common convention, a robot's model is typically stored in a package named ``<robot_name>_description``, which organizes related files into structured folders. In our case, the ``thymio_description`` package contains several folders (*launch*, *rviz*, *urdf*, and *worlds*) that will be gradually filled with additional content as we progress.
+    
+    Keep in mind that when new folders are added to a package, they are not automatically recognized by ROS2. To make them accessible, they must be installed in the package's ``/share`` directory. If you check the *setup.py* file, you will notice that this step has already been handled for you.
+
+Let’s revisit an example from Session 1, illustrated in the image below, to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously launch four nodes with their appropriate configurations.
+
+.. image:: img/task2.png
+    :align: center
+    :width: 60%
+
+|spacer|
+
+1. Open the file *example.launch.xml*
+
+   Navigate to the */thymio_description/launch* folder and open the *example.launch.xml* file.
+
+2. Add the following code to the file
+
+   .. code-block:: xml
+
+       <launch>
+           <node pkg="demo_nodes_py" exec="talker" name="stress">
+               <remap from="chatter" to="exams"/>
+           </node>
+
+           <node pkg="demo_nodes_py" exec="talker" name="BA1_students">
+               <remap from="chatter" to="exams"/>
+           </node>
+
+           <node pkg="demo_nodes_py" exec="listener" name="BA2">
+               <remap from="chatter" to="exams"/>
+           </node>
+
+           <node pkg="demo_nodes_py" exec="listener" name="MAN">
+               <remap from="chatter" to="exams"/>
+           </node>
+       </launch>
+
+..
+
+    .. admonition:: Question
+
+        What are the essential elements of a launch file?
+
+|spacer|
+
+3. Build and source the package
+
+   .. code-block:: bash
+
+        cd ~/ros2_basics_ws/
+        colcon build --packages-select thymio_description
+        source install/setup.bash
+
+4. Run the launch file
+
+   .. code-block:: bash
+
+       ros2 launch thymio_description example.launch.xml 
+
+5. Visualize the result
+
+   .. code-block:: bash
+
+       rqt_graph
+
+.. note:: 
+
+    Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.
+
+To save time during this class, we will not go over the creation of the launch files required for this session, as they are more advanced than the basic example we have just seen. Instead, the necessary launch files are already prepared and included in the ``thymio_description`` package. But don't despair! We will revisit and analyze these files in detail during Preparatory Work 3.
+
+
+
+.. Launch Files Overview
+.. ---------------------
+
+.. At this stage, you have already visualized a robot model in Rviz using the following command:
+
+.. In this section, we shift focus back to the visualization aspects of ROS2, closing the parenthesis on parameters. So far, we have relied on a convenient command from the *urdf_tutorial* package to visualize URDF files in Rviz. But how exactly does this command work? Let’s delve into the concept of launch files to uncover the mechanics behind it.
+
+.. First, let’s recall the command we used previously to display a URDF in Rviz:
+
+.. .. code-block:: bash
+
+..     ros2 launch urdf_tutorial display.launch.py model:=<path_to_urdf>
+
+.. You might have been wondering, what does the *launch* command do? Simply put, it runs a **launch file**. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.
+
+.. Launch files provide a structured way to:
+
+.. * Start multiple nodes simultaneously
+.. * Apply specific parameters
+.. * Remap topics and services
+.. * Load additional configurations
+
+.. Launch files can be written in **Python**, **XML**, or **YAML**. For simplicity and conciseness, we will use XML in this course.
+
+.. Let’s revisit an example from Session 1, illustrated in the image below, to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously launch four nodes with their appropriate configurations.
+
+.. .. image:: img/task2.png
+..     :align: center
+..     :width: 60%
+
+
+
+.. 1. Create the launch file
+
+.. .. code-block:: bash
+
+..     cd ~/ros2_basics_ws/src/thymio_description/launch/
+..     touch example.launch.xml
+
+.. 2. Add content to the file
+
+.. .. code-block:: xml
+
+..     <launch>
+..         <node pkg="demo_nodes_py" exec="talker" name="stress">
+..             <remap from="chatter" to="exams"/>
+..         </node>
+
+..         <node pkg="demo_nodes_py" exec="talker" name="BA1_students">
+..             <remap from="chatter" to="exams"/>
+..         </node>
+
+..         <node pkg="demo_nodes_py" exec="listener" name="BA2">
+..             <remap from="chatter" to="exams"/>
+..         </node>
+
+..         <node pkg="demo_nodes_py" exec="listener" name="MAN">
+..             <remap from="chatter" to="exams"/>
+..         </node>
+..     </launch>
+
+.. .. admonition:: Question
+    
+..     What are the essential elements of a launch file?
+
+.. 3. Build the package
+
+
+
+.. 4. Run the launch file
+
+.. .. code-block:: bash
+
+..     ros2 launch thymio_description example.launch.xml 
+
+.. 5. Visualize the result
+
+.. .. code-block:: bash
+
+..     rqt_graph
+
+.. .. note:: 
+
+..     Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.
+
+.. To save time during this class, we will not delve into the process of creating these files. Instead, we have provided a package containing the necessary launch commands for this session. The details of these launch files will be explained in Preparatory Work 3. 
+
+.. .. admonition:: Action Required
+
+..     Please :download:`Download <downloads/thymio_description.zip>` the package ``thymio_description`` required for this session and place it in the ``/src`` directory of your ``ros2_basics_ws`` workspace. 
+
+.. .. note::
+
+..     Following a common convention, a robot's model is typically stored in a package named ``<robot_name>_description``, which organizes related files into structured folders. In our case, the ``thymio_description`` package contains several folders (*launch*, *rviz*, *urdf*, and *worlds*) that will be gradually filled with additional content as we progress.
+    
+..     Keep in mind that when new folders are added to a package, they are not automatically recognized by ROS2. To make them accessible, they must be installed in the package's ``/share`` directory. If you check the *setup.py* file, you will notice that this step has already been handled for you. 
+
 
 URDF Overview
 -------------
 
-In this introductory example, the need for TFs (Transform Frames) in robotics was highlighted. TFs play a crucial role in tracking the positions of different parts of a robot over time. They are essential for most control packages in ROS2 to function effectively.
+In the introductory example, the need for TFs (Transform Frames) in robotics was highlighted. TFs play a crucial role in tracking the positions of different parts of a robot over time. They are essential for most control packages in ROS2 to function effectively.
 
 For example:
 
@@ -139,7 +344,13 @@ A URDF, Unified Robot Description Format, consists of two main components:
 * **Links**: Represent the physical, rigid parts of the robot. These correspond to the ``RobotModel`` in Rviz.
 * **Joints**: Define the relationships between links and are used by ROS2 to generate TFs.
 
-Links are the rigid bodies of a robot. They can be described using one of the four types of geometry: **Boxes**, **Cylinders**, **Spheres**, **Meshes**.
+.. figure:: img/urdf.png
+   :align: center
+   :width: 40%
+
+   `URDF representation <https://web.enib.fr/~buche/data/IML/class_ROS2_tools.html>`_
+
+Links are the rigid bodies of a robot. They can be described using one of the four types of geometry: **boxes**, **cylinders**, **spheres**, and **meshes**.
 
 .. note::
 
@@ -147,9 +358,9 @@ Links are the rigid bodies of a robot. They can be described using one of the fo
 
 To fully define a link, three properties must be specified:
 
-* **Visual**: How the link appears in visualization tools.
-* **Inertial**: The physical properties (mass, center of gravity, etc.).
-* **Collision**: The geometry used for collision detection.
+* **Visual**: How the link appears in visualization tools
+* **Inertial**: The physical properties (mass, center of gravity, etc.)
+* **Collision**: The geometry used for collision detection
 
 These properties will be introduced progressively throughout the session.
 
@@ -161,10 +372,10 @@ These properties will be introduced progressively throughout the session.
 
 Joints define the connections between links. The most common types of joints in ROS2 are:
 
-1. **Fixed**: No movement between the parent and child links.
-2. **Revolute**: Rotation around a single axis within a defined range.
-3. **Continuous**: Rotation around a single axis without limits.
-4. **Prismatic**: Linear motion along a single axis.
+1. **Fixed**: No movement between the parent and child links
+2. **Revolute**: Rotation around a single axis within a defined range
+3. **Continuous**: Rotation around a single axis without limits
+4. **Prismatic**: Linear motion along a single axis
 
 A joint is always defined by its **parent link** and **child link**.
 
@@ -179,368 +390,466 @@ A joint is always defined by its **parent link** and **child link**.
     For more information, consult the official documentation: `Links <http://wiki.ros.org/urdf/XML/link>`_ or `Joints <http://wiki.ros.org/urdf/XML/joint>`_.
 
 
+.. Minimal URDF - Visual
+.. ---------------------
+
+.. With the necessary theoretical background in place, it is time to create our first robot model. We will start by setting up a new package to develop the **Thymio** model. Following standard conventions, the package will be named ``<robot_name>_description`` and structured as a C++ package. 
+
+.. 1. Create a new package:
+
+.. .. code-block:: bash
+
+..     cd ~/ros2_basics_ws/src/
+..     ros2 pkg create thymio_description
+
+.. 2. Remove unnecessary folders:
+
+.. .. code-block:: bash
+
+..     cd ~/ros2_basics_ws/src/thymio_description/
+..     rm -rf include/ src/
+..     ls
+
+.. 3. Create directories for today's materials:
+
+.. .. code-block:: bash
+
+..     mkdir -p urdf/example urdf/thymio launch rviz worlds
+..     ls
+
+.. Now, let's build the package and verify its structure.
+
+.. 4. Build the package:
+
+.. .. code-block:: bash
+
+..     cd ~/ros2_basics_ws
+..     colcon build --packages-select thymio_description
+..     source install/setup.bash
+
+.. By default, ROS2 stores all packages in the *install* directory. Inside, you will find your package along with a *share* directory.
+
+.. 5. Verify package installation:
+
+.. .. code-block:: bash
+
+..     cd ~/ros2_basics_ws/install/thymio_description/share/thymio_description
+..     ls
+
+.. .. error:: 
+
+..     You will notice that the folders we created are missing. This means ROS2 cannot access them. To fix this, we need to update the *CMakeLists.txt* file to include these directories in the installation process.
+
+.. 6. Update *CMakeLists.txt*:
+
+.. Add the following block above ``if(BUILD_TESTING)``:
+
+.. .. code-block:: bash
+
+..     install(
+..         DIRECTORY urdf launch rviz worlds
+..         DESTINATION share/${PROJECT_NAME}/
+..         )
+
+.. This command ensures the directories are installed at the correct location. Rebuild the package and verify again:
+
+.. .. code-block:: bash
+
+..     cd ~/ros2_basics_ws
+..     colcon build --packages-select thymio_description
+..     source install/setup.bash
+..     cd ~/ros2_basics_ws/install/thymio_description/share/thymio_description
+..     ls
+
+.. Now, we are ready to create our first URDF file. We will start simple, defining a single box and displaying it in Rviz.
+
 Minimal URDF - Visual
 ---------------------
 
-With the necessary theoretical background in place, it is time to create our first robot model. We will start by setting up a new package to develop the **Thymio** model. Following standard conventions, the package will be named ``<robot_name>_description`` and structured as a C++ package. 
+.. With the necessary theoretical background in place, it is time to create our first robot model. We will start by setting up a new package to develop the **Thymio** model. Following standard conventions, the package will be named ``<robot_name>_description`` and structured as a C++ package. 
 
-1. Create a new package:
+.. 1. Open the file *example.urdf*
 
-.. code-block:: bash
+..    Navigate to the */thymio_description/urdf/example* folder and open the *example.urdf* file.
 
-    cd ~/ros2_basics_ws/src/
-    ros2 pkg create thymio_description
+With the necessary theoretical background covered, we can now move on to our first robot model. We will use the pre-existing *example.urdf* file provided in the ``thymio_description`` package. Navigate to the */urdf/example* directory and open the *example.urdf* file.
 
-2. Remove unnecessary folders:
+First Link 
+~~~~~~~~~~
 
-.. code-block:: bash
+Fill the *example.urdf* file with the first link:
 
-    cd ~/ros2_basics_ws/src/thymio_description/
-    rm -rf include/ src/
-    ls
+1.Define the structure of the URDF file
 
-3. Create directories for today's materials:
+.. code-block:: xml
 
-.. code-block:: bash
+    <?xml version="1.0"?>
+    <robot name="example">
 
-    mkdir -p urdf/example urdf/thymio launch rviz worlds
-    ls
+    </robot>
 
-Now, let's build the package and verify its structure.
+This structure specifies the XML format and gives a name to the robot model.
 
-4. Build the package:
+2. Add a link with visual properties
+
+.. code-block:: xml 
+
+    <?xml version="1.0"?>
+    <robot name="example">
+    
+        <link name="base_link">
+            <visual>    
+                <origin xyz="0 0 0"  rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.2 0.3 0.6"/>
+                </geometry>
+            </visual>
+        </link>
+
+    </robot>
+
+The **base_link** is a standard name for the core element of a robot. Its dimensions are specified in meters. The **origin** uses **xyz** for position and **rpy** (roll, pitch, yaw) for orientation.
+
+.. note::
+
+    Tags in XML must be opened (e.g. ``<visual>``) and closed (e.g. ``</visual>``). If a tag is empty, it can be written as a self-closing tag (e.g. ``<box size="0.2 0.3 0.6"/>`` instead of ``<box size="0.2 0.3 0.6"> </box>``).
+
+3. Visualize the box in Rviz
+
+First, build the package. Since more components will be added shortly, it is convenient to use the ``--symlink-install`` option for quicker updates.
 
 .. code-block:: bash
 
     cd ~/ros2_basics_ws
-    colcon build --packages-select thymio_description
+    colcon build --packages-select thymio_description --symlink-install
     source install/setup.bash
 
-By default, ROS2 stores all packages in the *install* directory. Inside, you will find your package along with a *share* directory.
+.. warning::
 
-5. Verify package installation:
+    This command is useful when working with URDF as it allows you to progressively verify your progress. However, remember to rebuild the package whenever you add a new file.
+
+Now, we are ready to visualize the result. Use the following command to launch the URDF in Rviz.
+
+.. Now, we are ready to visualize the result. Use the *urdf_tutorial* package to launch the URDF in Rviz. Later, we will explore how to achieve this without relying on this package.
 
 .. code-block:: bash
 
-    cd ~/ros2_basics_ws/install/thymio_description/share/thymio_description
-    ls
+    ros2 launch thymio_description example_display_urdf.launch.xml 
+
+We have successfully created a box with dimensions: 20 cm in length (x-direction), 30 cm in width (y-direction), and 10 cm in height (z-direction). However, it appears with a default color in Rviz. Let’s modify it to add a custom color.
+
+.. .. warning::
+
+..     You can ignore the warning message in Rviz as it will be resolved shortly.
+
+4. Add color to the visual
+
+.. code-block:: xml
+
+    <?xml version="1.0"?>
+    <robot name="example">
+
+        <material name="blue">
+            <color rgba="0 0 1 1" />
+        </material>
+
+        <link name="base_link">
+            <visual>    
+                <origin xyz="0 0 0"  rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.2 0.3 0.6"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
+
+    </robot>
+
+Colors are defined using the ``<material>`` tag. A common practice is to define colors at the top of the file and reference them by name in the ``<visual>`` tag. The color attributes include four arguments: **rgb** for red, green, and blue, and **a** for transparency.
+
+View the result in Rviz using the same command as before (rebuilding the package is not necessary). 
+
+First Joint
+~~~~~~~~~~~
+
+Fill the *example.urdf* file with the first joint:
+
+To introduce joints, we will add a second link and then connect it to the base link.
+
+1. Define a second link
+
+.. code-block:: xml 
+
+    <?xml version="1.0"?>
+    <robot name="example">
+
+        <material name="blue">
+            <color rgba="0 0 1 1" />
+        </material>
+
+        <link name="base_link">
+            <visual>    
+                <origin xyz="0 0 0"  rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.2 0.3 0.6"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
+
+        <link name="second_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder length="0.8" radius="0.05"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
+
+    </robot>
+
+Here, we have simply added a second link with a different shape. The name can be chosen arbitrarily. You can try visualizing it in Rviz.
 
 .. error:: 
 
-    You will notice that the folders we created are missing. This means ROS2 cannot access them. To fix this, we need to update the *CMakeLists.txt* file to include these directories in the installation process.
-
-6. Update *CMakeLists.txt*:
-
-Add the following block above ``if(BUILD_TESTING)``:
-
-.. code-block:: bash
-
-    install(
-        DIRECTORY urdf launch rviz worlds
-        DESTINATION share/${PROJECT_NAME}/
-        )
-
-This command ensures the directories are installed at the correct location. Rebuild the package and verify again:
-
-.. code-block:: bash
-
-    cd ~/ros2_basics_ws
-    colcon build --packages-select thymio_description
-    source install/setup.bash
-    cd ~/ros2_basics_ws/install/thymio_description/share/thymio_description
-    ls
-
-Now, we are ready to create our first URDF file. We will start simple, defining a single box and displaying it in Rviz.
-
-7. Create an *example.urdf* file:
-
-.. code-block:: bash
-
-    cd ~/ros2_basics_ws/src/thymio_description/urdf/example
-    touch example.urdf
-
-8. Fill the *example.urdf* file with the first link:
-
-    a. Define the structure of the URDF file
-
-    .. code-block:: xml
-
-        <?xml version="1.0"?>
-        <robot name="example">
-
-        </robot>
-
-    This structure specifies the XML format and gives a name to the robot model.
-
-    b. Add a link with visual properties
-
-    .. code-block:: xml 
-
-        <?xml version="1.0"?>
-        <robot name="example">
-        
-            <link name="base_link">
-                <visual>    
-                    <origin xyz="0 0 0"  rpy="0 0 0"/>
-                    <geometry>
-                        <box size="0.2 0.3 0.6"/>
-                    </geometry>
-                </visual>
-            </link>
-
-        </robot>
-
-    The **base_link** is a standard name for the core element of a robot. Its dimensions are specified in meters. The **origin** uses **xyz** for position and **rpy** (roll, pitch, yaw) for orientation.
-
-    .. note::
-
-        Tags in XML must be opened (e.g. ``<visual>``) and closed (e.g. ``</visual>``). If a tag is empty, it can be written as a self-closing tag (e.g. ``<box size="0.2 0.3 0.6"/>`` instead of ``<box size="0.2 0.3 0.6"> </box>``).
-
-    c. Visualize the box in Rviz
-
-    First, build the package. Since more components will be added shortly, it is convenient to use the ``--symlink-install`` option for quicker updates.
-
-    .. code-block:: bash
-
-        colcon build --packages-select thymio_description --symlink-install
-        source install/setup.bash
-
-    .. warning::
-
-        This command is useful when working with URDFs as it allows you to progressively verify your progress. However, remember to rebuild the package whenever you add a new file.
-
-    Now, we are ready to visualize the result. Use the *urdf_tutorial* package to launch the URDF in Rviz. Later, we will explore how to achieve this without relying on this package.
-
-    .. code-block:: bash
-
-        ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf
-
-    We have successfully created a box with dimensions: 20 cm in length (x-direction), 30 cm in width (y-direction), and 10 cm in height (z-direction). However, it appears with a default color in Rviz. Let’s modify it to add a custom color.
-    
-    .. warning::
-
-        You can ignore the warning message in Rviz as it will be resolved shortly.
-
-    d. Add color to the visual
-
-    .. code-block:: xml
-
-        <?xml version="1.0"?>
-        <robot name="example">
-
-            <material name="blue">
-                <color rgba="0 0 1 1" />
-            </material>
-
-            <link name="base_link">
-                <visual>    
-                    <origin xyz="0 0 0"  rpy="0 0 0"/>
-                    <geometry>
-                        <box size="0.2 0.3 0.6"/>
-                    </geometry>
-                    <material name="blue"/>
-                </visual>
-            </link>
-
-        </robot>
-
-    Colors are defined using the ``<material>`` tag. A common practice is to define colors at the top of the file and reference them by name in the ``<visual>`` tag. The color attributes include four arguments: **rgb** for red, green, and blue, and **a** for transparency.
-
-    View the result in Rviz using the same command as before (rebuilding the package is not necessary). 
-
-9. Fill the *example.urdf* file with the first joint:
-
-    To introduce joints, we will add a second link and then connect it to the base link.
-
-    a. Define a second link
-
-    .. code-block:: xml 
-
-        <?xml version="1.0"?>
-        <robot name="example">
-
-            <material name="blue">
-                <color rgba="0 0 1 1" />
-            </material>
-
-            <link name="base_link">
-                <visual>    
-                    <origin xyz="0 0 0"  rpy="0 0 0"/>
-                    <geometry>
-                        <box size="0.2 0.3 0.6"/>
-                    </geometry>
-                    <material name="blue"/>
-                </visual>
-            </link>
-
-            <link name="second_link">
-                <visual>
-                    <origin xyz="0 0 0" rpy="0 0 0"/>
-                    <geometry>
-                        <cylinder length="0.8" radius="0.05"/>
-                    </geometry>
-                    <material name="blue"/>
-                </visual>
-            </link>
-
-        </robot>
-
-    Here, we have simply added a second link with a different shape. The name can be chosen arbitrarily. You can now try visualizing it in Rviz.
-
-    .. error:: 
-
-        The result cannot be visualized yet because unconnected links are not allowed. Let’s resolve this by adding a joint.
+    The result cannot be visualized yet because unconnected links are not allowed. Let’s resolve this by adding a joint.
 
 
-    b. Create a joint between the links
+2. Create a joint between the links
 
-    .. code-block:: xml
+.. code-block:: xml
 
-        <?xml version="1.0"?>
-        <robot name="example">
+    <?xml version="1.0"?>
+    <robot name="example">
 
-            <material name="blue">
-                <color rgba="0 0 1 1" />
-            </material>
+        <material name="blue">
+            <color rgba="0 0 1 1" />
+        </material>
 
-            <link name="base_link">
-                <visual>    
-                    <origin xyz="0 0 0"  rpy="0 0 0"/>
-                    <geometry>
-                        <box size="0.2 0.3 0.6"/>
-                    </geometry>
-                    <material name="blue"/>
-                </visual>
-            </link>
+        <link name="base_link">
+            <visual>    
+                <origin xyz="0 0 0"  rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.2 0.3 0.6"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
 
-            <link name="second_link">
-                <visual>
-                    <origin xyz="0 0 0" rpy="0 0 0"/>
-                    <geometry>
-                        <cylinder length="0.8" radius="0.05"/>
-                    </geometry>
-                    <material name="blue"/>
-                </visual>
-            </link>
-
-            <joint name="second_link_joint" type="fixed">
-                <parent link="base_link"/>
-                <child link="second_link"/>
+        <link name="second_link">
+            <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
-            </joint>
+                <geometry>
+                    <cylinder length="0.8" radius="0.05"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
 
-        </robot>
+        <joint name="second_link_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="second_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </joint>
 
-    The second link has been added. Use a naming convention for the joint that makes it easy to identify. As mentioned earlier, a joint is defined by its **type**, **parent link**, and **child link**. Additionally, it includes an **origin**, which specifies its position and orientation relative to the parent link. Now, let’s visualize this in Rviz.
+    </robot>
 
-    c. Set the origins
+The second link has been added. Use a naming convention for the joint that makes it easy to identify. As mentioned earlier, a joint is defined by its **type**, **parent link**, and **child link**. Additionally, it includes an **origin**, which specifies its position and orientation relative to the parent link. Now, let’s visualize this in Rviz.
 
-    We have not discussed origins yet, as they can be a bit confusing when working with URDFs for the first time. To simplify, we will provide a straightforward approach to correctly position your links. This step is critical for creating a robot model that works accurately in simulation.
+3. Set the origins
 
-    As mentioned earlier, ROS2 uses the URDF file to generate the robot's TFs. If the joints are not properly placed, the TFs will also be misaligned, leading to unexpected behavior during simulation.
+We have not discussed origins yet, as they can be a bit confusing when working with URDF for the first time. To simplify, we will provide a straightforward approach to correctly position your links. This step is critical for creating a robot model that works accurately in simulation.
 
-    Let’s go through a simple four-step process to correctly position two links. Currently, our setup looks like this:
+As mentioned earlier, ROS2 uses the URDF file to generate the robot's TFs. If the joints are not properly placed, the TFs will also be misaligned, leading to unexpected behavior during simulation.
+
+Let’s go through a simple four-step process to correctly position two links. Currently, our setup looks like this:
 
 
-    .. image:: img/urdf_example.png
+.. image:: img/urdf_step1.png
+    :align: center
+    :width: 25%
+
+|spacer|
+
+Our goal now is to replicate this: 
+
+.. image:: img/urdf_step4b.png
+    :align: center
+    :width: 50%
+
+|spacer|
+
+.. For each of the following steps, update the code and visualize the result in Rviz. Reflect on the purpose of each origin setting. If you have any questions, don’t hesitate to ask, it is crucial to understand this process.
+
+For each of the following steps, observe the provided code and its corresponding visualization in Rviz. Carefully review the changes and reflect on the purpose of each origin setting. If you have any questions, feel free to ask. It is crucial to understand this process as you will need to apply it when building the Thymio model yourself.
+
+.. admonition:: Procedure
+
+    1. Set all origins to zero (this is already the case)
+
+    .. code-block:: xml
+
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+
+    .. figure:: img/urdf_step1.png
         :align: center
         :width: 20%
 
+        `Step 1 - Initialization`
+
     |spacer|
 
-    Our goal now is to replicate this: 
+    2. Set the origin for the ``<visual>`` tag of the ``base_link``
 
-    .. image:: img/urdf_example_final.png
+    .. code-block:: xml
+
+        <link name="base_link">
+            <visual>    
+                <origin xyz="0 0 0.3"  rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.2 0.3 0.6"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
+
+    .. figure:: img/urdf_step2.png
         :align: center
-        :width: 50%
+        :width: 20%
+
+        `Step 2 - Position parent link`
 
     |spacer|
 
-    For each of the following steps, update the code and visualize the result in Rviz. Reflect on the purpose of each origin setting. If you have any questions, don’t hesitate to ask, it is crucial to understand this process.
-    
-        1. Set all origins to zero (this is already the case)
+    3. Set the joint origin
 
-        .. code-block:: xml
+    .. code-block:: xml
 
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-
-        2. Set the origin for the visual of the base_link
-
-        .. code-block:: xml
-
-            <origin xyz="0 0 0.3"  rpy="0 0 0"/>
-
-        3. Set the joint origin
-
-        .. code-block:: xml
-
+        <joint name="second_link_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="second_link"/>
             <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
+        </joint>
 
-        4. Set the origin for the visual of the second_link
+    .. figure:: img/urdf_step3.png
+        :align: center
+        :width: 20%
 
-        a. Rotation
+        `Step 3 - Position the joint`
 
-        .. code-block:: xml
+    |spacer|
 
-            <origin xyz="0 0 0" rpy="0 1.57 0"/>
+    4. Set the origin for the ``<visual>`` of the ``second_link``
 
-        b. Translation
+    a. Rotation
 
-        .. code-block:: xml
+    .. code-block:: xml
 
-            <origin xyz="0.4 0 0" rpy="0 1.57 0"/>
+        <link name="second_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 1.57 0"/>
+                <geometry>
+                    <cylinder length="0.8" radius="0.05"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
 
-    .. admonition:: Question
-        
-        Which origin setting is most critical for ensuring that your robot's movements and positions are accurately represented in ROS2 simulations?
+    .. figure:: img/urdf_step4a.png
+        :align: center
+        :width: 30%
 
-    d. Explore the different joint types
+        `Step 4.a - Orient the child link`
 
-    Now, let’s experiment with the two links by trying out different joint types. Simply replace the existing joint with one of the examples below. For each joint type, visualize the result in Rviz and use the Joint State Publisher GUI to observe how the parts move. 
+    |spacer|
 
-        1. Revolute
+    b. Translation
 
-        .. code-block:: xml
+    .. code-block:: xml
 
-            <joint name="second_link_joint" type="revolute">
-                <parent link="base_link"/>
-                <child link="second_link"/>
-                <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
-                <axis xyz="1 0 0"/>
-                <limit lower="-1.57" upper="1.57" velocity="10" effort="10"/>
-            </joint>
+        <link name="second_link">
+            <visual>
+                <origin xyz="0.4 0 0" rpy="0 1.57 0"/>
+                <geometry>
+                    <cylinder length="0.8" radius="0.05"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+        </link>
 
-        2. Continuous
+    .. figure:: img/urdf_step4b.png
+        :align: center
+        :width: 40%
 
-        .. code-block:: xml
+        `Step 4.b - Position the child link`
 
-            <joint name="second_link_joint" type="continuous">
-                <parent link="base_link"/>
-                <child link="second_link"/>
-                <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
-                <axis xyz="1 0 0"/>
-            </joint>
+.. admonition:: Question
+    
+    Which origin setting is most critical for ensuring that your robot's movements and positions are accurately represented in ROS2 simulations?
 
-        3. Prismatic
+4. Explore the different joint types
 
-        .. code-block:: xml
+Now, let’s experiment with the two links by trying out different joint types. Simply replace the existing joint with one of the examples below. For each joint type, visualize the result in Rviz and use the Joint State Publisher GUI to observe how the parts move. 
 
-            <joint name="second_link_joint" type="prismatic">
-                <parent link="base_link"/>
-                <child link="second_link"/>
-                <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
-                <axis xyz="1 0 0"/>
-                <limit lower="0.0" upper="0.5" velocity="10" effort="10"/>
-            </joint>
+    1. **Revolute** - Rotation around a single axis within a defined range
+
+    .. code-block:: xml
+
+        <joint name="second_link_joint" type="revolute">
+            <parent link="base_link"/>
+            <child link="second_link"/>
+            <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
+            <axis xyz="1 0 0"/>
+            <limit lower="-1.57" upper="1.57" velocity="10" effort="10"/>
+        </joint>
+
+    2. **Continuous** - Rotation around a single axis without limits
+
+    .. code-block:: xml
+
+        <joint name="second_link_joint" type="continuous">
+            <parent link="base_link"/>
+            <child link="second_link"/>
+            <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+
+    3. **Prismatic** - Linear motion along a single axis
+
+    .. code-block:: xml
+
+        <joint name="second_link_joint" type="prismatic">
+            <parent link="base_link"/>
+            <child link="second_link"/>
+            <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
+            <axis xyz="1 0 0"/>
+            <limit lower="0.0" upper="0.5" velocity="10" effort="10"/>
+        </joint>
 
 Reaching this point means you now have a better understanding of what a URDF is. You are equipped with the essential tools to finally practice building your first robot model on your own. Let’s get started!
 
-.. admonition:: Thymio - Step 1
+Thymio - Step 1
+~~~~~~~~~~~~~~~
 
-    As mentioned in the introduction, today's goal is to create a Thymio model that works well in simulation. In addition to building the model, you will set up custom methods to launch applications like Rviz and Gazebo, ensuring they function correctly with your robot. The task is divided into 9 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.
+As mentioned in the introduction, today's goal is to create a Thymio model that works well in simulation. The task is divided into 6 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.
 
-    Start by creating a new file named *thymio.urdf* in the */urdf/thymio* directory. Use the provided specifications to guide you through the process, and remember to consistently use Rviz to visualize your progress.
+.. admonition:: Thymio
 
+    .. As mentioned in the introduction, today's goal is to create a Thymio model that works well in simulation. In addition to building the model, you will set up custom methods to launch applications like Rviz and Gazebo, ensuring they function correctly with your robot. The task is divided into 9 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.
+
+    .. Start by creating a new file named *thymio.urdf* in the */urdf/thymio* directory. Use the provided specifications to guide you through the process, and remember to consistently use Rviz to visualize your progress.
+
+    Start by creating a new file named *thymio.urdf* in the */urdf/thymio* directory. Follow the provided specifications to guide you through the process. Make sure to frequently visualize your progress in Rviz using the following command:
+
+    .. code-block:: bash
+
+        ros2 launch thymio_description thymio_display_urdf.launch.xml
+
+    .. raw:: html
+
+        <div class="table-centered">
+        
     +----------------------+---------------------------------------------+--------+
     | Component            | Specifications                              | Color  |
     +======================+=============================================+========+
@@ -559,6 +868,10 @@ Reaching this point means you now have a better understanding of what a URDF is.
     |                      | Radius = 2.2 cm                             |        |
     +----------------------+---------------------------------------------+--------+
 
+    .. raw:: html
+
+        </div>
+
     Refer to the following drawing to correctly place the different links:
 
     .. image:: img/thymio_spec.png
@@ -573,12 +886,6 @@ Reaching this point means you now have a better understanding of what a URDF is.
 
             * The ground clearance information should be sufficient to define all the heights  
             * Carefully consider where the TFs should be positioned (this is crucial!)  
-            * Use the following command to visualize the model in Rviz:
-
-            .. code-block:: bash
-
-                ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf
-
             * The final visual result should look like this:  
 
             .. image:: img/thymio_look.png
@@ -600,7 +907,9 @@ In programming, this problem is typically solved by using variables to define re
 * **Simplification**: Use macros, constants, math operations, and conditional logic.
 * **Modularity**: Organize your robot description into multiple files.
 
-To use Xacro, you write your file using its extended syntax and process it with the *xacro* tool to generate a complete URDF that ROS2 can use. Let’s apply this to our example and see how it works in practice.
+.. To use Xacro, you write your file using its extended syntax and process it with the *xacro* tool to generate a complete URDF that ROS2 can use. 
+
+Therefore, a URDF can be rewritten using Xacro's extended syntax, allowing it to be organized across one or multiple files. These files are then processed by a *xacro* tool which combines them into a single, standard URDF file that ROS2 can interpret. Let’s apply this to our example and see how it works in practice.
 
 
 .. If you have successfully created this simplified Thymio model, congratulations, you are ready to move on and improve this URDF. In order to motivate what we will do next, we would like you to reflect on the folowwing question "What happens if we decide to change the base_link dimensions?". For example, you can try to answer this question by changing the width of the base_link and put a width of 6.6cm instead of 11.2cm and open the model in Rviz. 
@@ -617,17 +926,13 @@ To use Xacro, you write your file using its extended syntax and process it with 
 
 .. Enough theory, let's go back to our simple example and see how this works in practice.
 
-1) Rename the file
+1) Open the *example.urdf.xacro* file
 
-First, rename the previous example file to include the Xacro extension: *example.urdf.xacro*
+Navigate to the */urdf/example* directory and open the provided file with the *.xacro* extension.
 
 .. note::
 
-    As a result, the new display command is:
-
-    .. code-block:: bash
-
-        ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf.xacro
+    To enhance understanding, we will go through the elements of the updated file step by step. You do not need to add these elements to the file yet, as the complete file will be provided at the end. Focus on understanding the process and the purpose of each element.
 
 2) Xacro compatibility
 
@@ -681,7 +986,7 @@ You can then call it at the desired location with the required parameters:
 
 To simplify the process, it is a good practice to split the URDF into multiple files. Typically, one main file includes all other Xacro files. To distinguish them, use the extension *.urdf.xacro* for the main file and *.xacro* for the others. 
 
-For example, let’s create a new file to define colors. Name it *example_materials.xacro* and save it in the */urdf/example* directory. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:
+For example, let's split our initial file by defining the colors in a separate file. Open the provided *example_materials.xacro* file. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:
 
 .. code-block:: xml
 
@@ -768,19 +1073,38 @@ Below is the final version of the improved URDF file:
 
     Notice that the file no longer contains hardcoded values. Instead, five variables are used to define the links and joint accurately. While using a macro to define a single box may be excessive here, it serves to demonstrate how macros work.
 
-.. admonition:: Thymio - Step 2
+8. Visualize the result in Rviz
+
+.. code-block:: bash
+
+    ros2 launch thymio_description example_display_xacro.launch.xml
+
+Thymio - Step 2
+~~~~~~~~~~~~~~~
+
+.. admonition:: Thymio
 
     Let’s put this knowledge into practice. The goal is to enhance the previous URDF by utilizing Xacro's features. Follow these steps:
 
-    1. Use the pi constant where needed
+    1. Split the URDF into three files:
 
-    2. Define variables and replace hardcoded values
+        * *materials.xacro*: Defines the colors
+        * *thymio_chassis.xacro*: Contains the description of the robot
+        * *thymio.urdf.xacro*: The main file that includes the other two files
 
-    3. Create a macro for the wheel links and reuse it for both wheels
+    2. Use the pi constant where needed
 
-    4. Split the URDF into three files: *materials.xacro*, *thymio_chassis.xacro*, and *thymio.urdf.xacro*
+    3. Define variables and replace hardcoded values
+
+    4. Create a macro for the wheel links and reuse it for both wheels
 
     Additionally, remember to apply mathematical operations wherever possible.
+
+    Use the following command to display the new model:
+
+    .. code-block:: bash
+
+        ros2 launch thymio_description thymio_display_xacro.launch.xml
 
     Once again, refer to the drawing below for the key dimensions:
 
@@ -804,88 +1128,86 @@ Below is the final version of the improved URDF file:
                 :width: 60%
 
 
-Parameters Overview
--------------------
+.. Parameters Overview
+.. -------------------
 
-Let's take a break from URDFs for a moment and explore another essential concept in ROS2: **parameters**. Parameters are configurable values that allow to reuse the same node with differents settings.
+.. Let's take a break from URDFs for a moment and explore another essential concept in ROS2: **parameters**. Parameters are configurable values that allow to reuse the same node with differents settings.
 
-To understand their importance, let’s revisit an example from the previous session: the *Heat Index Monitoring System*. We used a temperature sensor and a humidity sensor to calculate the heat index. Now, imagine we want to extend this setup by adding a second temperature sensor, but with different settings, such as a unique publish frequency.
+.. To understand their importance, let’s revisit an example from the previous session: the *Heat Index Monitoring System*. We used a temperature sensor and a humidity sensor to calculate the heat index. Now, imagine we want to extend this setup by adding a second temperature sensor, but with different settings, such as a unique publish frequency.
 
-What happens if we try to achieve this without parameters? We might end up duplicating the existing node just to adjust the frequency. This approach quickly becomes inefficient and difficult to manage as the system grows in complexity.
+.. What happens if we try to achieve this without parameters? We might end up duplicating the existing node just to adjust the frequency. This approach quickly becomes inefficient and difficult to manage as the system grows in complexity.
 
-Fortunately, ROS2 parameters provide an elegant solution. They let us configure settings, like the publish frequency, directly from the run command without modifying or duplicating the node’s code. A parameter passed as an argument dynamically updates a variable in the node, enabling efficient customization.
+.. Fortunately, ROS2 parameters provide an elegant solution. They let us configure settings, like the publish frequency, directly from the run command without modifying or duplicating the node’s code. A parameter passed as an argument dynamically updates a variable in the node, enabling efficient customization.
 
-To summarize, ROS2 parameters enable:
+.. To summarize, ROS2 parameters enable:
 
-* **Customization**: Define robot-specific configurations (e.g. sensor settings)
-* **Flexibility**: Adjust node behavior without modifying or rebuilding the code
-* **Efficiency**: Reuse the same node with different parameter values
+.. * **Customization**: Define robot-specific configurations (e.g. sensor settings)
+.. * **Flexibility**: Adjust node behavior without modifying or rebuilding the code
+.. * **Efficiency**: Reuse the same node with different parameter values
 
-Let’s see how parameters work in practice by modifying the first publisher node we created in session 1. We will define the publish frequency as a parameter, allowing us to change its value directly when running the node from the terminal.
+.. Let’s see how parameters work in practice by modifying the first publisher node we created in session 1. We will define the publish frequency as a parameter, allowing us to change its value directly when running the node from the terminal.
 
-1. Open the file
+.. 1. Open the file
 
-Open *publisher.py* in the *ros2_basics_pkg* package.
+.. Open *publisher.py* in the *ros2_basics_pkg* package.
 
-2. Modify the publisher
+.. 2. Modify the publisher
 
-Replace the contents of *publisher.py* with the following code:
+.. Replace the contents of *publisher.py* with the following code:
 
-.. code-block:: python
+.. .. code-block:: python
 
-    import rclpy
-    from rclpy.node import Node
+..     import rclpy
+..     from rclpy.node import Node
 
-    from std_msgs.msg import String
+..     from std_msgs.msg import String
 
-    class MinimalPublisher(Node):
+..     class MinimalPublisher(Node):
 
-        def __init__(self):
-            super().__init__('minimal_publisher')
-            self.publisher_ = self.create_publisher(String, 'topic', 10)
-            self.declare_parameter("publish_frequency", 1.0)
-            self.publish_frequency_ = self.get_parameter("publish_frequency").value
-            self.timer = self.create_timer(1.0 / self.publish_frequency_, self.timer_callback)
-            self.i = 0
+..         def __init__(self):
+..             super().__init__('minimal_publisher')
+..             self.publisher_ = self.create_publisher(String, 'topic', 10)
+..             self.declare_parameter("publish_frequency", 1.0)
+..             self.publish_frequency_ = self.get_parameter("publish_frequency").value
+..             self.timer = self.create_timer(1.0 / self.publish_frequency_, self.timer_callback)
+..             self.i = 0
 
-        def timer_callback(self):
-            msg = String()
-            msg.data = 'Hello World: %d' % self.i
-            self.publisher_.publish(msg)
-            self.get_logger().info('Publishing: "%s"' % msg.data)
-            self.i += 1
+..         def timer_callback(self):
+..             msg = String()
+..             msg.data = 'Hello World: %d' % self.i
+..             self.publisher_.publish(msg)
+..             self.get_logger().info('Publishing: "%s"' % msg.data)
+..             self.i += 1
 
-    def main(args=None):
-        rclpy.init(args=args)
-        minimal_publisher = MinimalPublisher()
-        rclpy.spin(minimal_publisher)
-        minimal_publisher.destroy_node()
-        rclpy.shutdown()
+..     def main(args=None):
+..         rclpy.init(args=args)
+..         minimal_publisher = MinimalPublisher()
+..         rclpy.spin(minimal_publisher)
+..         minimal_publisher.destroy_node()
+..         rclpy.shutdown()
 
-    if __name__ == '__main__':
-        main()
+..     if __name__ == '__main__':
+..         main()
 
-**Question:** What are the essential steps involved in working with a parameter?
+.. **Question:** What are the essential steps involved in working with a parameter?
 
-3. Build the package
+.. 3. Build the package
 
-|spacer|
+.. 4. Test the publisher with different frequencies
 
-4. Test the publisher with different frequencies
+.. Run the node and set the publish frequency using the following command:
 
-Run the node and set the publish frequency using the following command:
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 run ros2_basics_pkg publisher_node --ros-args -p publish_frequency:=4.0
 
-    ros2 run ros2_basics_pkg publisher_node --ros-args -p publish_frequency:=4.0
-
-.. admonition:: Question
+.. .. admonition:: Question
     
-    What happens if no parameter value is provided during execution? Why?
+..     What happens if no parameter value is provided during execution? Why?
 
-.. tip::
+.. .. tip::
 
-    You can verify the frequency at which messages are published using the following command: ``ros2 topic hz <topic_name>``.
+..     You can verify the frequency at which messages are published using the following command: ``ros2 topic hz <topic_name>``.
 
 .. 2. Declare the parameter
 
@@ -953,274 +1275,266 @@ Run the node and set the publish frequency using the following command:
 ..     if __name__ == '__main__':
 ..         main()
 
-Launch Files Overview
----------------------
+.. Launch Files Overview
+.. ---------------------
 
-In this section, we shift focus back to the visualization aspects of ROS2, closing the parenthesis on parameters. So far, we have relied on a convenient command from the *urdf_tutorial* package to visualize URDF files in Rviz. But how exactly does this command work? Let’s delve into the concept of launch files to uncover the mechanics behind it.
+.. In this section, we shift focus back to the visualization aspects of ROS2, closing the parenthesis on parameters. So far, we have relied on a convenient command from the *urdf_tutorial* package to visualize URDF files in Rviz. But how exactly does this command work? Let’s delve into the concept of launch files to uncover the mechanics behind it.
 
-First, let’s recall the command we used previously to display a URDF in Rviz:
+.. First, let’s recall the command we used previously to display a URDF in Rviz:
 
-.. code-block:: bash
+.. .. code-block:: bash
 
-    ros2 launch urdf_tutorial display.launch.py model:=<path_to_urdf>
+..     ros2 launch urdf_tutorial display.launch.py model:=<path_to_urdf>
 
-You might have been wondering, what does the *launch* command do? Simply put, it runs a **launch file**. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.
+.. You might have been wondering, what does the *launch* command do? Simply put, it runs a **launch file**. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.
 
-Launch files provide a structured way to define:
+.. Launch files provide a structured way to define:
 
-* Which nodes to run
-* Node-specific parameters
-* Topic or service remappings
+.. * Which nodes to run
+.. * Node-specific parameters
+.. * Topic or service remappings
 
-Launch files can be written in **Python**, **XML**, or **YAML**. For simplicity and conciseness, we will use XML in this course.
+.. Launch files can be written in **Python**, **XML**, or **YAML**. For simplicity and conciseness, we will use XML in this course.
 
-Let’s revisit an example from session 1 to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously start four nodes with their appropriate configurations.
+.. Let’s revisit an example from session 1 to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously start four nodes with their appropriate configurations.
 
-.. image:: img/task2.png
-    :align: center
-    :width: 60%
+.. .. image:: img/task2.png
+..     :align: center
+..     :width: 60%
 
-|spacer|
+.. 1. Create the launch file
 
-1. Create the launch file
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     cd ~/ros2_basics_ws/src/thymio_description/launch/
+..     touch example.launch.xml
 
-    cd ~/ros2_basics_ws/src/thymio_description/launch/
-    touch example.launch.xml
+.. 2. Add content to the file
 
-2. Add content to the file
+.. .. code-block:: xml
 
-.. code-block:: xml
+..     <launch>
+..         <node pkg="demo_nodes_py" exec="talker" name="stress">
+..             <remap from="chatter" to="exams"/>
+..         </node>
 
-    <launch>
-        <node pkg="demo_nodes_py" exec="talker" name="stress">
-            <remap from="chatter" to="exams"/>
-        </node>
+..         <node pkg="demo_nodes_py" exec="talker" name="BA1_students">
+..             <remap from="chatter" to="exams"/>
+..         </node>
 
-        <node pkg="demo_nodes_py" exec="talker" name="BA1_students">
-            <remap from="chatter" to="exams"/>
-        </node>
+..         <node pkg="demo_nodes_py" exec="listener" name="BA2">
+..             <remap from="chatter" to="exams"/>
+..         </node>
 
-        <node pkg="demo_nodes_py" exec="listener" name="BA2">
-            <remap from="chatter" to="exams"/>
-        </node>
+..         <node pkg="demo_nodes_py" exec="listener" name="MAN">
+..             <remap from="chatter" to="exams"/>
+..         </node>
+..     </launch>
 
-        <node pkg="demo_nodes_py" exec="listener" name="MAN">
-            <remap from="chatter" to="exams"/>
-        </node>
-    </launch>
-
-.. admonition:: Question
+.. .. admonition:: Question
     
-    What are the essential elements of a launch file?
+..     What are the essential elements of a launch file?
 
-3. Build the package
+.. 3. Build the package
 
-|spacer|
+.. 4. Launch the launch file
 
-4. Launch the launch file
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 launch thymio_description example.launch.xml 
 
-    ros2 launch thymio_description example.launch.xml 
+.. 5. Visualize the result
 
-5. Visualize the result
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     rqt_graph
 
-    rqt_graph
+.. .. note:: 
 
-.. note:: 
+..     Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.
 
-    Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.
+.. Now that you know that a launch file start multiple nodes at the same time, let's discover what the *display.launch.py* actually launch.
 
-Now that you know that a launch file start multiple nodes at the same time, let's discover what the *display.launch.py* actually launch.
+.. 1. Run the launch command with the Thymio model
 
-1. Run the launch command with the Thymio model
-
-.. code-block:: bash
+.. .. code-block:: bash
     
-    ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro
+..     ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro
 
-2. Visualize the graph
+.. 2. Visualize the graph
 
-.. code-block:: bash
+.. .. code-block:: bash
 
-    rqt_graph 
+..     rqt_graph 
 
-3. Configure the *Node Graph*
+.. 3. Configure the *Node Graph*
 
-.. image:: img/rqt_config.png
-    :align: center
-    :width: 70%
+.. .. image:: img/rqt_config.png
+..     :align: center
+..     :width: 70%
 
-|spacer|
+.. .. As you can see, we have two main nodes that are running: ``joint_state_publisher`` and ``robot_state_publisher``. The ``robot_state_publisher`` is the node that is in charge of keeping track of the TFs in ROS2. All its needs is to know is where the joints are placed and this is provided by the ``joint_state_publisher`` node that publishes on the ``joint_states`` topic. Here, the ``joint_state_publisher`` is GUI interface that allows us to play with the movable joints and provides the virtual positioning of the joints. In real life, the joint information would be given by sensors such as encoders.
+.. .. Previously, we mentioned that we needed to provide the URDF to ROS2 so that it can correctly manage the TFs. Indeed, this is a requirement for the ``robot_state_publisher`` to work. But, where is the URDF located? This is time to exploit our knowledge on parameters! When we use the launch command we always provide the path to our URDF file which is a parameter that we give to this ``robot_state_publisher`` node. Are you not convinced? Ok, let's prove it then:
 
-.. As you can see, we have two main nodes that are running: ``joint_state_publisher`` and ``robot_state_publisher``. The ``robot_state_publisher`` is the node that is in charge of keeping track of the TFs in ROS2. All its needs is to know is where the joints are placed and this is provided by the ``joint_state_publisher`` node that publishes on the ``joint_states`` topic. Here, the ``joint_state_publisher`` is GUI interface that allows us to play with the movable joints and provides the virtual positioning of the joints. In real life, the joint information would be given by sensors such as encoders.
-.. Previously, we mentioned that we needed to provide the URDF to ROS2 so that it can correctly manage the TFs. Indeed, this is a requirement for the ``robot_state_publisher`` to work. But, where is the URDF located? This is time to exploit our knowledge on parameters! When we use the launch command we always provide the path to our URDF file which is a parameter that we give to this ``robot_state_publisher`` node. Are you not convinced? Ok, let's prove it then:
+.. Looking at the *rqt_graph*, we see two main nodes interacting: ``joint_state_publisher`` and ``robot_state_publisher``. The ``robot_state_publisher`` handles TFs in ROS2 by relying on joint information published by the ``joint_state_publisher``. In this case, the ``joint_state_publisher`` is a GUI tool that lets us adjust joint positions virtually. In a real-world scenario, joint positions would be published by hardware sensors, such as encoders.
 
-Looking at the *rqt_graph*, we see two main nodes interacting: ``joint_state_publisher`` and ``robot_state_publisher``. The ``robot_state_publisher`` handles TFs in ROS2 by relying on joint information published by the ``joint_state_publisher``. In this case, the ``joint_state_publisher`` is a GUI tool that lets us adjust joint positions virtually. In a real-world scenario, joint positions would be published by hardware sensors, such as encoders.
+.. For the ``robot_state_publisher`` to work, it needs the URDF, which defines the robot's structure and joint placements. This URDF file is passed as a parameter during the launch process. But where exactly can we find it? Let’s explore this:
 
-For the ``robot_state_publisher`` to work, it needs the URDF, which defines the robot's structure and joint placements. This URDF file is passed as a parameter during the launch process. But where exactly can we find it? Let’s explore this:
+.. 1. List the different nodes
 
-1. List the different nodes
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 node list
 
-    ros2 node list
+.. 2. List the parameter of the ``robot_state_publisher`` node
 
-2. List the parameter of the ``robot_state_publisher`` node
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 param list /robot_state_publisher 
 
-    ros2 param list /robot_state_publisher 
+.. 3. Check the content of the *robot_description* parameter
 
-3. Check the content of the *robot_description* parameter
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 param get /robot_state_publisher robot_description 
 
-    ros2 param get /robot_state_publisher robot_description 
+.. Now that we have located the parameter containing the Thymio robot’s URDF, let’s take a closer look. This parameter holds the complete description of the robot, which was originally split across three files. Using the *xacro* tool, these files were combined into a single, unified URDF. You can confirm this in the terminal, where the file header states: *This document was autogenerated by xacro*.
 
-Now that we have located the parameter containing the Thymio robot’s URDF, let’s take a closer look. This parameter holds the complete description of the robot, which was originally split across three files. Using the *xacro* tool, these files were combined into a single, unified URDF. You can confirm this in the terminal, where the file header states: *This document was autogenerated by xacro*.
+.. To summarize, let’s refer to the following image for a visual representation:
 
-To summarize, let’s refer to the following image for a visual representation:
+.. .. figure:: img/robot_description.png
+..     :align: center
+..     :width: 80%
 
-.. figure:: img/robot_description.png
-    :align: center
-    :width: 80%
+..     `Describing robots with URDF (Articulated Robotics) <https://articulatedrobotics.xyz/tutorials/ready-for-ros/urdf>`_
 
-    `Describing robots with URDF (Articulated Robotics) <https://articulatedrobotics.xyz/tutorials/ready-for-ros/urdf>`_
+.. .. In conclusion, the ``robot_state_publisher`` update the robot model and TFs over time as long as it has been provided with the URDF file as a parameter and as long as it receives information on the joint positions. The ``joint_state_publisher`` gives the virtual position of the joints which is replace by sensors in real-life applications.
 
-.. In conclusion, the ``robot_state_publisher`` update the robot model and TFs over time as long as it has been provided with the URDF file as a parameter and as long as it receives information on the joint positions. The ``joint_state_publisher`` gives the virtual position of the joints which is replace by sensors in real-life applications.
+.. Here’s a quick recap of the roles of the two nodes:
 
-Here’s a quick recap of the roles of the two nodes:
+.. * ``robot_state_publisher``:
 
-* ``robot_state_publisher``:
+..     * Updates the robot model and TFs in real-time
+..     * Requires the URDF file as a parameter to define the robot's structure
+..     * Relies on joint position data to reflect changes in the robot's state
 
-    * Updates the robot model and TFs in real-time
-    * Requires the URDF file as a parameter to define the robot's structure
-    * Relies on joint position data to reflect changes in the robot's state
+.. * ``joint_state_publisher``:
 
-* ``joint_state_publisher``:
+..     * Provides virtual joint positions in simulation
+..     * Replaced by hardware sensors, such as encoders, in real-world applications
 
-    * Provides virtual joint positions in simulation
-    * Replaced by hardware sensors, such as encoders, in real-world applications
+.. Now that we understand the key components behind this launch process, let’s run each node individually in separate terminals to see how they work.
 
-Now that we understand the key components behind this launch process, let’s run each node individually in separate terminals to see how they work.
+.. 1. Run the ``robot_state_publisher`` node
 
-1. Run the ``robot_state_publisher`` node
+.. From the previous explanation, we need to launch the ``robot_state_publisher`` node and provide the URDF file as a parameter. Additionally, we must use the *xacro* tool to combine the Xacro files into a single URDF file.
 
-From the previous explanation, we need to launch the ``robot_state_publisher`` node and provide the URDF file as a parameter. Additionally, we must use the *xacro* tool to combine the Xacro files into a single URDF file.
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$(xacro /home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro)"
 
-    ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$(xacro /home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro)"
+.. 2. Run the ``joint_state_publisher`` node
 
-2. Run the ``joint_state_publisher`` node
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 run joint_state_publisher_gui joint_state_publisher_gui 
 
-    ros2 run joint_state_publisher_gui joint_state_publisher_gui 
+.. 3. Run *Rviz*
 
-3. Run *Rviz*
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 run rviz2 rviz2
 
-    ros2 run rviz2 rviz2
+.. At this stage, nothing is visible in Rviz. To proceed, you need to configure the interface with the required display settings. Start by adding the ``RobotModel`` and ``TF`` plugins, and then adjust their options as follows:
 
-At this stage, nothing is visible in Rviz. To proceed, you need to configure the interface with the required display settings. Start by adding the ``RobotModel`` and ``TF`` plugins, and then adjust their options as follows:
+.. .. image:: img/Rviz_config.png
+..     :align: center
+..     :width: 40%
 
-.. image:: img/Rviz_config.png
-    :align: center
-    :width: 40%
+.. .. important::
 
-|spacer|
+..     Save the configuration in the *rviz* directory of the *thymio_description* package. In Rviz, navigate to *File > Save Config As* and select the appropriate location. This saves your current setup exactly as it appears on your screen. In the next task, you will add this configuration to a launch file, making it convenient to avoid reconfiguring Rviz each time.
 
-.. important::
+..     The terminal command would look like this: 
 
-    Save the configuration in the *rviz* directory of the *thymio_description* package. In Rviz, navigate to *File > Save Config As* and select the appropriate location. This saves your current setup exactly as it appears on your screen. In the next task, you will add this configuration to a launch file, making it convenient to avoid reconfiguring Rviz each time.
+..     .. code-block:: bash
 
-    The terminal command would look like this: 
+..         ros2 run rviz2 rviz2 -d "/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/rviz/<config_name>.rviz"
 
-    .. code-block:: bash
+.. 4. Run *rqt_graph*
 
-        ros2 run rviz2 rviz2 -d "/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/rviz/<config_name>.rviz"
+.. Finally, notice that the result is identical to what we achieved using the *display.launch.py* file from the *urdf_tutorial* package.
 
-4. Run *rqt_graph*
+.. .. admonition:: Thymio - Step 3
 
-Finally, notice that the result is identical to what we achieved using the *display.launch.py* file from the *urdf_tutorial* package.
+..     The next challenge is to create a launch file (*thymio_display.launch.xml*) that starts the following three executables simultaneously: ``robot_state_publisher``, ``joint_state_publisher_gui``, and ``rviz2``. Ensure that Rviz is launched with the configuration file you previously saved to maintain your custom display settings.
 
-.. admonition:: Thymio - Step 3
+..     To assist you, a generic example is provided below, which should give you the tools necessary to complete the task. Additionally, it is highly recommended to review the terminal commands previously used to start each executable individually, as these will help you structure your launch file.
 
-    The next challenge is to create a launch file (*thymio_display.launch.xml*) that starts the following three executables simultaneously: ``robot_state_publisher``, ``joint_state_publisher_gui``, and ``rviz2``. Ensure that Rviz is launched with the configuration file you previously saved to maintain your custom display settings.
+..     .. code-block:: xml
 
-    To assist you, a generic example is provided below, which should give you the tools necessary to complete the task. Additionally, it is highly recommended to review the terminal commands previously used to start each executable individually, as these will help you structure your launch file.
+..         <launch>
+..             <!-- Define an argument for a file path -->
+..             <arg name="file_path" default="$(find-pkg-share <package_name>)/<path_to_file>"/>
 
-    .. code-block:: xml
+..             <!-- Use the argument to parse a file with a command and set it as a parameter -->
+..             <node pkg="<package_name>" exec="<executable_name>"> 
+..                 <param name="<parameter_name>" value="$(command 'tool_name $(var file_path)')"/>
+..             </node>
 
-        <launch>
-            <!-- Define an argument for a file path -->
-            <arg name="file_path" default="$(find-pkg-share <package_name>)/<path_to_file>"/>
+..             <!-- Use the argument as a command-line argument -->
+..             <node pkg="<package_name>" exec="<executable_name>" args="-a $(var file_path)"/>
+..         </launch>
 
-            <!-- Use the argument to parse a file with a command and set it as a parameter -->
-            <node pkg="<package_name>" exec="<executable_name>"> 
-                <param name="<parameter_name>" value="$(command 'tool_name $(var file_path)')"/>
-            </node>
+.. After successfully creating and testing your launch file, compare it with the Python version provided below.
 
-            <!-- Use the argument as a command-line argument -->
-            <node pkg="<package_name>" exec="<executable_name>" args="-a $(var file_path)"/>
-        </launch>
+.. .. admonition:: Python Launch File
 
-After successfully creating and testing your launch file, compare it with the Python version provided below.
+..   .. toggle::
 
-.. admonition:: Python Launch File
+..     Python launch files may be slightly more complex to write, but they provide greater flexibility.
 
-  .. toggle::
+..     .. code-block:: python
 
-    Python launch files may be slightly more complex to write, but they provide greater flexibility.
+..         import os
+..         from launch_ros.actions import Node
+..         from launch import LaunchDescription
+..         from launch.substitutions import Command
+..         from launch_ros.parameter_descriptions import ParameterValue
+..         from ament_index_python.packages import get_package_share_path
 
-    .. code-block:: python
+..         def generate_launch_description():
 
-        import os
-        from launch_ros.actions import Node
-        from launch import LaunchDescription
-        from launch.substitutions import Command
-        from launch_ros.parameter_descriptions import ParameterValue
-        from ament_index_python.packages import get_package_share_path
-
-        def generate_launch_description():
-
-            urdf_path = os.path.join(get_package_share_path('thymio_description'),
-                                     'urdf', 'thymio.urdf.xacro')
+..             urdf_path = os.path.join(get_package_share_path('thymio_description'),
+..                                      'urdf', 'thymio.urdf.xacro')
             
-            rviz_config_path = os.path.join(get_package_share_path('thymio_description'),
-                                            'rviz', 'rviz_config.rviz')
+..             rviz_config_path = os.path.join(get_package_share_path('thymio_description'),
+..                                             'rviz', 'rviz_config.rviz')
 
-            robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
+..             robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
 
-            robot_state_publisher_node = Node(
-                package="robot_state_publisher",
-                executable="robot_state_publisher",
-                parameters=[{'robot_description': robot_description}]
-            )
+..             robot_state_publisher_node = Node(
+..                 package="robot_state_publisher",
+..                 executable="robot_state_publisher",
+..                 parameters=[{'robot_description': robot_description}]
+..             )
 
-            joint_state_publisher_gui_node = Node(
-                package="joint_state_publisher_gui",
-                executable="joint_state_publisher_gui"
-            )
+..             joint_state_publisher_gui_node = Node(
+..                 package="joint_state_publisher_gui",
+..                 executable="joint_state_publisher_gui"
+..             )
 
-            rviz2_node = Node(
-                package="rviz2",
-                executable="rviz2",
-                arguments = ["-d", rviz_config_path]
-            )
+..             rviz2_node = Node(
+..                 package="rviz2",
+..                 executable="rviz2",
+..                 arguments = ["-d", rviz_config_path]
+..             )
 
-            return LaunchDescription([
-                robot_state_publisher_node,
-                joint_state_publisher_gui_node,
-                rviz2_node
-            ])
+..             return LaunchDescription([
+..                 robot_state_publisher_node,
+..                 joint_state_publisher_gui_node,
+..                 rviz2_node
+..             ])
 
 
 Gazebo Overview
@@ -1263,6 +1577,10 @@ Gazebo is an independent tool and not a native part of the ROS2 environment. How
     |                        | robot data                  | a realistic environment          |
     +------------------------+-----------------------------+----------------------------------+
 
+    .. raw:: html
+
+        </div>
+
 .. Let's move to the next step and try to add simulation in our journey. For this we will use **Gazebo**. Gazebo is a physics-based simulation tool that operates with ROS2 for:
 
 .. * Testing robot behaviors in a virtual environment
@@ -1282,13 +1600,16 @@ Gazebo is an independent tool and not a native part of the ROS2 environment. How
 Complete URDF - Collision & Inertial
 ------------------------------------
 
-So far, we have been focusing exclusively on the visual representation of the Thymio robot. To make the model functional in a simulation, the URDF must be updated to include collision and physical properties. These additions will enable the robot to interact realistically with the virtual environment. Let's begin by incorporating the collision properties:
+So far, we have been focusing exclusively on the visual representation of the Thymio robot. To make the model functional in a simulation, the URDF must be updated to include collision and physical properties. These additions will enable the robot to interact realistically with the virtual environment. Let's begin by incorporating the collision properties.
 
-1. Launch our simple example in Rviz
+Collision Tags
+~~~~~~~~~~~~~~
+
+1. Launch our basic example in Rviz
 
 .. code-block:: bash
 
-    ros2 launch urdf_tutorial display.launch.py model:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf.xacro
+    ros2 launch thymio_description example_display_xacro.launch.xml 
 
 2. Adjust the Rviz configuration
 
@@ -1346,13 +1667,16 @@ Here is the revised version of the code with collision properties included for t
     
     |spacer|
 
+Inertial Tags
+~~~~~~~~~~~~~
+
 Now, let's focus on defining the physical properties of the model by adding the ``<inertial>`` tags. These tags play a crucial role in accurately simulating the robot's motion by specifying properties such as mass and moments of inertia. This ensures the model responds realistically to forces like gravity and other dynamics.
 
-As you may recall from your physics courses, the formulas for the moment of inertia tensor are well-established for basic geometric shapes. These tensors are uniquely determined by the object's dimensions and mass. Let’s explore how to incorporate these inertia properties:
+As you may recall from your physics courses, the formulas for the moment of inertia tensor are well-established for basic geometric shapes. These tensors are uniquely determined by the object's dimensions and mass. Let’s explore how to incorporate these inertia properties.
 
-1. Create an *example_inertia.xacro* file
+1. Open the *example_inertia.xacro* file
 
-In the */urdf/example* directory, create a file named *example_inertia.xacro* to define reusable macros for the inertia properties of our basic shapes. 
+In the */urdf/example* directory, locate the provided *example_inertia.xacro* file. This file will be used to define reusable macros for the inertia properties of our basic shapes.
 
 2. Add the inertia macros to the file
 
@@ -1435,9 +1759,12 @@ To use the defined macros, include the previously created file and invoke them w
 
     If you are interested, you can visualize the result in Rviz (*RobotModel > Mass Properties > Inertia*), but this method is not ideal for intuitively verifying the correctness of our implementation. Instead, we recommend testing the physical behavior directly in Gazebo. However, as we do not yet have all the necessary tools, we will revisit this step later.
 
-.. admonition:: Thymio - Step 4
+Thymio - Step 3
+~~~~~~~~~~~~~~~
 
-    The new task is to enhance the current Thymio model by adding ``<collision>`` and ``<inertial>`` tags.
+.. admonition:: Thymio
+
+    The new task is to enhance the current Thymio model by adding ``<collision>`` and ``<inertial>`` tags. Follow the provided specifications carefully. 
 
     .. raw:: html
 
@@ -1457,62 +1784,74 @@ To use the defined macros, include the previously created file and invoke them w
     | ┗━ Caster wheel        | 5% of chassis mass          |
     +------------------------+-----------------------------+
 
+    .. raw:: html
+
+        </div>
+
 
 Spawn Robot in Gazebo
 ---------------------
 
-Your Thymio robot is now ready for simulation testing. Let’s see how to launch it in Gazebo:
-
-1. Launch *thymio_display.launch.xml*
+Your Thymio robot is now set up and ready for simulation testing. Launch it in Gazebo using the command below:
 
 .. code-block:: bash
 
-    ros2 launch thymio_description thymio_display.launch.xml 
+    ros2 launch thymio_description thymio_gazebo.launch.xml
 
-2. Launch *Gazebo*
+.. warning::
 
-.. code-block:: bash
+    Gazebo may occasionally crash when started. If this happens, terminate the launch process by pressing ``Ctrl+C`` and try again. This should resolve the issue.
 
-    ros2 launch gazebo_ros gazebo.launch.py
+.. 1. Launch *thymio_display.launch.xml*
 
-3. Spawn the Thymio in Gazebo
+.. .. code-block:: bash
 
-.. code-block:: bash
+..     ros2 launch thymio_description thymio_display.launch.xml 
 
-    ros2 run gazebo_ros spawn_entity.py -topic robot_description -entity thymio
+.. 2. Launch *Gazebo*
 
-.. note::
+.. .. code-block:: bash
+
+..     ros2 launch gazebo_ros gazebo.launch.py
+
+.. 3. Spawn the Thymio in Gazebo
+
+.. .. code-block:: bash
+
+..     ros2 run gazebo_ros spawn_entity.py -topic robot_description -entity thymio
+
+.. .. note::
     
-    These commands are provided by the *gazebo_ros* package, which serves as the interface connecting ROS2 and Gazebo.
+..     These commands are provided by the *gazebo_ros* package, which serves as the interface connecting ROS2 and Gazebo.
 
-.. admonition:: Thymio - Step 5
+.. .. admonition:: Thymio - Step 5
 
-    For convenience, include the two commands in *thymio_display.launch.xml*.
+..     For convenience, include the two commands in *thymio_display.launch.xml*.
 
-    .. admonition:: Hints
+..     .. admonition:: Hints
 
-        .. toggle::
+..         .. toggle::
 
-            * To include a launch file within another launch file, use the following command:
+..             * To include a launch file within another launch file, use the following command:
 
-            .. code-block:: xml
+..             .. code-block:: xml
 
-                <include file="$(find-pkg-share <package_name>)/<path_to_file>"/>
+..                 <include file="$(find-pkg-share <package_name>)/<path_to_file>"/>
 
-            The ``find-pkg-share <package_name>`` command locates packages installed in ``/opt/ros/humble/share``. If you are unsure of a launch file's path, this directory is a good starting point for exploration.
+..             The ``find-pkg-share <package_name>`` command locates packages installed in ``/opt/ros/humble/share``. If you are unsure of a launch file's path, this directory is a good starting point for exploration.
 
-            * To add command-line arguments to your launch file, use the following syntax:
+..             * To add command-line arguments to your launch file, use the following syntax:
 
-            .. code-block:: xml
+..             .. code-block:: xml
 
-                <node pkg="<package_name>" exec="<executable_name>" args="-a arg"/>
+..                 <node pkg="<package_name>" exec="<executable_name>" args="-a arg"/>
 
-After completing this task, return to Gazebo and experiment with the physics to observe the robot's behavior:
+In Gazebo, experiment with the physics to observe the robot's behavior:
 
 * *Translation*: Press ``T``, click the robot, and drag to move or lift it. Try to make it fall.
 * *Rotation*: Press ``R``, click the robot, and rotate or tilt it. Observe how it stabilizes.
 
-Once you have observed the physics in action, go back to the URDF file. Comment out the ``<collision>`` tag for the wheel links, save the changes, and relaunch the simulation.
+After exploring the physics, go back to the URDF file. Comment out the ``<collision>`` tag for the wheel links, save the changes, and relaunch the simulation.
 
 .. admonition:: Question
 
@@ -1524,12 +1863,14 @@ After addressing this question, revisit the URDF file, restore the ``<collision>
 
     How does the behavior differ this time? Why do you think this occurs?
 
-If you paid attention to the simulation results, you may have noticed two problems:
+When finished, restore the URDF file to its original state. If you carefully observed the simulation results, you may have noticed two issues:
 
     1. The Thymio moves slightly on its own after spawning
     2. Colors are missing in Gazebo
 
 Let’s tackle these one by one. The unexpected motion occurs because the simplified Thymio model lacks accurate inertia properties and precise mass values. To resolve this, we will adjust the dynamics of the wheel joints and reduce the friction of the caster wheel.
+
+.. admonition:: Procedure
 
     1. Modify the wheel joint dynamics
 
@@ -1541,11 +1882,11 @@ Let’s tackle these one by one. The unexpected motion occurs because the simpli
 
     2. Create a *gazebo.xacro* 
 
-    Gazebo provides specific ``<gazebo>`` tags to define simulation properties. To keep things organized, create a new Xacro file (*gazebo.xacro*) where we will add all Gazebo-specific properties.
+    Gazebo provides specific ``<gazebo>`` tags to define simulation properties. To keep things organized, create a new Xacro file, *gazebo.xacro*, where we will add all Gazebo-specific properties.
 
     3. Reduce the caster wheel friction
 
-    The caster wheel in the current robot model adds too much friction and drags against the ground. To fix this, reduce the friction coefficients using the following values:
+    The caster wheel in the current robot model adds too much friction and drags against the ground. To address this, add the following friction coefficients to the gazebo.xacro file:
 
     .. code-block:: xml
 
@@ -1554,7 +1895,9 @@ Let’s tackle these one by one. The unexpected motion occurs because the simpli
             <mu2 value="0.31" />
         </gazebo>
 
-    After making these adjustments, the Thymio should remain motionless upon spawning. Test it to confirm.
+    Do not forget to include *gazebo.xacro* in the *thymio.urdf.xacro* file to ensure the simulation properties are applied.
+
+    After making these adjustments, the Thymio should remain stationary after spawning in Gazebo. Test the simulation to confirm the changes.
 
 To address the missing colors, we can use ``<gazebo>`` tags to define materials for the links. For example, to apply a green color to a link named *example_link*:
 
@@ -1564,7 +1907,10 @@ To address the missing colors, we can use ``<gazebo>`` tags to define materials 
         <material>Gazebo/Green</material>
     </gazebo>
 
-.. admonition:: Thymio - Step 6
+Thymio - Step 4
+~~~~~~~~~~~~~~~
+
+.. admonition:: Thymio
 
     Update the colors in *gazebo.xacro* to achieve the desired visual appearance in Gazebo.
     
@@ -1576,7 +1922,10 @@ Your Thymio is almost ready for simulation. The next step is to add control capa
 
 To begin, let’s focus on control. The Thymio is a differential drive robot, so we need a plugin that functions as a differential drive controller. From the repository linked above, you can find the ``gazebo_ros_diff_drive`` plugin, which fulfills this role. The `gazebo_ros_diff_drive.hpp <https://github.com/ros-simulation/gazebo_ros_pkgs/blob/ros2/gazebo_plugins/include/gazebo_plugins/gazebo_ros_diff_drive.hpp>`_ file provides details on how to use this plugin effectively, which we will adapt for our application.
 
-.. admonition:: Thymio - Step 7
+Thymio - Step 5
+~~~~~~~~~~~~~~~
+
+.. admonition:: Thymio
 
     Open the *gazebo.xacro* file and paste the following code:
 
@@ -1619,37 +1968,41 @@ To begin, let’s focus on control. The Thymio is a differential drive robot, so
 
 Once the plugin configuration is complete, follow these steps to test it:  
 
-    1. Update *thymio_display.launch.xml*
+    1. Launch the Gazebo simulation
 
-    The plugin handles wheel control and simulates real-life encoders by tracking the wheel joints' positions. This makes the *joint_state_publisher_gui* redundant for wheel joints, so comment it out in the launch file.  
+    .. 1. Update *thymio_display.launch.xml*
 
-    2. Launch the Gazebo simulation
+    .. The plugin handles wheel control and simulates real-life encoders by tracking the wheel joints' positions. This makes the *joint_state_publisher_gui* redundant for wheel joints, so comment it out in the launch file.  
 
-    |spacer|
+    .. code-block:: bash
 
-    3. Send velocity commands from the terminal
+        ros2 launch thymio_description thymio.launch.xml
 
-    Open a new terminal and run:
+|spacer|
+
+    2. Send velocity commands from the terminal
+
+    .. Open a new terminal and run:
 
     .. code-block::
 
         ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.0}}"
 
-    This command sends a *Twist* message, which controls the robot's velocities. The *Twist* type allows control of three linear velocities and three angular velocities. For a differential drive robot like Thymio, you can only adjust the linear speed in the x-direction and angular speed around the z-axis. 
-    
-    Experiment with different commands and observe how the robot responds. Additionally, try removing the friction coefficients added to the caster wheel link to explore how this impacts the Thymio's behavior in the simulation. 
+    This command sends a *Twist* message, which controls the robot's velocities. The *Twist* type allows control of three linear velocities and three angular velocities. For a differential drive robot like the Thymio, you can only adjust the linear speed in the x-direction and angular speed around the z-axis. 
+
+Experiment with different commands and observe how the robot responds. Additionally, try removing the friction coefficients added to the caster wheel link to explore how this impacts the Thymio's behavior in the simulation. 
 
 .. error::
 
     Despite addressing most motion-related issues, the robot may still behave unexpectedly when moving backward. Specifically, the Thymio tends to deviate and turn instead of maintaining a straight line. Forward and rotational movements are more stable, so it is recommended to prioritize these and avoid using backward motion whenever possible.
 
-The diagram below provides a concise summary of everything covered so far. Review it to ensure you understand the components and their connections. If anything is unclear, do not hesitate to ask questions.
+.. The diagram below provides a concise summary of everything covered so far. Review it to ensure you understand the components and their connections. If anything is unclear, do not hesitate to ask questions.
 
-.. figure:: img/gazebo.png
-    :align: center
-    :width: 90%
+.. .. figure:: img/gazebo.png
+..     :align: center
+..     :width: 90%
 
-    `Understanding control in Gazebo (Articulated Robotics) <https://articulatedrobotics.xyz/tutorials/mobile-robot/concept-design/concept-gazebo>`_
+..     `Understanding control in Gazebo (Articulated Robotics) <https://articulatedrobotics.xyz/tutorials/mobile-robot/concept-design/concept-gazebo>`_
 
 .. admonition:: Break Time
 
@@ -1669,13 +2022,16 @@ Typically, adding sensors in a URDF involves the following steps:
 
 In our case, we want to add proximity sensors to the Thymio, enabling it to detect obstacles.
 
-.. admonition:: Thymio - Step 8
+Thymio - Step 6
+~~~~~~~~~~~~~~~
+
+.. admonition:: Thymio
 
     Adding multiple sensors manually can be a complex and time-consuming process. To simplify this, we provide a pre-configured file that facilitates the integration of proximity sensors into your Thymio model. Just follow the steps below:
 
-    1. :download:`Download <downloads/proximity_sensors.zip>` the configuration file
+    1. Locate the provided configuration file
 
-    Save the provided *proximity_sensors.xacro* file in the */urdf/thymio directory*.
+    The *proximity_sensors.xacro* file is already included in the */urdf/thymio* directory of the downloaded package.
 
     2. Include the file in your URDF
 
@@ -1683,9 +2039,13 @@ In our case, we want to add proximity sensors to the Thymio, enabling it to dete
 
     3. Adjust the ``base_link`` dimensions
 
-    Set the ``base_link`` length to 0.091 (reduced from 0.11) to correctly position the proximity sensors at the front of the Thymio. This adjustment ensures the sensors are properly positioned outside the chassis while maintaining the robot's real-world dimensions.
+    Update the ``base_link`` length to 0.091 (reduced from 0.11) to correctly position the proximity sensors at the front of the Thymio. This adjustment ensures the sensors are properly positioned outside the chassis while maintaining the robot's real-world dimensions.
 
 Now, you are ready to test the updated model. Build the package and launch the enhanced Thymio in Gazebo to observe the result.
+
+.. code-block:: bash
+
+    ros2 launch thymio_description thymio.launch.xml
 
 
 Gazebo Worlds - Optional
@@ -1716,39 +2076,41 @@ To conclude today's session, let's add the final element needed to achieve a ful
 
 After finalizing your environment, ensure the Thymio robot is not part of the saved world. If it is, delete it to avoid having it treated as an object when the world is reopened. Save the world by going to *File > Save World As* and save it as *gazebo_world.world* in the */urdf/world* directory of the *thymio_description* package.
 
-Once saved, build the package and run:
-
-.. code-block:: bash
-
-    ros2 launch gazebo_ros gazebo.launch.py world:=/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/worlds/gazebo_world.world
-
 .. note::
 
     If you open *gazebo_world.world*, you will notice that it is written in SDF (Simulation Description Format), which, like the URDF file, is an XML-based format. The SDF defines Gazebo's simulation environment, specifying objects, lights, physics and environmental parameters.
 
-.. admonition:: Thymio - Step 9
+To spawn the Thymio in your custom environment, you need to update the launch file. Modify *thymio.launch.xml* to ensure the Thymio spawns directly into your world. Replace *empty.world* with *gazebo_world.world* so that the path to your custom world is correctly specified.
 
-    If you have not created your custom Gazebo world yet, start by doing so. Once completed and saved in the */urdf/world* directory, update the launch file to ensure Thymio spawns directly into the world.  
+After saving the changes, build the package and execute the following command:
 
-    .. admonition:: Hints
+.. code-block:: bash
 
-        .. toggle::
+    ros2 launch thymio_description thymio.launch.xml
 
-            To pass arguments when including other launch files, use the following structure:  
+.. .. admonition:: Thymio - Step 9
 
-            .. code-block:: xml
+..     If you have not created your custom Gazebo world yet, start by doing so. Once completed and saved in the */urdf/world* directory, update the launch file to ensure Thymio spawns directly into the world.  
 
-                <include file="$(find-pkg-share <package_name>)/<path_to_file>"/>
-                    <arg name="<arg_name>" value="<arg_value>"/>
-                </include>
+..     .. admonition:: Hints
 
-.. note::
+..         .. toggle::
 
-    You can also adjust the spawn position of the Thymio using this syntax:  
+..             To pass arguments when including other launch files, use the following structure:  
 
-    .. code-block:: xml
+..             .. code-block:: xml
 
-        <node pkg="gazebo_ros" exec="spawn_entity.py"
-           args="-topic robot_description -entity thymio 
-                 -x 5.0 -y 0.0 -z 2.0
-                 -R 0.0 -P 0.0 -Y -1.57"/>
+..                 <include file="$(find-pkg-share <package_name>)/<path_to_file>"/>
+..                     <arg name="<arg_name>" value="<arg_value>"/>
+..                 </include>
+
+.. .. note::
+
+..     You can also adjust the spawn position of the Thymio using this syntax:  
+
+    .. .. code-block:: xml
+
+    ..     <node pkg="gazebo_ros" exec="spawn_entity.py"
+    ..        args="-topic robot_description -entity thymio 
+    ..              -x 5.0 -y 0.0 -z 2.0
+    ..              -R 0.0 -P 0.0 -Y -1.57"/>

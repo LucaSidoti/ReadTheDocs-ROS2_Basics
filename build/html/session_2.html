@@ -12,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
       <link rel="stylesheet" type="text/css" href="_static/code-tabs.css?v=1bc26e2f" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c6da9700" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=51e3bf41" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -29,7 +29,7 @@
       <script src="_static/code-tabs.js?v=c983d12e"></script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-      <script src="_static/custom.js?v=0de935b9"></script>
+      <script src="_static/custom.js?v=8b97bc77"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -75,6 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#communication-overview">Communication Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#topics-overview">Topics Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#exercise-1">Exercise 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_1.html#parameters-overview-optional">Parameters Overview - Optional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#services-overview">Services Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="session_1.html#custom-interfaces">Custom Interfaces</a></li>
 </ul>
@@ -87,21 +88,41 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Session 2</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#urdf-tutorial-example">URDF Tutorial Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#urdf-overview">URDF Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#minimal-urdf-visual">Minimal URDF - Visual</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#improved-urdf-xacro">Improved URDF - Xacro</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#parameters-overview">Parameters Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#launch-files-overview">Launch Files Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#urdf-overview">URDF Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minimal-urdf-visual">Minimal URDF - Visual</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#first-link">First Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#first-joint">First Joint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thymio-step-1">Thymio - Step 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#improved-urdf-xacro">Improved URDF - Xacro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#thymio-step-2">Thymio - Step 2</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#gazebo-overview">Gazebo Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#complete-urdf-collision-inertial">Complete URDF - Collision &amp; Inertial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spawn-robot-in-gazebo">Spawn Robot in Gazebo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gazebo-plugins">Gazebo Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-urdf-collision-inertial">Complete URDF - Collision &amp; Inertial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#collision-tags">Collision Tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inertial-tags">Inertial Tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thymio-step-3">Thymio - Step 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spawn-robot-in-gazebo">Spawn Robot in Gazebo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#thymio-step-4">Thymio - Step 4</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gazebo-plugins">Gazebo Plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#thymio-step-5">Thymio - Step 5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thymio-step-6">Thymio - Step 6</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#gazebo-worlds-optional">Gazebo Worlds - Optional</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="prep_work_3.html">Preparatory Work 3</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-overview">Turtlesim Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#turtlesim-challenge">Turtlesim Challenge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#exercise-3">Exercise 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#simulation-underlays-optional">Simulation Underlays - Optional</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="session_3.html">Session 3</a></li>
@@ -135,8 +156,8 @@
 <h1>Session 2<a class="headerlink" href="#session-2" title="Link to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
-<p>Welcome to session 2 of our ROS2 Basics labs! Today, we will be exploring the visualization and simulation tools integrated with ROS2. In this session, we will dive into Rviz, Transforms (TFs), URDF, Xacro, parameters, launch files, and Gazebo, building the essential skills for designing and simulating robotic systems.</p>
-<p>Our main goal for today is to create a model of the Thymio robot that is fully integrated with ROS2 and capable of smooth operation in Gazebo simulation. We will guide you step-by-step through the essential elements needed to achieve this. You will begin with simple examples to introduce each concept and gradually apply this knowledge to build the Thymio model. Now, let’s get to work!</p>
+<p>Welcome to session 2 of our ROS2 Basics labs! Today, we will be exploring the visualization and simulation tools integrated with ROS2. In this session, we will dive into Rviz, Transforms (TFs), launch files, URDF, Xacro, and Gazebo, building the essential skills for designing and simulating robotic systems.</p>
+<p>Our main goal for today is to create a model of the Thymio robot that is fully integrated with ROS2 and capable of smooth operation in Gazebo simulation. We will guide you step by step through the essential elements needed to achieve this. You will begin with simple examples to introduce each concept and gradually apply this knowledge to build the Thymio model. Now, let’s get to work!</p>
 </section>
 <section id="urdf-tutorial-example">
 <h2>URDF Tutorial Example<a class="headerlink" href="#urdf-tutorial-example" title="Link to this heading"></a></h2>
@@ -151,7 +172,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you have been paying attention to the terminal messages, you may have noticed that this package is already installed in the Docker environment. Due to time considerations, we have not covered all the steps of the installation process. However, the following outlines the general procedure you can follow to install any new package in ROS2.</p>
-<table class="docutils align-default">
+<div class="table-centered"><table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Step</p></th>
 <th class="head"><p>Task</p></th>
@@ -186,7 +207,7 @@ installation</p></td>
 </tr>
 </tbody>
 </table>
-</div>
+</div></div>
 <ol class="arabic simple" start="2">
 <li><p>Let’s check where this package and others are installed:</p></li>
 </ol>
@@ -249,9 +270,95 @@ ros2<span class="w"> </span>run<span class="w"> </span>tf2_tools<span class="w">
 <p>These tools are invaluable for building and visualizing robot models in ROS2.</p>
 <p>Let’s keep going! In the next chapters, we will dive deeper into understanding and working with URDF files to create our own robot model.</p>
 </section>
+<section id="launch-files-overview">
+<h2>Launch Files Overview<a class="headerlink" href="#launch-files-overview" title="Link to this heading"></a></h2>
+<p>At this stage, you have already visualized a robot model in Rviz using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>&lt;path_to_urdf&gt;
+</pre></div>
+</div>
+<p>You might have been wondering, what does the <em>launch</em> command do? Simply put, it runs a <strong>launch file</strong>. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.</p>
+<p>Launch files provide a structured way to:</p>
+<ul class="simple">
+<li><p>Start multiple nodes simultaneously</p></li>
+<li><p>Apply specific parameters</p></li>
+<li><p>Remap topics and services</p></li>
+<li><p>Load additional configurations</p></li>
+</ul>
+<p>Launch files can be written in <strong>Python</strong>, <strong>XML</strong>, or <strong>YAML</strong>. For simplicity and conciseness, we will use the XML format in this course.</p>
+<div class="admonition-action-required admonition">
+<p class="admonition-title">Action Required</p>
+<p>Please <a class="reference download internal" download="" href="_downloads/3e5e38a54cb8013f178aae8de189ab5b/thymio_description.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a> the <code class="docutils literal notranslate"><span class="pre">thymio_description</span></code> package required for this session and place it in the <code class="docutils literal notranslate"><span class="pre">/src</span></code> directory of your <code class="docutils literal notranslate"><span class="pre">ros2_basics_ws</span></code> workspace.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Following a common convention, a robot’s model is typically stored in a package named <code class="docutils literal notranslate"><span class="pre">&lt;robot_name&gt;_description</span></code>, which organizes related files into structured folders. In our case, the <code class="docutils literal notranslate"><span class="pre">thymio_description</span></code> package contains several folders (<em>launch</em>, <em>rviz</em>, <em>urdf</em>, and <em>worlds</em>) that will be gradually filled with additional content as we progress.</p>
+<p>Keep in mind that when new folders are added to a package, they are not automatically recognized by ROS2. To make them accessible, they must be installed in the package’s <code class="docutils literal notranslate"><span class="pre">/share</span></code> directory. If you check the <em>setup.py</em> file, you will notice that this step has already been handled for you.</p>
+</div>
+<p>Let’s revisit an example from Session 1, illustrated in the image below, to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously launch four nodes with their appropriate configurations.</p>
+<a class="reference internal image-reference" href="_images/task2.png"><img alt="_images/task2.png" class="align-center" src="_images/task2.png" style="width: 60%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<ol class="arabic">
+<li><p>Open the file <em>example.launch.xml</em></p>
+<p>Navigate to the <em>/thymio_description/launch</em> folder and open the <em>example.launch.xml</em> file.</p>
+</li>
+<li><p>Add the following code to the file</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;launch&gt;</span>
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;talker&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;stress&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;talker&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;BA1_students&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;listener&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;BA2&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;listener&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MAN&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What are the essential elements of a launch file?</p>
+</div>
+</div></blockquote>
+<p><div style="margin-top: 5px;"></div></p>
+<ol class="arabic" start="3">
+<li><p>Build and source the package</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/
+colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>thymio_description
+<span class="nb">source</span><span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
+</li>
+<li><p>Run the launch file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>example.launch.xml
+</pre></div>
+</div>
+</li>
+<li><p>Visualize the result</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rqt_graph
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.</p>
+</div>
+<p>To save time during this class, we will not go over the creation of the launch files required for this session, as they are more advanced than the basic example we have just seen. Instead, the necessary launch files are already prepared and included in the <code class="docutils literal notranslate"><span class="pre">thymio_description</span></code> package. But don’t despair! We will revisit and analyze these files in detail during Preparatory Work 3.</p>
+</section>
 <section id="urdf-overview">
 <h2>URDF Overview<a class="headerlink" href="#urdf-overview" title="Link to this heading"></a></h2>
-<p>In this introductory example, the need for TFs (Transform Frames) in robotics was highlighted. TFs play a crucial role in tracking the positions of different parts of a robot over time. They are essential for most control packages in ROS2 to function effectively.</p>
+<p>In the introductory example, the need for TFs (Transform Frames) in robotics was highlighted. TFs play a crucial role in tracking the positions of different parts of a robot over time. They are essential for most control packages in ROS2 to function effectively.</p>
 <p>For example:</p>
 <ul class="simple">
 <li><p><strong>Odometry</strong> in navigation requires the positions of the wheels to estimate a mobile robot’s pose.</p></li>
@@ -263,38 +370,45 @@ ros2<span class="w"> </span>run<span class="w"> </span>tf2_tools<span class="w">
 <li><p><strong>Links</strong>: Represent the physical, rigid parts of the robot. These correspond to the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> in Rviz.</p></li>
 <li><p><strong>Joints</strong>: Define the relationships between links and are used by ROS2 to generate TFs.</p></li>
 </ul>
-<p>Links are the rigid bodies of a robot. They can be described using one of the four types of geometry: <strong>Boxes</strong>, <strong>Cylinders</strong>, <strong>Spheres</strong>, <strong>Meshes</strong>.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/urdf.png"><img alt="_images/urdf.png" src="_images/urdf.png" style="width: 40%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><a class="reference external" href="https://web.enib.fr/~buche/data/IML/class_ROS2_tools.html" rel="noopener noreferrer" target="_blank">URDF representation</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Links are the rigid bodies of a robot. They can be described using one of the four types of geometry: <strong>boxes</strong>, <strong>cylinders</strong>, <strong>spheres</strong>, and <strong>meshes</strong>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In this class, only basic geometry shapes will be used. While meshes can be included in a URDF, they require a CAD-designed mesh file (e.g. an STL file). When using meshes, it is important to pay attention to scaling and orientation.</p>
 </div>
 <p>To fully define a link, three properties must be specified:</p>
 <ul class="simple">
-<li><p><strong>Visual</strong>: How the link appears in visualization tools.</p></li>
-<li><p><strong>Inertial</strong>: The physical properties (mass, center of gravity, etc.).</p></li>
-<li><p><strong>Collision</strong>: The geometry used for collision detection.</p></li>
+<li><p><strong>Visual</strong>: How the link appears in visualization tools</p></li>
+<li><p><strong>Inertial</strong>: The physical properties (mass, center of gravity, etc.)</p></li>
+<li><p><strong>Collision</strong>: The geometry used for collision detection</p></li>
 </ul>
 <p>These properties will be introduced progressively throughout the session.</p>
-<figure class="align-center" id="id2">
+<figure class="align-center" id="id3">
 <a class="reference internal image-reference" href="_images/links.png"><img alt="_images/links.png" src="_images/links.png" style="width: 50%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="http://wiki.ros.org/urdf/XML/link" rel="noopener noreferrer" target="_blank">Link representation</a></span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="http://wiki.ros.org/urdf/XML/link" rel="noopener noreferrer" target="_blank">Link representation</a></span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Joints define the connections between links. The most common types of joints in ROS2 are:</p>
 <ol class="arabic simple">
-<li><p><strong>Fixed</strong>: No movement between the parent and child links.</p></li>
-<li><p><strong>Revolute</strong>: Rotation around a single axis within a defined range.</p></li>
-<li><p><strong>Continuous</strong>: Rotation around a single axis without limits.</p></li>
-<li><p><strong>Prismatic</strong>: Linear motion along a single axis.</p></li>
+<li><p><strong>Fixed</strong>: No movement between the parent and child links</p></li>
+<li><p><strong>Revolute</strong>: Rotation around a single axis within a defined range</p></li>
+<li><p><strong>Continuous</strong>: Rotation around a single axis without limits</p></li>
+<li><p><strong>Prismatic</strong>: Linear motion along a single axis</p></li>
 </ol>
 <p>A joint is always defined by its <strong>parent link</strong> and <strong>child link</strong>.</p>
-<figure class="align-center" id="id3">
+<figure class="align-center" id="id4">
 <a class="reference internal image-reference" href="_images/joints.png"><img alt="_images/joints.png" src="_images/joints.png" style="width: 50%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><a class="reference external" href="http://wiki.ros.org/urdf/XML/joint" rel="noopener noreferrer" target="_blank">Joint representation</a></span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-text"><a class="reference external" href="http://wiki.ros.org/urdf/XML/joint" rel="noopener noreferrer" target="_blank">Joint representation</a></span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition important">
@@ -304,82 +418,11 @@ ros2<span class="w"> </span>run<span class="w"> </span>tf2_tools<span class="w">
 </section>
 <section id="minimal-urdf-visual">
 <h2>Minimal URDF - Visual<a class="headerlink" href="#minimal-urdf-visual" title="Link to this heading"></a></h2>
-<p>With the necessary theoretical background in place, it is time to create our first robot model. We will start by setting up a new package to develop the <strong>Thymio</strong> model. Following standard conventions, the package will be named <code class="docutils literal notranslate"><span class="pre">&lt;robot_name&gt;_description</span></code> and structured as a C++ package.</p>
-<ol class="arabic simple">
-<li><p>Create a new package:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/
-ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>thymio_description
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Remove unnecessary folders:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/thymio_description/
-rm<span class="w"> </span>-rf<span class="w"> </span>include/<span class="w"> </span>src/
-ls
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Create directories for today’s materials:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>urdf/example<span class="w"> </span>urdf/thymio<span class="w"> </span>launch<span class="w"> </span>rviz<span class="w"> </span>worlds
-ls
-</pre></div>
-</div>
-<p>Now, let’s build the package and verify its structure.</p>
-<ol class="arabic simple" start="4">
-<li><p>Build the package:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws
-colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>thymio_description
-<span class="nb">source</span><span class="w"> </span>install/setup.bash
-</pre></div>
-</div>
-<p>By default, ROS2 stores all packages in the <em>install</em> directory. Inside, you will find your package along with a <em>share</em> directory.</p>
-<ol class="arabic simple" start="5">
-<li><p>Verify package installation:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/install/thymio_description/share/thymio_description
-ls
-</pre></div>
-</div>
-<div class="admonition error">
-<p class="admonition-title">Error</p>
-<p>You will notice that the folders we created are missing. This means ROS2 cannot access them. To fix this, we need to update the <em>CMakeLists.txt</em> file to include these directories in the installation process.</p>
-</div>
-<ol class="arabic simple" start="6">
-<li><p>Update <em>CMakeLists.txt</em>:</p></li>
-</ol>
-<p>Add the following block above <code class="docutils literal notranslate"><span class="pre">if(BUILD_TESTING)</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>install<span class="o">(</span>
-<span class="w">    </span>DIRECTORY<span class="w"> </span>urdf<span class="w"> </span>launch<span class="w"> </span>rviz<span class="w"> </span>worlds
-<span class="w">    </span>DESTINATION<span class="w"> </span>share/<span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span>/
-<span class="w">    </span><span class="o">)</span>
-</pre></div>
-</div>
-<p>This command ensures the directories are installed at the correct location. Rebuild the package and verify again:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws
-colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>thymio_description
-<span class="nb">source</span><span class="w"> </span>install/setup.bash
-<span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/install/thymio_description/share/thymio_description
-ls
-</pre></div>
-</div>
-<p>Now, we are ready to create our first URDF file. We will start simple, defining a single box and displaying it in Rviz.</p>
-<ol class="arabic simple" start="7">
-<li><p>Create an <em>example.urdf</em> file:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/thymio_description/urdf/example
-touch<span class="w"> </span>example.urdf
-</pre></div>
-</div>
-<ol class="arabic" start="8">
-<li><p>Fill the <em>example.urdf</em> file with the first link:</p>
-<blockquote>
-<div><ol class="loweralpha simple">
-<li><p>Define the structure of the URDF file</p></li>
-</ol>
+<p>With the necessary theoretical background covered, we can now move on to our first robot model. We will use the pre-existing <em>example.urdf</em> file provided in the <code class="docutils literal notranslate"><span class="pre">thymio_description</span></code> package. Navigate to the <em>/urdf/example</em> directory and open the <em>example.urdf</em> file.</p>
+<section id="first-link">
+<h3>First Link<a class="headerlink" href="#first-link" title="Link to this heading"></a></h3>
+<p>Fill the <em>example.urdf</em> file with the first link:</p>
+<p>1.Define the structure of the URDF file</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;</span>
 
@@ -387,7 +430,7 @@ touch<span class="w"> </span>example.urdf
 </pre></div>
 </div>
 <p>This structure specifies the XML format and gives a name to the robot model.</p>
-<ol class="loweralpha simple" start="2">
+<ol class="arabic simple" start="2">
 <li><p>Add a link with visual properties</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
@@ -410,28 +453,25 @@ touch<span class="w"> </span>example.urdf
 <p class="admonition-title">Note</p>
 <p>Tags in XML must be opened (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;visual&gt;</span></code>) and closed (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;/visual&gt;</span></code>). If a tag is empty, it can be written as a self-closing tag (e.g. <code class="docutils literal notranslate"><span class="pre">&lt;box</span> <span class="pre">size=&quot;0.2</span> <span class="pre">0.3</span> <span class="pre">0.6&quot;/&gt;</span></code> instead of <code class="docutils literal notranslate"><span class="pre">&lt;box</span> <span class="pre">size=&quot;0.2</span> <span class="pre">0.3</span> <span class="pre">0.6&quot;&gt;</span> <span class="pre">&lt;/box&gt;</span></code>).</p>
 </div>
-<ol class="loweralpha simple" start="3">
+<ol class="arabic simple" start="3">
 <li><p>Visualize the box in Rviz</p></li>
 </ol>
 <p>First, build the package. Since more components will be added shortly, it is convenient to use the <code class="docutils literal notranslate"><span class="pre">--symlink-install</span></code> option for quicker updates.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>thymio_description<span class="w"> </span>--symlink-install
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws
+colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>thymio_description<span class="w"> </span>--symlink-install
 <span class="nb">source</span><span class="w"> </span>install/setup.bash
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This command is useful when working with URDFs as it allows you to progressively verify your progress. However, remember to rebuild the package whenever you add a new file.</p>
+<p>This command is useful when working with URDF as it allows you to progressively verify your progress. However, remember to rebuild the package whenever you add a new file.</p>
 </div>
-<p>Now, we are ready to visualize the result. Use the <em>urdf_tutorial</em> package to launch the URDF in Rviz. Later, we will explore how to achieve this without relying on this package.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf
+<p>Now, we are ready to visualize the result. Use the following command to launch the URDF in Rviz.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>example_display_urdf.launch.xml
 </pre></div>
 </div>
 <p>We have successfully created a box with dimensions: 20 cm in length (x-direction), 30 cm in width (y-direction), and 10 cm in height (z-direction). However, it appears with a default color in Rviz. Let’s modify it to add a custom color.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>You can ignore the warning message in Rviz as it will be resolved shortly.</p>
-</div>
-<ol class="loweralpha simple" start="4">
+<ol class="arabic simple" start="4">
 <li><p>Add color to the visual</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
@@ -456,12 +496,12 @@ touch<span class="w"> </span>example.urdf
 </div>
 <p>Colors are defined using the <code class="docutils literal notranslate"><span class="pre">&lt;material&gt;</span></code> tag. A common practice is to define colors at the top of the file and reference them by name in the <code class="docutils literal notranslate"><span class="pre">&lt;visual&gt;</span></code> tag. The color attributes include four arguments: <strong>rgb</strong> for red, green, and blue, and <strong>a</strong> for transparency.</p>
 <p>View the result in Rviz using the same command as before (rebuilding the package is not necessary).</p>
-</div></blockquote>
-</li>
-<li><p>Fill the <em>example.urdf</em> file with the first joint:</p>
-<blockquote>
-<div><p>To introduce joints, we will add a second link and then connect it to the base link.</p>
-<ol class="loweralpha simple">
+</section>
+<section id="first-joint">
+<h3>First Joint<a class="headerlink" href="#first-joint" title="Link to this heading"></a></h3>
+<p>Fill the <em>example.urdf</em> file with the first joint:</p>
+<p>To introduce joints, we will add a second link and then connect it to the base link.</p>
+<ol class="arabic simple">
 <li><p>Define a second link</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
@@ -494,12 +534,12 @@ touch<span class="w"> </span>example.urdf
 <span class="nt">&lt;/robot&gt;</span>
 </pre></div>
 </div>
-<p>Here, we have simply added a second link with a different shape. The name can be chosen arbitrarily. You can now try visualizing it in Rviz.</p>
+<p>Here, we have simply added a second link with a different shape. The name can be chosen arbitrarily. You can try visualizing it in Rviz.</p>
 <div class="admonition error">
 <p class="admonition-title">Error</p>
 <p>The result cannot be visualized yet because unconnected links are not allowed. Let’s resolve this by adding a joint.</p>
 </div>
-<ol class="loweralpha simple" start="2">
+<ol class="arabic simple" start="2">
 <li><p>Create a joint between the links</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
@@ -539,66 +579,134 @@ touch<span class="w"> </span>example.urdf
 </pre></div>
 </div>
 <p>The second link has been added. Use a naming convention for the joint that makes it easy to identify. As mentioned earlier, a joint is defined by its <strong>type</strong>, <strong>parent link</strong>, and <strong>child link</strong>. Additionally, it includes an <strong>origin</strong>, which specifies its position and orientation relative to the parent link. Now, let’s visualize this in Rviz.</p>
-<ol class="loweralpha simple" start="3">
+<ol class="arabic simple" start="3">
 <li><p>Set the origins</p></li>
 </ol>
-<p>We have not discussed origins yet, as they can be a bit confusing when working with URDFs for the first time. To simplify, we will provide a straightforward approach to correctly position your links. This step is critical for creating a robot model that works accurately in simulation.</p>
+<p>We have not discussed origins yet, as they can be a bit confusing when working with URDF for the first time. To simplify, we will provide a straightforward approach to correctly position your links. This step is critical for creating a robot model that works accurately in simulation.</p>
 <p>As mentioned earlier, ROS2 uses the URDF file to generate the robot’s TFs. If the joints are not properly placed, the TFs will also be misaligned, leading to unexpected behavior during simulation.</p>
 <p>Let’s go through a simple four-step process to correctly position two links. Currently, our setup looks like this:</p>
-<a class="reference internal image-reference" href="_images/urdf_example.png"><img alt="_images/urdf_example.png" class="align-center" src="_images/urdf_example.png" style="width: 20%;" />
+<a class="reference internal image-reference" href="_images/urdf_step1.png"><img alt="_images/urdf_step1.png" class="align-center" src="_images/urdf_step1.png" style="width: 25%;" />
 </a>
 <p><div style="margin-top: 5px;"></div></p>
 <p>Our goal now is to replicate this:</p>
-<a class="reference internal image-reference" href="_images/urdf_example_final.png"><img alt="_images/urdf_example_final.png" class="align-center" src="_images/urdf_example_final.png" style="width: 50%;" />
+<a class="reference internal image-reference" href="_images/urdf_step4b.png"><img alt="_images/urdf_step4b.png" class="align-center" src="_images/urdf_step4b.png" style="width: 50%;" />
 </a>
 <p><div style="margin-top: 5px;"></div></p>
-<p>For each of the following steps, update the code and visualize the result in Rviz. Reflect on the purpose of each origin setting. If you have any questions, don’t hesitate to ask, it is crucial to understand this process.</p>
-<blockquote>
-<div><ol class="arabic simple">
+<p>For each of the following steps, observe the provided code and its corresponding visualization in Rviz. Carefully review the changes and reflect on the purpose of each origin setting. If you have any questions, feel free to ask. It is crucial to understand this process as you will need to apply it when building the Thymio model yourself.</p>
+<div class="admonition-procedure admonition">
+<p class="admonition-title">Procedure</p>
+<ol class="arabic simple">
 <li><p>Set all origins to zero (this is already the case)</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
 </pre></div>
 </div>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="_images/urdf_step1.png"><img alt="_images/urdf_step1.png" src="_images/urdf_step1.png" style="width: 20%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><cite>Step 1 - Initialization</cite></span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><div style="margin-top: 5px;"></div></p>
 <ol class="arabic simple" start="2">
-<li><p>Set the origin for the visual of the base_link</p></li>
+<li><p>Set the origin for the <code class="docutils literal notranslate"><span class="pre">&lt;visual&gt;</span></code> tag of the <code class="docutils literal notranslate"><span class="pre">base_link</span></code></p></li>
 </ol>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0.3&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0.3&quot;</span><span class="w">  </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.2 0.3 0.6&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="nt">&lt;/link&gt;</span>
 </pre></div>
 </div>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="_images/urdf_step2.png"><img alt="_images/urdf_step2.png" src="_images/urdf_step2.png" style="width: 20%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><cite>Step 2 - Position parent link</cite></span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><div style="margin-top: 5px;"></div></p>
 <ol class="arabic simple" start="3">
 <li><p>Set the joint origin</p></li>
 </ol>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.1 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;second_link&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.1 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/joint&gt;</span>
 </pre></div>
 </div>
+<figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="_images/urdf_step3.png"><img alt="_images/urdf_step3.png" src="_images/urdf_step3.png" style="width: 20%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><cite>Step 3 - Position the joint</cite></span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><div style="margin-top: 5px;"></div></p>
 <ol class="arabic simple" start="4">
-<li><p>Set the origin for the visual of the second_link</p></li>
+<li><p>Set the origin for the <code class="docutils literal notranslate"><span class="pre">&lt;visual&gt;</span></code> of the <code class="docutils literal notranslate"><span class="pre">second_link</span></code></p></li>
 </ol>
 <ol class="loweralpha simple">
 <li><p>Rotation</p></li>
 </ol>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 1.57 0&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 1.57 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.8&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.05&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="nt">&lt;/link&gt;</span>
 </pre></div>
 </div>
+<figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="_images/urdf_step4a.png"><img alt="_images/urdf_step4a.png" src="_images/urdf_step4a.png" style="width: 30%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><cite>Step 4.a - Orient the child link</cite></span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><div style="margin-top: 5px;"></div></p>
 <ol class="loweralpha simple" start="2">
 <li><p>Translation</p></li>
 </ol>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.4 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 1.57 0&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.4 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 1.57 0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="w">            </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.8&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.05&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="nt">&lt;/link&gt;</span>
 </pre></div>
 </div>
-</div></blockquote>
+<figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="_images/urdf_step4b.png"><img alt="_images/urdf_step4b.png" src="_images/urdf_step4b.png" style="width: 40%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><cite>Step 4.b - Position the child link</cite></span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
 <div class="admonition-question admonition">
 <p class="admonition-title">Question</p>
 <p>Which origin setting is most critical for ensuring that your robot’s movements and positions are accurately represented in ROS2 simulations?</p>
 </div>
-<ol class="loweralpha simple" start="4">
+<ol class="arabic simple" start="4">
 <li><p>Explore the different joint types</p></li>
 </ol>
 <p>Now, let’s experiment with the two links by trying out different joint types. Simply replace the existing joint with one of the examples below. For each joint type, visualize the result in Rviz and use the Joint State Publisher GUI to observe how the parts move.</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>Revolute</p></li>
+<li><p><strong>Revolute</strong> - Rotation around a single axis within a defined range</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;revolute&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
@@ -610,7 +718,7 @@ touch<span class="w"> </span>example.urdf
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p>Continuous</p></li>
+<li><p><strong>Continuous</strong> - Rotation around a single axis without limits</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
@@ -621,7 +729,7 @@ touch<span class="w"> </span>example.urdf
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>Prismatic</p></li>
+<li><p><strong>Prismatic</strong> - Linear motion along a single axis</p></li>
 </ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;second_link_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;prismatic&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
@@ -633,15 +741,18 @@ touch<span class="w"> </span>example.urdf
 </pre></div>
 </div>
 </div></blockquote>
-</div></blockquote>
-</li>
-</ol>
 <p>Reaching this point means you now have a better understanding of what a URDF is. You are equipped with the essential tools to finally practice building your first robot model on your own. Let’s get started!</p>
-<div class="admonition-thymio-step-1 admonition">
-<p class="admonition-title">Thymio - Step 1</p>
-<p>As mentioned in the introduction, today’s goal is to create a Thymio model that works well in simulation. In addition to building the model, you will set up custom methods to launch applications like Rviz and Gazebo, ensuring they function correctly with your robot. The task is divided into 9 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.</p>
-<p>Start by creating a new file named <em>thymio.urdf</em> in the <em>/urdf/thymio</em> directory. Use the provided specifications to guide you through the process, and remember to consistently use Rviz to visualize your progress.</p>
-<table class="docutils align-default">
+</section>
+<section id="thymio-step-1">
+<h3>Thymio - Step 1<a class="headerlink" href="#thymio-step-1" title="Link to this heading"></a></h3>
+<p>As mentioned in the introduction, today’s goal is to create a Thymio model that works well in simulation. The task is divided into 6 steps, and the journey begins now with your first challenge: creating the visual representation of the Thymio using the tools just introduced.</p>
+<div class="admonition-thymio admonition">
+<p class="admonition-title">Thymio</p>
+<p>Start by creating a new file named <em>thymio.urdf</em> in the <em>/urdf/thymio</em> directory. Follow the provided specifications to guide you through the process. Make sure to frequently visualize your progress in Rviz using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>thymio_display_urdf.launch.xml
+</pre></div>
+</div>
+<div class="table-centered"><table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Component</p></th>
 <th class="head"><p>Specifications</p></th>
@@ -671,7 +782,7 @@ Radius = 2.2 cm</p></td>
 </tr>
 </tbody>
 </table>
-<p>Refer to the following drawing to correctly place the different links:</p>
+</div><p>Refer to the following drawing to correctly place the different links:</p>
 <a class="reference internal image-reference" href="_images/thymio_spec.png"><img alt="_images/thymio_spec.png" class="align-center" src="_images/thymio_spec.png" style="width: 60%;" />
 </a>
 <p><div style="margin-top: 5px;"></div></p>
@@ -681,12 +792,6 @@ Radius = 2.2 cm</p></td>
 <ul class="simple">
 <li><p>The ground clearance information should be sufficient to define all the heights</p></li>
 <li><p>Carefully consider where the TFs should be positioned (this is crucial!)</p></li>
-<li><p>Use the following command to visualize the model in Rviz:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf
-</pre></div>
-</div>
-<ul class="simple">
 <li><p>The final visual result should look like this:</p></li>
 </ul>
 <a class="reference internal image-reference" href="_images/thymio_look.png"><img alt="_images/thymio_look.png" class="align-center" src="_images/thymio_look.png" style="width: 60%;" />
@@ -694,6 +799,7 @@ Radius = 2.2 cm</p></td>
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="improved-urdf-xacro">
 <h2>Improved URDF - Xacro<a class="headerlink" href="#improved-urdf-xacro" title="Link to this heading"></a></h2>
@@ -706,17 +812,14 @@ Radius = 2.2 cm</p></td>
 <li><p><strong>Simplification</strong>: Use macros, constants, math operations, and conditional logic.</p></li>
 <li><p><strong>Modularity</strong>: Organize your robot description into multiple files.</p></li>
 </ul>
-<p>To use Xacro, you write your file using its extended syntax and process it with the <em>xacro</em> tool to generate a complete URDF that ROS2 can use. Let’s apply this to our example and see how it works in practice.</p>
+<p>Therefore, a URDF can be rewritten using Xacro’s extended syntax, allowing it to be organized across one or multiple files. These files are then processed by a <em>xacro</em> tool which combines them into a single, standard URDF file that ROS2 can interpret. Let’s apply this to our example and see how it works in practice.</p>
 <ol class="arabic simple">
-<li><p>Rename the file</p></li>
+<li><p>Open the <em>example.urdf.xacro</em> file</p></li>
 </ol>
-<p>First, rename the previous example file to include the Xacro extension: <em>example.urdf.xacro</em></p>
+<p>Navigate to the <em>/urdf/example</em> directory and open the provided file with the <em>.xacro</em> extension.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>As a result, the new display command is:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf.xacro
-</pre></div>
-</div>
+<p>To enhance understanding, we will go through the elements of the updated file step by step. You do not need to add these elements to the file yet, as the complete file will be provided at the end. Focus on understanding the process and the purpose of each element.</p>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Xacro compatibility</p></li>
@@ -762,7 +865,7 @@ Radius = 2.2 cm</p></td>
 <li><p>Multiple files</p></li>
 </ol>
 <p>To simplify the process, it is a good practice to split the URDF into multiple files. Typically, one main file includes all other Xacro files. To distinguish them, use the extension <em>.urdf.xacro</em> for the main file and <em>.xacro</em> for the others.</p>
-<p>For example, let’s create a new file to define colors. Name it <em>example_materials.xacro</em> and save it in the <em>/urdf/example</em> directory. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:</p>
+<p>For example, let’s split our initial file by defining the colors in a separate file. Open the provided <em>example_materials.xacro</em> file. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="nt">&lt;robot</span><span class="w"> </span><span class="na">xmlns:xacro=</span><span class="s">&quot;http://wwww.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
 
@@ -842,16 +945,36 @@ Radius = 2.2 cm</p></td>
 <p class="admonition-title">Note</p>
 <p>Notice that the file no longer contains hardcoded values. Instead, five variables are used to define the links and joint accurately. While using a macro to define a single box may be excessive here, it serves to demonstrate how macros work.</p>
 </div>
-<div class="admonition-thymio-step-2 admonition">
-<p class="admonition-title">Thymio - Step 2</p>
+<ol class="arabic simple" start="8">
+<li><p>Visualize the result in Rviz</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>example_display_xacro.launch.xml
+</pre></div>
+</div>
+<section id="thymio-step-2">
+<h3>Thymio - Step 2<a class="headerlink" href="#thymio-step-2" title="Link to this heading"></a></h3>
+<div class="admonition-thymio admonition">
+<p class="admonition-title">Thymio</p>
 <p>Let’s put this knowledge into practice. The goal is to enhance the previous URDF by utilizing Xacro’s features. Follow these steps:</p>
-<ol class="arabic simple">
+<ol class="arabic">
+<li><p>Split the URDF into three files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>materials.xacro</em>: Defines the colors</p></li>
+<li><p><em>thymio_chassis.xacro</em>: Contains the description of the robot</p></li>
+<li><p><em>thymio.urdf.xacro</em>: The main file that includes the other two files</p></li>
+</ul>
+</div></blockquote>
+</li>
 <li><p>Use the pi constant where needed</p></li>
 <li><p>Define variables and replace hardcoded values</p></li>
 <li><p>Create a macro for the wheel links and reuse it for both wheels</p></li>
-<li><p>Split the URDF into three files: <em>materials.xacro</em>, <em>thymio_chassis.xacro</em>, and <em>thymio.urdf.xacro</em></p></li>
 </ol>
 <p>Additionally, remember to apply mathematical operations wherever possible.</p>
+<p>Use the following command to display the new model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>thymio_display_xacro.launch.xml
+</pre></div>
+</div>
 <p>Once again, refer to the drawing below for the key dimensions:</p>
 <a class="reference internal image-reference" href="_images/thymio_spec.png"><img alt="_images/thymio_spec.png" class="align-center" src="_images/thymio_spec.png" style="width: 60%;" />
 </a>
@@ -871,324 +994,6 @@ Radius = 2.2 cm</p></td>
 </div>
 </div>
 </section>
-<section id="parameters-overview">
-<h2>Parameters Overview<a class="headerlink" href="#parameters-overview" title="Link to this heading"></a></h2>
-<p>Let’s take a break from URDFs for a moment and explore another essential concept in ROS2: <strong>parameters</strong>. Parameters are configurable values that allow to reuse the same node with differents settings.</p>
-<p>To understand their importance, let’s revisit an example from the previous session: the <em>Heat Index Monitoring System</em>. We used a temperature sensor and a humidity sensor to calculate the heat index. Now, imagine we want to extend this setup by adding a second temperature sensor, but with different settings, such as a unique publish frequency.</p>
-<p>What happens if we try to achieve this without parameters? We might end up duplicating the existing node just to adjust the frequency. This approach quickly becomes inefficient and difficult to manage as the system grows in complexity.</p>
-<p>Fortunately, ROS2 parameters provide an elegant solution. They let us configure settings, like the publish frequency, directly from the run command without modifying or duplicating the node’s code. A parameter passed as an argument dynamically updates a variable in the node, enabling efficient customization.</p>
-<p>To summarize, ROS2 parameters enable:</p>
-<ul class="simple">
-<li><p><strong>Customization</strong>: Define robot-specific configurations (e.g. sensor settings)</p></li>
-<li><p><strong>Flexibility</strong>: Adjust node behavior without modifying or rebuilding the code</p></li>
-<li><p><strong>Efficiency</strong>: Reuse the same node with different parameter values</p></li>
-</ul>
-<p>Let’s see how parameters work in practice by modifying the first publisher node we created in session 1. We will define the publish frequency as a parameter, allowing us to change its value directly when running the node from the terminal.</p>
-<ol class="arabic simple">
-<li><p>Open the file</p></li>
-</ol>
-<p>Open <em>publisher.py</em> in the <em>ros2_basics_pkg</em> package.</p>
-<ol class="arabic simple" start="2">
-<li><p>Modify the publisher</p></li>
-</ol>
-<p>Replace the contents of <em>publisher.py</em> with the following code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rclpy</span>
-<span class="kn">from</span> <span class="nn">rclpy.node</span> <span class="kn">import</span> <span class="n">Node</span>
-
-<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
-
-<span class="k">class</span> <span class="nc">MinimalPublisher</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;minimal_publisher&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">publisher_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_publisher</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">declare_parameter</span><span class="p">(</span><span class="s2">&quot;publish_frequency&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">publish_frequency_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="s2">&quot;publish_frequency&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_timer</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_frequency_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer_callback</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">def</span> <span class="nf">timer_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;Hello World: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">publisher_</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Publishing: &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
-    <span class="n">minimal_publisher</span> <span class="o">=</span> <span class="n">MinimalPublisher</span><span class="p">()</span>
-    <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">minimal_publisher</span><span class="p">)</span>
-    <span class="n">minimal_publisher</span><span class="o">.</span><span class="n">destroy_node</span><span class="p">()</span>
-    <span class="n">rclpy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><strong>Question:</strong> What are the essential steps involved in working with a parameter?</p>
-<ol class="arabic simple" start="3">
-<li><p>Build the package</p></li>
-</ol>
-<p><div style="margin-top: 5px;"></div></p>
-<ol class="arabic simple" start="4">
-<li><p>Test the publisher with different frequencies</p></li>
-</ol>
-<p>Run the node and set the publish frequency using the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>ros2_basics_pkg<span class="w"> </span>publisher_node<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>publish_frequency:<span class="o">=</span><span class="m">4</span>.0
-</pre></div>
-</div>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What happens if no parameter value is provided during execution? Why?</p>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>You can verify the frequency at which messages are published using the following command: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">hz</span> <span class="pre">&lt;topic_name&gt;</span></code>.</p>
-</div>
-</section>
-<section id="launch-files-overview">
-<h2>Launch Files Overview<a class="headerlink" href="#launch-files-overview" title="Link to this heading"></a></h2>
-<p>In this section, we shift focus back to the visualization aspects of ROS2, closing the parenthesis on parameters. So far, we have relied on a convenient command from the <em>urdf_tutorial</em> package to visualize URDF files in Rviz. But how exactly does this command work? Let’s delve into the concept of launch files to uncover the mechanics behind it.</p>
-<p>First, let’s recall the command we used previously to display a URDF in Rviz:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>&lt;path_to_urdf&gt;
-</pre></div>
-</div>
-<p>You might have been wondering, what does the <em>launch</em> command do? Simply put, it runs a <strong>launch file</strong>. A launch file is a configuration file that allows you to start multiple nodes simultaneously, often with specific parameters or remapping. This is especially useful when managing complex setups, as launching multiple nodes manually from different terminals can quickly become difficult to manage.</p>
-<p>Launch files provide a structured way to define:</p>
-<ul class="simple">
-<li><p>Which nodes to run</p></li>
-<li><p>Node-specific parameters</p></li>
-<li><p>Topic or service remappings</p></li>
-</ul>
-<p>Launch files can be written in <strong>Python</strong>, <strong>XML</strong>, or <strong>YAML</strong>. For simplicity and conciseness, we will use XML in this course.</p>
-<p>Let’s revisit an example from session 1 to better understand launch files. This time, instead of manually starting each node, we will use a launch file to simultaneously start four nodes with their appropriate configurations.</p>
-<a class="reference internal image-reference" href="_images/task2.png"><img alt="_images/task2.png" class="align-center" src="_images/task2.png" style="width: 60%;" />
-</a>
-<p><div style="margin-top: 5px;"></div></p>
-<ol class="arabic simple">
-<li><p>Create the launch file</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws/src/thymio_description/launch/
-touch<span class="w"> </span>example.launch.xml
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Add content to the file</p></li>
-</ol>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;launch&gt;</span>
-<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;talker&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;stress&quot;</span><span class="nt">&gt;</span>
-<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
-
-<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;talker&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;BA1_students&quot;</span><span class="nt">&gt;</span>
-<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
-
-<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;listener&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;BA2&quot;</span><span class="nt">&gt;</span>
-<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
-
-<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;demo_nodes_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;listener&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MAN&quot;</span><span class="nt">&gt;</span>
-<span class="w">        </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;chatter&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;exams&quot;</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
-<span class="nt">&lt;/launch&gt;</span>
-</pre></div>
-</div>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What are the essential elements of a launch file?</p>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Build the package</p></li>
-</ol>
-<p><div style="margin-top: 5px;"></div></p>
-<ol class="arabic simple" start="4">
-<li><p>Launch the launch file</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>example.launch.xml
-</pre></div>
-</div>
-<ol class="arabic simple" start="5">
-<li><p>Visualize the result</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rqt_graph
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Using a launch file, you have successfully started multiple nodes with a single command. Additionally, remapping topics has become significantly more convenient.</p>
-</div>
-<p>Now that you know that a launch file start multiple nodes at the same time, let’s discover what the <em>display.launch.py</em> actually launch.</p>
-<ol class="arabic simple">
-<li><p>Run the launch command with the Thymio model</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Visualize the graph</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rqt_graph
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Configure the <em>Node Graph</em></p></li>
-</ol>
-<a class="reference internal image-reference" href="_images/rqt_config.png"><img alt="_images/rqt_config.png" class="align-center" src="_images/rqt_config.png" style="width: 70%;" />
-</a>
-<p><div style="margin-top: 5px;"></div></p>
-<p>Looking at the <em>rqt_graph</em>, we see two main nodes interacting: <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code> and <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code>. The <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> handles TFs in ROS2 by relying on joint information published by the <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code> is a GUI tool that lets us adjust joint positions virtually. In a real-world scenario, joint positions would be published by hardware sensors, such as encoders.</p>
-<p>For the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> to work, it needs the URDF, which defines the robot’s structure and joint placements. This URDF file is passed as a parameter during the launch process. But where exactly can we find it? Let’s explore this:</p>
-<ol class="arabic simple">
-<li><p>List the different nodes</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>node<span class="w"> </span>list
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>List the parameter of the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> node</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>param<span class="w"> </span>list<span class="w"> </span>/robot_state_publisher
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Check the content of the <em>robot_description</em> parameter</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>param<span class="w"> </span>get<span class="w"> </span>/robot_state_publisher<span class="w"> </span>robot_description
-</pre></div>
-</div>
-<p>Now that we have located the parameter containing the Thymio robot’s URDF, let’s take a closer look. This parameter holds the complete description of the robot, which was originally split across three files. Using the <em>xacro</em> tool, these files were combined into a single, unified URDF. You can confirm this in the terminal, where the file header states: <em>This document was autogenerated by xacro</em>.</p>
-<p>To summarize, let’s refer to the following image for a visual representation:</p>
-<figure class="align-center" id="id4">
-<a class="reference internal image-reference" href="_images/robot_description.png"><img alt="_images/robot_description.png" src="_images/robot_description.png" style="width: 80%;" />
-</a>
-<figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://articulatedrobotics.xyz/tutorials/ready-for-ros/urdf" rel="noopener noreferrer" target="_blank">Describing robots with URDF (Articulated Robotics)</a></span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
-</figcaption>
-</figure>
-<p>Here’s a quick recap of the roles of the two nodes:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code>:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Updates the robot model and TFs in real-time</p></li>
-<li><p>Requires the URDF file as a parameter to define the robot’s structure</p></li>
-<li><p>Relies on joint position data to reflect changes in the robot’s state</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code>:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Provides virtual joint positions in simulation</p></li>
-<li><p>Replaced by hardware sensors, such as encoders, in real-world applications</p></li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
-<p>Now that we understand the key components behind this launch process, let’s run each node individually in separate terminals to see how they work.</p>
-<ol class="arabic simple">
-<li><p>Run the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> node</p></li>
-</ol>
-<p>From the previous explanation, we need to launch the <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> node and provide the URDF file as a parameter. Additionally, we must use the <em>xacro</em> tool to combine the Xacro files into a single URDF file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>robot_state_publisher<span class="w"> </span>robot_state_publisher<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>robot_description:<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>xacro<span class="w"> </span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/thymio/thymio.urdf.xacro<span class="k">)</span><span class="s2">&quot;</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Run the <code class="docutils literal notranslate"><span class="pre">joint_state_publisher</span></code> node</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>joint_state_publisher_gui<span class="w"> </span>joint_state_publisher_gui
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Run <em>Rviz</em></p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>rviz2<span class="w"> </span>rviz2
-</pre></div>
-</div>
-<p>At this stage, nothing is visible in Rviz. To proceed, you need to configure the interface with the required display settings. Start by adding the <code class="docutils literal notranslate"><span class="pre">RobotModel</span></code> and <code class="docutils literal notranslate"><span class="pre">TF</span></code> plugins, and then adjust their options as follows:</p>
-<a class="reference internal image-reference" href="_images/Rviz_config.png"><img alt="_images/Rviz_config.png" class="align-center" src="_images/Rviz_config.png" style="width: 40%;" />
-</a>
-<p><div style="margin-top: 5px;"></div></p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Save the configuration in the <em>rviz</em> directory of the <em>thymio_description</em> package. In Rviz, navigate to <em>File &gt; Save Config As</em> and select the appropriate location. This saves your current setup exactly as it appears on your screen. In the next task, you will add this configuration to a launch file, making it convenient to avoid reconfiguring Rviz each time.</p>
-<p>The terminal command would look like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>rviz2<span class="w"> </span>rviz2<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/rviz/&lt;config_name&gt;.rviz&quot;</span>
-</pre></div>
-</div>
-</div>
-<ol class="arabic simple" start="4">
-<li><p>Run <em>rqt_graph</em></p></li>
-</ol>
-<p>Finally, notice that the result is identical to what we achieved using the <em>display.launch.py</em> file from the <em>urdf_tutorial</em> package.</p>
-<div class="admonition-thymio-step-3 admonition">
-<p class="admonition-title">Thymio - Step 3</p>
-<p>The next challenge is to create a launch file (<em>thymio_display.launch.xml</em>) that starts the following three executables simultaneously: <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code>, <code class="docutils literal notranslate"><span class="pre">joint_state_publisher_gui</span></code>, and <code class="docutils literal notranslate"><span class="pre">rviz2</span></code>. Ensure that Rviz is launched with the configuration file you previously saved to maintain your custom display settings.</p>
-<p>To assist you, a generic example is provided below, which should give you the tools necessary to complete the task. Additionally, it is highly recommended to review the terminal commands previously used to start each executable individually, as these will help you structure your launch file.</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;launch&gt;</span>
-<span class="w">    </span><span class="cm">&lt;!-- Define an argument for a file path --&gt;</span>
-<span class="w">    </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file_path&quot;</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;$(find-pkg-share &lt;package_name&gt;)/&lt;path_to_file&gt;&quot;</span><span class="nt">/&gt;</span>
-
-<span class="w">    </span><span class="cm">&lt;!-- Use the argument to parse a file with a command and set it as a parameter --&gt;</span>
-<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;&lt;package_name&gt;&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;&lt;executable_name&gt;&quot;</span><span class="nt">&gt;</span>
-<span class="w">        </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;&lt;parameter_name&gt;&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(command &#39;tool_name $(var file_path)&#39;)&quot;</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;/node&gt;</span>
-
-<span class="w">    </span><span class="cm">&lt;!-- Use the argument as a command-line argument --&gt;</span>
-<span class="w">    </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;&lt;package_name&gt;&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;&lt;executable_name&gt;&quot;</span><span class="w"> </span><span class="na">args=</span><span class="s">&quot;-a $(var file_path)&quot;</span><span class="nt">/&gt;</span>
-<span class="nt">&lt;/launch&gt;</span>
-</pre></div>
-</div>
-</div>
-<p>After successfully creating and testing your launch file, compare it with the Python version provided below.</p>
-<div class="admonition-python-launch-file admonition">
-<p class="admonition-title">Python Launch File</p>
-<div class="toggle docutils container">
-<p>Python launch files may be slightly more complex to write, but they provide greater flexibility.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">launch_ros.actions</span> <span class="kn">import</span> <span class="n">Node</span>
-<span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
-<span class="kn">from</span> <span class="nn">launch.substitutions</span> <span class="kn">import</span> <span class="n">Command</span>
-<span class="kn">from</span> <span class="nn">launch_ros.parameter_descriptions</span> <span class="kn">import</span> <span class="n">ParameterValue</span>
-<span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_path</span>
-
-<span class="k">def</span> <span class="nf">generate_launch_description</span><span class="p">():</span>
-
-    <span class="n">urdf_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_package_share_path</span><span class="p">(</span><span class="s1">&#39;thymio_description&#39;</span><span class="p">),</span>
-                             <span class="s1">&#39;urdf&#39;</span><span class="p">,</span> <span class="s1">&#39;thymio.urdf.xacro&#39;</span><span class="p">)</span>
-
-    <span class="n">rviz_config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_package_share_path</span><span class="p">(</span><span class="s1">&#39;thymio_description&#39;</span><span class="p">),</span>
-                                    <span class="s1">&#39;rviz&#39;</span><span class="p">,</span> <span class="s1">&#39;rviz_config.rviz&#39;</span><span class="p">)</span>
-
-    <span class="n">robot_description</span> <span class="o">=</span> <span class="n">ParameterValue</span><span class="p">(</span><span class="n">Command</span><span class="p">([</span><span class="s1">&#39;xacro &#39;</span><span class="p">,</span> <span class="n">urdf_path</span><span class="p">]),</span> <span class="n">value_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-
-    <span class="n">robot_state_publisher_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
-        <span class="n">package</span><span class="o">=</span><span class="s2">&quot;robot_state_publisher&quot;</span><span class="p">,</span>
-        <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;robot_state_publisher&quot;</span><span class="p">,</span>
-        <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;robot_description&#39;</span><span class="p">:</span> <span class="n">robot_description</span><span class="p">}]</span>
-    <span class="p">)</span>
-
-    <span class="n">joint_state_publisher_gui_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
-        <span class="n">package</span><span class="o">=</span><span class="s2">&quot;joint_state_publisher_gui&quot;</span><span class="p">,</span>
-        <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;joint_state_publisher_gui&quot;</span>
-    <span class="p">)</span>
-
-    <span class="n">rviz2_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
-        <span class="n">package</span><span class="o">=</span><span class="s2">&quot;rviz2&quot;</span><span class="p">,</span>
-        <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;rviz2&quot;</span><span class="p">,</span>
-        <span class="n">arguments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">rviz_config_path</span><span class="p">]</span>
-    <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
-        <span class="n">robot_state_publisher_node</span><span class="p">,</span>
-        <span class="n">joint_state_publisher_gui_node</span><span class="p">,</span>
-        <span class="n">rviz2_node</span>
-    <span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="gazebo-overview">
 <h2>Gazebo Overview<a class="headerlink" href="#gazebo-overview" title="Link to this heading"></a></h2>
@@ -1239,15 +1044,17 @@ touch<span class="w"> </span>example.launch.xml
 </tr>
 </tbody>
 </table>
-</div>
+</div></div>
 </section>
 <section id="complete-urdf-collision-inertial">
 <h2>Complete URDF - Collision &amp; Inertial<a class="headerlink" href="#complete-urdf-collision-inertial" title="Link to this heading"></a></h2>
-<p>So far, we have been focusing exclusively on the visual representation of the Thymio robot. To make the model functional in a simulation, the URDF must be updated to include collision and physical properties. These additions will enable the robot to interact realistically with the virtual environment. Let’s begin by incorporating the collision properties:</p>
+<p>So far, we have been focusing exclusively on the visual representation of the Thymio robot. To make the model functional in a simulation, the URDF must be updated to include collision and physical properties. These additions will enable the robot to interact realistically with the virtual environment. Let’s begin by incorporating the collision properties.</p>
+<section id="collision-tags">
+<h3>Collision Tags<a class="headerlink" href="#collision-tags" title="Link to this heading"></a></h3>
 <ol class="arabic simple">
-<li><p>Launch our simple example in Rviz</p></li>
+<li><p>Launch our basic example in Rviz</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>urdf_tutorial<span class="w"> </span>display.launch.py<span class="w"> </span>model:<span class="o">=</span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/urdf/example/example.urdf.xacro
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>example_display_xacro.launch.xml
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -1302,12 +1109,15 @@ touch<span class="w"> </span>example.launch.xml
 </a>
 <p><div style="margin-top: 5px;"></div></p>
 </div>
+</section>
+<section id="inertial-tags">
+<h3>Inertial Tags<a class="headerlink" href="#inertial-tags" title="Link to this heading"></a></h3>
 <p>Now, let’s focus on defining the physical properties of the model by adding the <code class="docutils literal notranslate"><span class="pre">&lt;inertial&gt;</span></code> tags. These tags play a crucial role in accurately simulating the robot’s motion by specifying properties such as mass and moments of inertia. This ensures the model responds realistically to forces like gravity and other dynamics.</p>
-<p>As you may recall from your physics courses, the formulas for the moment of inertia tensor are well-established for basic geometric shapes. These tensors are uniquely determined by the object’s dimensions and mass. Let’s explore how to incorporate these inertia properties:</p>
+<p>As you may recall from your physics courses, the formulas for the moment of inertia tensor are well-established for basic geometric shapes. These tensors are uniquely determined by the object’s dimensions and mass. Let’s explore how to incorporate these inertia properties.</p>
 <ol class="arabic simple">
-<li><p>Create an <em>example_inertia.xacro</em> file</p></li>
+<li><p>Open the <em>example_inertia.xacro</em> file</p></li>
 </ol>
-<p>In the <em>/urdf/example</em> directory, create a file named <em>example_inertia.xacro</em> to define reusable macros for the inertia properties of our basic shapes.</p>
+<p>In the <em>/urdf/example</em> directory, locate the provided <em>example_inertia.xacro</em> file. This file will be used to define reusable macros for the inertia properties of our basic shapes.</p>
 <ol class="arabic simple" start="2">
 <li><p>Add the inertia macros to the file</p></li>
 </ol>
@@ -1387,9 +1197,12 @@ touch<span class="w"> </span>example.launch.xml
 <p class="admonition-title">Note</p>
 <p>If you are interested, you can visualize the result in Rviz (<em>RobotModel &gt; Mass Properties &gt; Inertia</em>), but this method is not ideal for intuitively verifying the correctness of our implementation. Instead, we recommend testing the physical behavior directly in Gazebo. However, as we do not yet have all the necessary tools, we will revisit this step later.</p>
 </div>
-<div class="admonition-thymio-step-4 admonition">
-<p class="admonition-title">Thymio - Step 4</p>
-<p>The new task is to enhance the current Thymio model by adding <code class="docutils literal notranslate"><span class="pre">&lt;collision&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;inertial&gt;</span></code> tags.</p>
+</section>
+<section id="thymio-step-3">
+<h3>Thymio - Step 3<a class="headerlink" href="#thymio-step-3" title="Link to this heading"></a></h3>
+<div class="admonition-thymio admonition">
+<p class="admonition-title">Thymio</p>
+<p>The new task is to enhance the current Thymio model by adding <code class="docutils literal notranslate"><span class="pre">&lt;collision&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;inertial&gt;</span></code> tags. Follow the provided specifications carefully.</p>
 <div class="table-centered"><table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p><strong>Component</strong></p></th>
@@ -1416,61 +1229,25 @@ touch<span class="w"> </span>example.launch.xml
 </tr>
 </tbody>
 </table>
-</div>
+</div></div>
+</section>
 </section>
 <section id="spawn-robot-in-gazebo">
 <h2>Spawn Robot in Gazebo<a class="headerlink" href="#spawn-robot-in-gazebo" title="Link to this heading"></a></h2>
-<p>Your Thymio robot is now ready for simulation testing. Let’s see how to launch it in Gazebo:</p>
-<ol class="arabic simple">
-<li><p>Launch <em>thymio_display.launch.xml</em></p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>thymio_display.launch.xml
+<p>Your Thymio robot is now set up and ready for simulation testing. Launch it in Gazebo using the command below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>thymio_gazebo.launch.xml
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li><p>Launch <em>Gazebo</em></p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>gazebo_ros<span class="w"> </span>gazebo.launch.py
-</pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Gazebo may occasionally crash when started. If this happens, terminate the launch process by pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> and try again. This should resolve the issue.</p>
 </div>
-<ol class="arabic simple" start="3">
-<li><p>Spawn the Thymio in Gazebo</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>gazebo_ros<span class="w"> </span>spawn_entity.py<span class="w"> </span>-topic<span class="w"> </span>robot_description<span class="w"> </span>-entity<span class="w"> </span>thymio
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>These commands are provided by the <em>gazebo_ros</em> package, which serves as the interface connecting ROS2 and Gazebo.</p>
-</div>
-<div class="admonition-thymio-step-5 admonition">
-<p class="admonition-title">Thymio - Step 5</p>
-<p>For convenience, include the two commands in <em>thymio_display.launch.xml</em>.</p>
-<div class="admonition-hints admonition">
-<p class="admonition-title">Hints</p>
-<div class="toggle docutils container">
-<ul class="simple">
-<li><p>To include a launch file within another launch file, use the following command:</p></li>
-</ul>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share &lt;package_name&gt;)/&lt;path_to_file&gt;&quot;</span><span class="nt">/&gt;</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">find-pkg-share</span> <span class="pre">&lt;package_name&gt;</span></code> command locates packages installed in <code class="docutils literal notranslate"><span class="pre">/opt/ros/humble/share</span></code>. If you are unsure of a launch file’s path, this directory is a good starting point for exploration.</p>
-<ul class="simple">
-<li><p>To add command-line arguments to your launch file, use the following syntax:</p></li>
-</ul>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;&lt;package_name&gt;&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;&lt;executable_name&gt;&quot;</span><span class="w"> </span><span class="na">args=</span><span class="s">&quot;-a arg&quot;</span><span class="nt">/&gt;</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<p>After completing this task, return to Gazebo and experiment with the physics to observe the robot’s behavior:</p>
+<p>In Gazebo, experiment with the physics to observe the robot’s behavior:</p>
 <ul class="simple">
 <li><p><em>Translation</em>: Press <code class="docutils literal notranslate"><span class="pre">T</span></code>, click the robot, and drag to move or lift it. Try to make it fall.</p></li>
 <li><p><em>Rotation</em>: Press <code class="docutils literal notranslate"><span class="pre">R</span></code>, click the robot, and rotate or tilt it. Observe how it stabilizes.</p></li>
 </ul>
-<p>Once you have observed the physics in action, go back to the URDF file. Comment out the <code class="docutils literal notranslate"><span class="pre">&lt;collision&gt;</span></code> tag for the wheel links, save the changes, and relaunch the simulation.</p>
+<p>After exploring the physics, go back to the URDF file. Comment out the <code class="docutils literal notranslate"><span class="pre">&lt;collision&gt;</span></code> tag for the wheel links, save the changes, and relaunch the simulation.</p>
 <div class="admonition-question admonition">
 <p class="admonition-title">Question</p>
 <p>What do you observe? How does the absence of a collision property affect the robot’s interaction with its environment?</p>
@@ -1480,7 +1257,7 @@ touch<span class="w"> </span>example.launch.xml
 <p class="admonition-title">Question</p>
 <p>How does the behavior differ this time? Why do you think this occurs?</p>
 </div>
-<p>If you paid attention to the simulation results, you may have noticed two problems:</p>
+<p>When finished, restore the URDF file to its original state. If you carefully observed the simulation results, you may have noticed two issues:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>The Thymio moves slightly on its own after spawning</p></li>
@@ -1488,8 +1265,9 @@ touch<span class="w"> </span>example.launch.xml
 </ol>
 </div></blockquote>
 <p>Let’s tackle these one by one. The unexpected motion occurs because the simplified Thymio model lacks accurate inertia properties and precise mass values. To resolve this, we will adjust the dynamics of the wheel joints and reduce the friction of the caster wheel.</p>
-<blockquote>
-<div><ol class="arabic simple">
+<div class="admonition-procedure admonition">
+<p class="admonition-title">Procedure</p>
+<ol class="arabic simple">
 <li><p>Modify the wheel joint dynamics</p></li>
 </ol>
 <p>For each wheel joint, add the following line:</p>
@@ -1499,36 +1277,42 @@ touch<span class="w"> </span>example.launch.xml
 <ol class="arabic simple" start="2">
 <li><p>Create a <em>gazebo.xacro</em></p></li>
 </ol>
-<p>Gazebo provides specific <code class="docutils literal notranslate"><span class="pre">&lt;gazebo&gt;</span></code> tags to define simulation properties. To keep things organized, create a new Xacro file (<em>gazebo.xacro</em>) where we will add all Gazebo-specific properties.</p>
+<p>Gazebo provides specific <code class="docutils literal notranslate"><span class="pre">&lt;gazebo&gt;</span></code> tags to define simulation properties. To keep things organized, create a new Xacro file, <em>gazebo.xacro</em>, where we will add all Gazebo-specific properties.</p>
 <ol class="arabic simple" start="3">
 <li><p>Reduce the caster wheel friction</p></li>
 </ol>
-<p>The caster wheel in the current robot model adds too much friction and drags against the ground. To fix this, reduce the friction coefficients using the following values:</p>
+<p>The caster wheel in the current robot model adds too much friction and drags against the ground. To address this, add the following friction coefficients to the gazebo.xacro file:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;gazebo</span><span class="w"> </span><span class="na">reference=</span><span class="s">&quot;caster_wheel_link&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;mu1</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.31&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;mu2</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;0.31&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/gazebo&gt;</span>
 </pre></div>
 </div>
-<p>After making these adjustments, the Thymio should remain motionless upon spawning. Test it to confirm.</p>
-</div></blockquote>
+<p>Do not forget to include <em>gazebo.xacro</em> in the <em>thymio.urdf.xacro</em> file to ensure the simulation properties are applied.</p>
+<p>After making these adjustments, the Thymio should remain stationary after spawning in Gazebo. Test the simulation to confirm the changes.</p>
+</div>
 <p>To address the missing colors, we can use <code class="docutils literal notranslate"><span class="pre">&lt;gazebo&gt;</span></code> tags to define materials for the links. For example, to apply a green color to a link named <em>example_link</em>:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;gazebo</span><span class="w"> </span><span class="na">reference=</span><span class="s">&quot;example_link&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="nt">&lt;material&gt;</span>Gazebo/Green<span class="nt">&lt;/material&gt;</span>
 <span class="nt">&lt;/gazebo&gt;</span>
 </pre></div>
 </div>
-<div class="admonition-thymio-step-6 admonition">
-<p class="admonition-title">Thymio - Step 6</p>
+<section id="thymio-step-4">
+<h3>Thymio - Step 4<a class="headerlink" href="#thymio-step-4" title="Link to this heading"></a></h3>
+<div class="admonition-thymio admonition">
+<p class="admonition-title">Thymio</p>
 <p>Update the colors in <em>gazebo.xacro</em> to achieve the desired visual appearance in Gazebo.</p>
 </div>
+</section>
 </section>
 <section id="gazebo-plugins">
 <h2>Gazebo Plugins<a class="headerlink" href="#gazebo-plugins" title="Link to this heading"></a></h2>
 <p>Your Thymio is almost ready for simulation. The next step is to add control capabilities so the robot can move, and optionally, proximity sensors to detect obstacles. This chapter will guide you through these steps. Gazebo provides a range of plugins that simplify this process, as seen in the <a class="reference external" href="https://github.com/ros-simulation/gazebo_ros_pkgs/tree/ros2/gazebo_plugins/include/gazebo_plugins" rel="noopener noreferrer" target="_blank">gazebo_plugins</a> repository for ROS2.</p>
 <p>To begin, let’s focus on control. The Thymio is a differential drive robot, so we need a plugin that functions as a differential drive controller. From the repository linked above, you can find the <code class="docutils literal notranslate"><span class="pre">gazebo_ros_diff_drive</span></code> plugin, which fulfills this role. The <a class="reference external" href="https://github.com/ros-simulation/gazebo_ros_pkgs/blob/ros2/gazebo_plugins/include/gazebo_plugins/gazebo_ros_diff_drive.hpp" rel="noopener noreferrer" target="_blank">gazebo_ros_diff_drive.hpp</a> file provides details on how to use this plugin effectively, which we will adapt for our application.</p>
-<div class="admonition-thymio-step-7 admonition">
-<p class="admonition-title">Thymio - Step 7</p>
+<section id="thymio-step-5">
+<h3>Thymio - Step 5<a class="headerlink" href="#thymio-step-5" title="Link to this heading"></a></h3>
+<div class="admonition-thymio admonition">
+<p class="admonition-title">Thymio</p>
 <p>Open the <em>gazebo.xacro</em> file and paste the following code:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;gazebo&gt;</span>
 <span class="w">    </span><span class="nt">&lt;plugin</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;diff_drive_controller&quot;</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;libgazebo_ros_diff_drive.so&quot;</span><span class="nt">&gt;</span>
@@ -1569,35 +1353,27 @@ touch<span class="w"> </span>example.launch.xml
 <p>Once the plugin configuration is complete, follow these steps to test it:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>Update <em>thymio_display.launch.xml</em></p></li>
-</ol>
-<p>The plugin handles wheel control and simulates real-life encoders by tracking the wheel joints’ positions. This makes the <em>joint_state_publisher_gui</em> redundant for wheel joints, so comment it out in the launch file.</p>
-<ol class="arabic simple" start="2">
 <li><p>Launch the Gazebo simulation</p></li>
 </ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>thymio.launch.xml
+</pre></div>
+</div>
+</div></blockquote>
 <p><div style="margin-top: 5px;"></div></p>
-<ol class="arabic simple" start="3">
+<blockquote>
+<div><ol class="arabic simple" start="2">
 <li><p>Send velocity commands from the terminal</p></li>
 </ol>
-<p>Open a new terminal and run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ros2</span> <span class="n">topic</span> <span class="n">pub</span> <span class="o">/</span><span class="n">cmd_vel</span> <span class="n">geometry_msgs</span><span class="o">/</span><span class="n">msg</span><span class="o">/</span><span class="n">Twist</span> <span class="s2">&quot;{linear: </span><span class="si">{x: 0.2}</span><span class="s2">, angular: </span><span class="si">{z: 0.0}</span><span class="s2">}&quot;</span>
 </pre></div>
 </div>
-<p>This command sends a <em>Twist</em> message, which controls the robot’s velocities. The <em>Twist</em> type allows control of three linear velocities and three angular velocities. For a differential drive robot like Thymio, you can only adjust the linear speed in the x-direction and angular speed around the z-axis.</p>
-<p>Experiment with different commands and observe how the robot responds. Additionally, try removing the friction coefficients added to the caster wheel link to explore how this impacts the Thymio’s behavior in the simulation.</p>
+<p>This command sends a <em>Twist</em> message, which controls the robot’s velocities. The <em>Twist</em> type allows control of three linear velocities and three angular velocities. For a differential drive robot like the Thymio, you can only adjust the linear speed in the x-direction and angular speed around the z-axis.</p>
 </div></blockquote>
+<p>Experiment with different commands and observe how the robot responds. Additionally, try removing the friction coefficients added to the caster wheel link to explore how this impacts the Thymio’s behavior in the simulation.</p>
 <div class="admonition error">
 <p class="admonition-title">Error</p>
 <p>Despite addressing most motion-related issues, the robot may still behave unexpectedly when moving backward. Specifically, the Thymio tends to deviate and turn instead of maintaining a straight line. Forward and rotational movements are more stable, so it is recommended to prioritize these and avoid using backward motion whenever possible.</p>
 </div>
-<p>The diagram below provides a concise summary of everything covered so far. Review it to ensure you understand the components and their connections. If anything is unclear, do not hesitate to ask questions.</p>
-<figure class="align-center" id="id5">
-<a class="reference internal image-reference" href="_images/gazebo.png"><img alt="_images/gazebo.png" src="_images/gazebo.png" style="width: 90%;" />
-</a>
-<figcaption>
-<p><span class="caption-text"><a class="reference external" href="https://articulatedrobotics.xyz/tutorials/mobile-robot/concept-design/concept-gazebo" rel="noopener noreferrer" target="_blank">Understanding control in Gazebo (Articulated Robotics)</a></span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
-</figcaption>
-</figure>
 <div class="admonition-break-time admonition">
 <p class="admonition-title">Break Time</p>
 <p>If this session felt intense, take a moment to relax and have some fun with your Thymio. You can control it using your keyboard by running the following command:</p>
@@ -1615,13 +1391,16 @@ touch<span class="w"> </span>example.launch.xml
 </ul>
 </div></blockquote>
 <p>In our case, we want to add proximity sensors to the Thymio, enabling it to detect obstacles.</p>
-<div class="admonition-thymio-step-8 admonition">
-<p class="admonition-title">Thymio - Step 8</p>
+</section>
+<section id="thymio-step-6">
+<h3>Thymio - Step 6<a class="headerlink" href="#thymio-step-6" title="Link to this heading"></a></h3>
+<div class="admonition-thymio admonition">
+<p class="admonition-title">Thymio</p>
 <p>Adding multiple sensors manually can be a complex and time-consuming process. To simplify this, we provide a pre-configured file that facilitates the integration of proximity sensors into your Thymio model. Just follow the steps below:</p>
 <ol class="arabic simple">
-<li><p><a class="reference download internal" download="" href="_downloads/d3dfb6a213df74858b69f0631a1bd26f/proximity_sensors.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a> the configuration file</p></li>
+<li><p>Locate the provided configuration file</p></li>
 </ol>
-<p>Save the provided <em>proximity_sensors.xacro</em> file in the <em>/urdf/thymio directory</em>.</p>
+<p>The <em>proximity_sensors.xacro</em> file is already included in the <em>/urdf/thymio</em> directory of the downloaded package.</p>
 <ol class="arabic simple" start="2">
 <li><p>Include the file in your URDF</p></li>
 </ol>
@@ -1629,9 +1408,13 @@ touch<span class="w"> </span>example.launch.xml
 <ol class="arabic simple" start="3">
 <li><p>Adjust the <code class="docutils literal notranslate"><span class="pre">base_link</span></code> dimensions</p></li>
 </ol>
-<p>Set the <code class="docutils literal notranslate"><span class="pre">base_link</span></code> length to 0.091 (reduced from 0.11) to correctly position the proximity sensors at the front of the Thymio. This adjustment ensures the sensors are properly positioned outside the chassis while maintaining the robot’s real-world dimensions.</p>
+<p>Update the <code class="docutils literal notranslate"><span class="pre">base_link</span></code> length to 0.091 (reduced from 0.11) to correctly position the proximity sensors at the front of the Thymio. This adjustment ensures the sensors are properly positioned outside the chassis while maintaining the robot’s real-world dimensions.</p>
 </div>
 <p>Now, you are ready to test the updated model. Build the package and launch the enhanced Thymio in Gazebo to observe the result.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>thymio.launch.xml
+</pre></div>
+</div>
+</section>
 </section>
 <section id="gazebo-worlds-optional">
 <h2>Gazebo Worlds - Optional<a class="headerlink" href="#gazebo-worlds-optional" title="Link to this heading"></a></h2>
@@ -1660,38 +1443,14 @@ touch<span class="w"> </span>example.launch.xml
 </li>
 </ol>
 <p>After finalizing your environment, ensure the Thymio robot is not part of the saved world. If it is, delete it to avoid having it treated as an object when the world is reopened. Save the world by going to <em>File &gt; Save World As</em> and save it as <em>gazebo_world.world</em> in the <em>/urdf/world</em> directory of the <em>thymio_description</em> package.</p>
-<p>Once saved, build the package and run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>gazebo_ros<span class="w"> </span>gazebo.launch.py<span class="w"> </span>world:<span class="o">=</span>/home/ubuntu/ros2_basics_ws/install/thymio_description/share/thymio_description/worlds/gazebo_world.world
-</pre></div>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you open <em>gazebo_world.world</em>, you will notice that it is written in SDF (Simulation Description Format), which, like the URDF file, is an XML-based format. The SDF defines Gazebo’s simulation environment, specifying objects, lights, physics and environmental parameters.</p>
 </div>
-<div class="admonition-thymio-step-9 admonition">
-<p class="admonition-title">Thymio - Step 9</p>
-<p>If you have not created your custom Gazebo world yet, start by doing so. Once completed and saved in the <em>/urdf/world</em> directory, update the launch file to ensure Thymio spawns directly into the world.</p>
-<div class="admonition-hints admonition">
-<p class="admonition-title">Hints</p>
-<div class="toggle docutils container">
-<p>To pass arguments when including other launch files, use the following structure:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share &lt;package_name&gt;)/&lt;path_to_file&gt;&quot;</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;&lt;arg_name&gt;&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;&lt;arg_value&gt;&quot;</span><span class="nt">/&gt;</span>
-<span class="nt">&lt;/include&gt;</span>
+<p>To spawn the Thymio in your custom environment, you need to update the launch file. Modify <em>thymio.launch.xml</em> to ensure the Thymio spawns directly into your world. Replace <em>empty.world</em> with <em>gazebo_world.world</em> so that the path to your custom world is correctly specified.</p>
+<p>After saving the changes, build the package and execute the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>thymio_description<span class="w"> </span>thymio.launch.xml
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can also adjust the spawn position of the Thymio using this syntax:</p>
-<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;gazebo_ros&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;spawn_entity.py&quot;</span>
-<span class="w">   </span><span class="na">args=</span><span class="s">&quot;-topic robot_description -entity thymio</span>
-<span class="s">         -x 5.0 -y 0.0 -z 2.0</span>
-<span class="s">         -R 0.0 -P 0.0 -Y -1.57&quot;</span><span class="nt">/&gt;</span>
-</pre></div>
-</div>
 </div>
 </section>
 </section>

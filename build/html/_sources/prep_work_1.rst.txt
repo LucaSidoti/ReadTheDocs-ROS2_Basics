@@ -272,8 +272,7 @@ As we prepare for our practical lab sessions with ROS2, being familiar with the 
 
 To reinforce your understanding of these commands, we invite you to participate in a command-line challenge designed to practice your skills!
 
-Command-Line Challenge
-~~~~~~~~~~~~~~~~~~~~~~
+<h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Command-Line Challenge</h3>
 
 **Objective** 
 
@@ -307,178 +306,178 @@ Explore a virtual file system and complete tasks using the commands you have lea
    
    Before and after each command, use ``ls`` to observe the changes in your directory.
 
-**Tasks**
+.. admonition:: Tasks
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 1
+      .. tab:: Task 1
 
-      Navigate to the *documents* directory
+         Navigate to the *documents* directory
 
-   .. tab:: Solution 1
+      .. tab:: Solution 1
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         cd challenge/documents
+            cd challenge/documents
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 2
+      .. tab:: Task 2
 
-      List the contents of the *documents* directory
+         List the contents of the *documents* directory
 
-   .. tab:: Solution 2
+      .. tab:: Solution 2
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         ls
+            ls
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 3
+      .. tab:: Task 3
 
-      Create a new text file called *summary.txt*
+         Create a new text file called *summary.txt*
 
-   .. tab:: Solution 3
+      .. tab:: Solution 3
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         touch summary.txt
+            touch summary.txt
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 4
+      .. tab:: Task 4
 
-      Write a brief summary text in *summary.txt*, then save and exit
+         Write a brief summary text in *summary.txt*, then save and exit
 
-   .. tab:: Solution 4
+      .. tab:: Solution 4
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         nano summary.txt
+            nano summary.txt
 
-      Example content: "This is a summary text."
+         Example content: "This is a summary text."
 
-      To save, press: ``Ctrl + S``
+         To save, press: ``Ctrl + S``
 
-      To exit, press: ``Ctrl + Shift + X``
+         To exit, press: ``Ctrl + Shift + X``
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 5
+      .. tab:: Task 5
 
-      Display the contents of *summary.txt*
+         Display the contents of *summary.txt*
 
-   .. tab:: Solution 5
+      .. tab:: Solution 5
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         cat summary.txt
+            cat summary.txt
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 6
+      .. tab:: Task 6
 
-      Return to the main *challenge* directory
+         Return to the main *challenge* directory
 
-   .. tab:: Solution 6
+      .. tab:: Solution 6
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         cd ..
+            cd ..
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 7
+      .. tab:: Task 7
 
-      Check the full path of your current working directory
+         Check the full path of your current working directory
 
-   .. tab:: Solution 7
+      .. tab:: Solution 7
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         pwd
+            pwd
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 8
+      .. tab:: Task 8
 
-      Navigate to the *images* directory
+         Navigate to the *images* directory
 
-   .. tab:: Solution 8
+      .. tab:: Solution 8
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         cd images
+            cd images
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 9
+      .. tab:: Task 9
 
-      Remove *pic2.jpg*
+         Remove *pic2.jpg*
 
-   .. tab:: Solution 9
+      .. tab:: Solution 9
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         rm pic2.jpg
+            rm pic2.jpg
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 10
+      .. tab:: Task 10
 
-      Go back to the *challenge* directory and remove the *videos* directory
+         Go back to the *challenge* directory and remove the *videos* directory
 
-   .. tab:: Solution 10
+      .. tab:: Solution 10
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         cd .. && rm -r videos
+            cd .. && rm -r videos
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 11
+      .. tab:: Task 11
 
-      Copy *pic1.jpg* from the *images* directory to the *challenge* directory
+         Copy *pic1.jpg* from the *images* directory to the *challenge* directory
 
-   .. tab:: Solution 11
+      .. tab:: Solution 11
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         cd images/ && cp pic1.jpg ..
+            cd images/ && cp pic1.jpg ..
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 12
+      .. tab:: Task 12
 
-      Rename *pic1.jpg* to *my_pic.jpg* in the *challenge* directory
+         Rename *pic1.jpg* to *my_pic.jpg* in the *challenge* directory
 
-   .. tab:: Solution 12
+      .. tab:: Solution 12
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         cd .. && mv pic1.jpg my_pic.jpg
+            cd .. && mv pic1.jpg my_pic.jpg
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 13
+      .. tab:: Task 13
 
-      Change the permissions of *my_pic.jpg* to make it executable
+         Change the permissions of *my_pic.jpg* to make it executable
 
-   .. tab:: Solution 13
+      .. tab:: Solution 13
 
-      .. code-block:: bash
+         .. code-block:: bash
 
-         chmod +x my_pic.jpg
+            chmod +x my_pic.jpg
 
-.. tabs::
+   .. tabs::
 
-   .. tab:: Task 14
+      .. tab:: Task 14
 
-      Clean up your challenge by removing the *challenge* directory
+         Clean up your challenge by removing the *challenge* directory
 
-   .. tab:: Solution 14
+      .. tab:: Solution 14
 
-      .. code-block:: bash
+         .. code-block:: bash
 
 ..    If you want to learn more about commands and shortcuts, please visit `40 Basic Ubuntu Commands And Terminal Shortcuts For Beginners <https://techlog360.com/basic-ubuntu-commands-terminal-shortcuts-linux-beginner/#Ubuntu_Terminal_Shortcuts>`_.

@@ -18,3 +18,7 @@
     width: fit-content; /* Keeps the table at its natural size */
     text-align: left; /* Ensures table content remains aligned */
 }
+
+.wy-nav-content {
+  text-align: justify;
+}

@@ -64,37 +64,38 @@ Exercise 2
 
 In session 1, we introduced the basics of services and custom interfaces, but we did not dive into hands-on practice with these concepts. Now, you will take on a new challenge designed to provide practical experience and deepen your understanding of how they operate in ROS2.
 
-Mission Validation Service for a Rover
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. raw:: html
+
+    <h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Mission Validation Service for a Rover</h3>
 
 Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed. 
 
-**Steps**
+.. admonition:: Steps
 
-1. Create a custom service (MissionValidation.srv)
+  1. **Create a custom service** (MissionValidation.srv)
 
-  * Request: temperature (°C), battery_level (%), target_distance (km)
-  * Response: success (bool), advice (string), estimated_duration (hours)
+    * Request: temperature (°C), battery_level (%), target_distance (km)
+    * Response: success (bool), advice (string), estimated_duration (hours)
 
-2. Create a server node
+  2. **Create a server node**
 
-  * Validate the mission:
+    * Validate the mission:
 
-    * Safe temperature: -20°C to 50°C
-    * Battery level: Above 30%
-    * Estimate duration based on distance (speed: 10 km/h)
+      * Safe temperature: -20°C to 50°C
+      * Battery level: Above 30%
+      * Estimate duration based on distance (speed: 10 km/h)
 
-  * Return false and advice if conditions fail, or true and duration if valid
+    * Return false and advice if conditions fail, or true and duration if valid
 
-3. Create a client node
+  3. **Create a client node**
 
-  * Send mission parameters from the client to the server
-  * Display the service’s response (approval, and advice or duration)
+    * Send mission parameters from the client to the server
+    * Display the service’s response (approval, and advice or duration)
 
-.. admonition:: Hints
+  .. admonition:: Hints
 
-  .. toggle::
+    .. toggle::
 
-    * Utilize the *ros2_basics_interfaces* package to define your custom service
-    * Consider developing your nodes in a new package (optional)
-    * Use ``colcon build --packages-select <pkg_name> --symlink-install`` to easily test new parameters with the client
+      * Utilize the *ros2_basics_interfaces* package to define your custom service
+      * Consider developing your nodes in a new package (optional)
+      * Use ``colcon build --packages-select <pkg_name> --symlink-install`` to easily test new parameters with the client
