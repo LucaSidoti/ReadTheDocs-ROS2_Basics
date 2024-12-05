@@ -138,4 +138,61 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    const blocks = document.querySelectorAll(".admonition");
+    blocks.forEach((block) => {
+        const title = block.querySelector(".admonition-title");
+        if (title && title.innerText.trim().startsWith("Useful")) {
+            // Apply styles to the entire Thymio block
+            block.style.backgroundColor = "#ddefff"; // Soft dark blue background for the block
+            block.style.borderLeft = "0px solid #99ccff"; // Light blue border for emphasis
 
+            // Apply styles to the title bar of the Thymio block
+            title.style.backgroundColor = "#003366"; // Dark blue for the title bar
+            title.style.color = "#ffffff"; // White text for the title
+            title.style.fontWeight = "bold"; // Make title text bold
+            title.style.padding = "5px 10px"; // Add padding inside the title
+            title.style.borderBottom = "0px solid #99ccff"; // Subtle separator below the title
+        }
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const blocks = document.querySelectorAll(".admonition");
+    blocks.forEach((block) => {
+        const title = block.querySelector(".admonition-title");
+        if (title && title.innerText.trim().startsWith("Minimal")) {
+            // Apply styles to the entire Hints block
+            block.style.backgroundColor = "#e0f4ff"; // Lighter blue background for the block
+            block.style.borderLeft = "0px solid #66a3ff"; // Soft blue border for emphasis
+
+            // Apply styles to the title bar of the Hints block
+            title.style.backgroundColor = "#005b99"; // Vibrant blue for the title bar
+            title.style.color = "#ffffff"; // White text for the title
+            title.style.fontWeight = "bold"; // Make title text bold
+            title.style.padding = "5px 10px"; // Add padding inside the title
+            title.style.borderBottom = "0px solid #66a3ff"; // Subtle separator below the title
+        }
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const blocks = document.querySelectorAll(".admonition");
+    blocks.forEach((block) => {
+        const title = block.querySelector(".admonition-title");
+        if (title && title.innerText.trim().startsWith("Test")) {
+            // Apply styles to the entire Test block
+            block.style.backgroundColor = "#fff4e0"; // Lighter orange background for the block
+            block.style.borderLeft = "0px solid #ffa500"; // Orange border for emphasis
+
+            // Apply styles to the title bar of the Test block
+            title.style.backgroundColor = "#ffb380"; // Pastel orange for the title bar
+            title.style.color = "#ffffff"; // White text for the title
+            title.style.fontWeight = "bold"; // Make title text bold
+            title.style.padding = "5px 10px"; // Add padding inside the title
+            title.style.borderBottom = "0px solid #ffa500"; // Subtle separator below the title
+        }
+    });
+});

@@ -926,9 +926,9 @@ Therefore, a URDF can be rewritten using Xacro's extended syntax, allowing it to
 
 .. Enough theory, let's go back to our simple example and see how this works in practice.
 
-1) Open the *example.urdf.xacro* file
+1) Open *example.urdf.xacro* and *example_materials.xacro*
 
-Navigate to the */urdf/example* directory and open the provided file with the *.xacro* extension.
+Navigate to the */urdf/example* directory and open the provided files with the *.xacro* extension.
 
 .. note::
 
@@ -986,7 +986,9 @@ You can then call it at the desired location with the required parameters:
 
 To simplify the process, it is a good practice to split the URDF into multiple files. Typically, one main file includes all other Xacro files. To distinguish them, use the extension *.urdf.xacro* for the main file and *.xacro* for the others. 
 
-For example, let's split our initial file by defining the colors in a separate file. Open the provided *example_materials.xacro* file. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:
+.. For example, let's split our initial file by defining the colors in a separate file. Open the provided *example_materials.xacro* file and update it. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:
+
+For example, materials can be defined in a separate file for clarity and reuse. This allows the main file to stay focused on the robot's structure. The new file follows the same structure as the main file but does not include a robot name:
 
 .. code-block:: xml
 
@@ -1003,7 +1005,7 @@ For example, let's split our initial file by defining the colors in a separate f
 
     </robot>
 
-You can include this file in other files using:
+This file contains reusable material definitions that can now be included in other Xacro files using the ``<xacro:include>`` tag, as shown below:
 
 .. code-block:: xml
 
@@ -1020,9 +1022,27 @@ You can include this file in other files using:
 
     The second file can use variables or materials defined in the first file because it is included beforehand. You do not need to re-include *file1.xacro* in *file2.xacro*.
 
-7) *example.urdf.xacro*
+7) Update the files
 
-Below is the final version of the improved URDF file:
+a) Update *example_materials.xacro*
+
+.. code-block:: xml
+
+    <?xml version="1.0"?>
+    <robot xmlns:xacro="http://wwww.ros.org/wiki/xacro">
+
+        <material name="blue">
+            <color rgba="0 0 1 1"/>
+        </material>
+
+        <material name="green">
+            <color rgba="0 1 0 1"/>
+        </material>
+
+    </robot>
+
+
+b) Update *example.urdf.xacro* file
 
 .. code-block:: xml
 

@@ -29,7 +29,7 @@
       <script src="_static/code-tabs.js?v=c983d12e"></script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-      <script src="_static/custom.js?v=8b97bc77"></script>
+      <script src="_static/custom.js?v=8a06149f"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -125,7 +125,20 @@
 <li class="toctree-l2"><a class="reference internal" href="prep_work_3.html#simulation-underlays-optional">Simulation Underlays - Optional</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="session_3.html">Session 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session_3.html">Session 3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="session_3.html#thymio-mini-project-overview">Thymio Mini-Project Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session_3.html#thymio-mini-project">Thymio Mini-Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#reference-resources">Reference Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-1">Step 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-2">Step 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-3">Step 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-4">Step 4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-5">Step 5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-6">Step 6</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -814,9 +827,9 @@ Radius = 2.2 cm</p></td>
 </ul>
 <p>Therefore, a URDF can be rewritten using Xacro’s extended syntax, allowing it to be organized across one or multiple files. These files are then processed by a <em>xacro</em> tool which combines them into a single, standard URDF file that ROS2 can interpret. Let’s apply this to our example and see how it works in practice.</p>
 <ol class="arabic simple">
-<li><p>Open the <em>example.urdf.xacro</em> file</p></li>
+<li><p>Open <em>example.urdf.xacro</em> and <em>example_materials.xacro</em></p></li>
 </ol>
-<p>Navigate to the <em>/urdf/example</em> directory and open the provided file with the <em>.xacro</em> extension.</p>
+<p>Navigate to the <em>/urdf/example</em> directory and open the provided files with the <em>.xacro</em> extension.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To enhance understanding, we will go through the elements of the updated file step by step. You do not need to add these elements to the file yet, as the complete file will be provided at the end. Focus on understanding the process and the purpose of each element.</p>
@@ -865,7 +878,7 @@ Radius = 2.2 cm</p></td>
 <li><p>Multiple files</p></li>
 </ol>
 <p>To simplify the process, it is a good practice to split the URDF into multiple files. Typically, one main file includes all other Xacro files. To distinguish them, use the extension <em>.urdf.xacro</em> for the main file and <em>.xacro</em> for the others.</p>
-<p>For example, let’s split our initial file by defining the colors in a separate file. Open the provided <em>example_materials.xacro</em> file. This file follows the same structure as the main file but does not include a robot name. Add the following content to the new file:</p>
+<p>For example, materials can be defined in a separate file for clarity and reuse. This allows the main file to stay focused on the robot’s structure. The new file follows the same structure as the main file but does not include a robot name:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="nt">&lt;robot</span><span class="w"> </span><span class="na">xmlns:xacro=</span><span class="s">&quot;http://wwww.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
 
@@ -880,7 +893,7 @@ Radius = 2.2 cm</p></td>
 <span class="nt">&lt;/robot&gt;</span>
 </pre></div>
 </div>
-<p>You can include this file in other files using:</p>
+<p>This file contains reusable material definitions that can now be included in other Xacro files using the <code class="docutils literal notranslate"><span class="pre">&lt;xacro:include&gt;</span></code> tag, as shown below:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;xacro:include</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;example_materials.xacro&quot;</span><span class="nt">/&gt;</span>
 </pre></div>
 </div>
@@ -894,9 +907,28 @@ Radius = 2.2 cm</p></td>
 <p>The second file can use variables or materials defined in the first file because it is included beforehand. You do not need to re-include <em>file1.xacro</em> in <em>file2.xacro</em>.</p>
 </div>
 <ol class="arabic simple" start="7">
-<li><p><em>example.urdf.xacro</em></p></li>
+<li><p>Update the files</p></li>
 </ol>
-<p>Below is the final version of the improved URDF file:</p>
+<ol class="loweralpha simple">
+<li><p>Update <em>example_materials.xacro</em></p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot</span><span class="w"> </span><span class="na">xmlns:xacro=</span><span class="s">&quot;http://wwww.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;blue&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0 0 1 1&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/material&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;green&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0 1 0 1&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/material&gt;</span>
+
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Update <em>example.urdf.xacro</em> file</p></li>
+</ol>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;example&quot;</span><span class="w"> </span><span class="na">xmlns:xacro=</span><span class="s">&quot;http://wwww.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
 

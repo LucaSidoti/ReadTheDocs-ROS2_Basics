@@ -1,12 +1,482 @@
 Session 3
 =========
 
-.. .. admonition:: Download
-..    :class: hint
+Time flies, and we are already at the final stretch of our ROS2 Basics journey. For this last session, you will bring together everything you have learned about ROS2, focusing primarily on **topics** and **services**. The objective here is not to implement complex control algorithms but rather to gain hands-on experience with ROS2’s core functionalities in the context of a mini-project.
 
-..    You can download the entire folder as a compressed file:
+To ensure a smooth experience for everyone, we have provided a ready-to-use package called ``thymio_mini_project``. This includes:
 
-..    - :download:`Download Folder <downloads/test_include_files.zip>`
+* A **Thymio model** with:
 
-.. ..    How to zip:  zip -r <folder_name>.zip <folder_name>
-.. .. To include a folder, just add it zip in the dowload folder and use the above line
+    * A **diff_drive_controller** plugin for velocity control.
+    * **Proximity sensors** (front and rear) for obstacle detection.
+
+* A **Gazebo world** with a pre-defined maze to work on.
+
+.. image:: img/thymio_maze.png
+    :align: center
+    :width: 90%
+
+.. |spacer| raw:: html
+
+    <div style="margin-top: 5px;"></div>
+
+|spacer|
+
+.. admonition:: Action Required
+
+    Please :download:`Download <downloads/thymio_mini_project.zip>` the ``thymio_mini_project`` package required for this session and place it in the ``/src`` directory of your ``ros2_basics_ws`` workspace.
+
+Thymio Mini-Project Overview
+----------------------------
+
+The task is to guide the Thymio robot through two parts of a maze. The maze is designed to focus on ROS2 rather than navigation algorithms. To make things straightforward:
+
+* Each turn in the maze is unambiguous, with only one clear direction to follow, marked by a wall directly in front of the robot.
+* At dead ends, the robot does not need to turn backward. Instead, it either executes a specific action to proceed further or comes to a definitive stop.
+* Your job is to send the appropriate velocity commands via topics and use services to manage the robot’s position when moving between the two maze sections.
+* Use the provided diff_drive_controller plugin for velocity control and the proximity sensors to detect walls.
+
+Here’s a quick overview of the tasks:
+
+1. Guide the Thymio to the end of the first maze section.
+2. Use provided services to "carry" the robot to the second maze section.
+3. Continue controlling the Thymio until it reaches the other side of the second maze.
+
+.. image:: img/thymio_mini_project.gif
+    :align: center
+    :width: 80%
+
+|spacer|
+
+Let’s dive in and take on the challenge!
+
+
+Thymio Mini-Project
+-------------------
+
+Reference Resources
+~~~~~~~~~~~~~~~~~~~
+
+Here, you can find all the necessary resources to help you tackle the mini-project effectively.
+
+.. admonition:: Useful Material
+
+    .. raw:: html
+
+        <div class="table-centered">
+
+    +-----------------------------------------+-----------------------------------------------------------------+
+    | CLI                                     | Command                                                         |
+    +=========================================+=================================================================+
+    | List all nodes                          | ``ros2 node list``                                              |
+    +-----------------------------------------+-----------------------------------------------------------------+
+    | Get details on a node                   | ``ros2 node info <node_name>``                                  |
+    +-----------------------------------------+-----------------------------------------------------------------+
+    | List all topics + message type          | ``ros2 topic list -t``                                          |
+    +-----------------------------------------+-----------------------------------------------------------------+
+    | Get details on a message type           | ``ros2 interface show <msg_type>``                              |
+    +-----------------------------------------+-----------------------------------------------------------------+
+    | Display messages published to a topic   | ``ros2 topic echo <topic_name>``                                |
+    +-----------------------------------------+-----------------------------------------------------------------+
+    | List all services + service type        | ``ros2 service list -t``                                        |
+    +-----------------------------------------+-----------------------------------------------------------------+
+    | Get details on a service type           | ``ros2 interface show <srv_type>``                              |
+    +-----------------------------------------+-----------------------------------------------------------------+
+
+        .. raw:: html
+
+            </div>
+
+    .. admonition:: Minimal Node
+
+        .. toggle::
+
+            .. code-block:: python
+
+                import rclpy
+                from rclpy.node import Node
+
+                class MinimalNode(Node):
+                    def __init__(self):
+                        super().__init__("node_name")
+                        self.get_logger().info("Minimal Node has been started")
+
+                def main(args=None):
+                    rclpy.init(args=args)
+                    minimal_node = MinimalNode()
+                    rclpy.spin(minimal_node)
+                    minimal_node.destroy_node()
+                    rclpy.shutdown()
+
+                if __name__ == "__main__":
+                    main()
+
+    .. admonition:: Minimal Publisher
+
+        .. toggle::
+
+            .. code-block:: python
+
+                import rclpy
+                from rclpy.node import Node
+
+                from std_msgs.msg import String
+
+                class MinimalPublisher(Node):
+
+                    def __init__(self):
+                        super().__init__('minimal_publisher')
+                        self.publisher_ = self.create_publisher(String, 'topic', 10)
+                        timer_period = 0.5  # seconds
+                        self.timer = self.create_timer(timer_period, self.timer_callback)
+                        self.i = 0
+
+                    def timer_callback(self):
+                        msg = String()
+                        msg.data = 'Hello World: %d' % self.i
+                        self.publisher_.publish(msg)
+                        self.get_logger().info('Publishing: "%s"' % msg.data)
+                        self.i += 1
+
+                def main(args=None):
+                    rclpy.init(args=args)
+                    minimal_publisher = MinimalPublisher()
+                    rclpy.spin(minimal_publisher)
+                    minimal_publisher.destroy_node()
+                    rclpy.shutdown()
+
+                if __name__ == '__main__':
+                    main()
+
+    .. admonition:: Minimal Subscriber
+
+        .. toggle::
+
+            .. code-block:: python
+
+                import rclpy
+                from rclpy.node import Node
+
+                from std_msgs.msg import String
+
+                class MinimalSubscriber(Node):
+                    def __init__(self):
+                        super().__init__('minimal_subscriber')
+                        self.subscription = self.create_subscription(String,'topic',
+                                                                    self.listener_callback, 10)
+                        self.subscription  # prevent unused variable warning
+
+                    def listener_callback(self, msg):
+                        self.get_logger().info('I heard: "%s"' % msg.data)
+
+                def main(args=None):
+                    rclpy.init(args=args)
+                    minimal_subscriber = MinimalSubscriber()
+                    rclpy.spin(minimal_subscriber)
+                    minimal_subscriber.destroy_node()
+                    rclpy.shutdown()
+
+                if __name__ == '__main__':
+                    main()
+
+    .. admonition:: Minimal Server
+
+        .. toggle::
+
+            .. code-block:: python
+
+                import rclpy
+                from rclpy.node import Node
+
+                from example_interfaces.srv import AddTwoInts
+
+                class MinimalServer(Node):
+                    def __init__(self):
+                        super().__init__('minimal_server')
+                        self.srv = self.create_service(AddTwoInts, 'add_two_ints', self.add_two_ints_callback)
+
+                    def add_two_ints_callback(self, request, response):
+                        response.sum = request.a + request.b
+                        self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+
+                        return response
+
+                def main():
+                    rclpy.init()
+                    minimal_server = MinimalServer()
+                    rclpy.spin(minimal_server)
+                    minimal_server.destroy_node()
+                    rclpy.shutdown()
+
+                if __name__ == '__main__':
+                    main()
+
+    .. admonition:: Minimal Client
+
+        .. toggle::
+
+            .. code-block:: python
+
+                import rclpy
+                from rclpy.node import Node
+
+                from functools import partial
+                from example_interfaces.srv import AddTwoInts
+
+
+                class MinimalClient(Node):
+                    def __init__(self):
+                        super().__init__("minimal_client")
+                        self.call_add_two_ints_server(6, 7)
+
+                    def call_add_two_ints_server(self, a, b):
+                        client = self.create_client(AddTwoInts, "add_two_ints")
+                        while not client.wait_for_service(1.0):
+                            self.get_logger().warn("Waiting for Server Add Two Ints...")
+
+                        request = AddTwoInts.Request()
+                        request.a = a
+                        request.b = b
+
+                        future = client.call_async(request)
+                        future.add_done_callback(partial(self.callback_call_add_two_ints, a=a, b=b))
+
+                    def callback_call_add_two_ints(self, future, a, b):
+                        try:
+                            response = future.result()
+                            self.get_logger().info(str(a) + " + " + str(b) + " = " + str(response.sum))
+                        except Exception as e:
+                            self.get_logger().error("Service call failed %r" % (e,))
+
+                def main(args=None):
+                    rclpy.init(args=args)
+                    minimal_client = MinimalClient()
+                    rclpy.spin(minimal_client)
+                    minimal_client.destroy_node()
+                    rclpy.shutdown()
+
+                if __name__ == "__main__":
+                    main()
+
+
+Step 1
+~~~~~~
+
+Setup a *thymio controller* node. 
+
+.. admonition:: Test
+
+    Make sure the node is started when you run it.
+
+Step 2
+~~~~~~
+
+Update the *thymio controller* node to send velocity commands at 10 Hz, making the Thymio move forward in the Gazebo world at a speed of 10 cm/s.
+
+.. admonition:: Test
+
+    1. Launch the simulation with the following command:
+
+    .. code-block:: bash
+
+        ros2 launch thymio_mini_project thymio_display.launch.xml
+
+    2. Run your controller node.
+
+    Verify that the Thymio moves forward at the specified speed.
+
+Step 3
+~~~~~~
+
+Enhance the controller to stop the Thymio 5 cm away from the first wall.
+
+.. tip::
+
+    * Add a method to adjust velocity commands based on the distance to the wall (e.g. ``move_until_wall(velocity_command, distance_to_wall)``).
+    * Use the proximity sensor data (defined as a 2D scan) and focus on the front ray.
+    * If the sensor returns no obstacle, you may receive a string message. Convert it to a float if needed: ``float('string_msg')``.
+    * Slow down the robot as it approaches the wall for precise stopping.
+    * Begin structuring a simple state machine for behavior control, such as states like ``MOVE_UNTIL_WALL`` and ``STOP``.
+
+
+.. admonition:: Test
+
+    Run the simulation and confirm that the Thymio stops reliably 5 cm away from the wall.
+
+Step 4
+~~~~~~
+
+Once the Thymio reliably stops 5 cm away from the first wall, update the controller to make it turn on the spot and reorient itself properly to face the next corridor.
+
+.. tip::
+
+    * Determine the optimal stopping distance before the turn so the Thymio aligns in the center of the next corridor after turning.
+
+    .. image:: img/thymio_maze_turn.png
+        :align: center
+        :width: 40%
+
+    |spacer|
+
+    * Implement a general method for turning right or left, as this will be useful for future steps (e.g. ``turn_angle(velocity_command, angle)``).
+
+    * Choose one of the following approaches to perform the turn:
+    
+        * **Odometry**: Use the robot's simulated pose, which corresponds to its global position. Apply a tolerance to ensure the turn stops accurately at the desired orientation.
+        * **Proximity Sensors**: Rely on the two rear proximity sensors to detect when the turn is complete. Set an appropriate tolerance to achieve precise alignment.
+
+    * For the odometry approach, the following Python snippet might be helpful for working with angles:
+
+    .. code-block:: python
+
+        import math
+        from tf_transformations import euler_from_quaternion
+
+        _, _, yaw = euler_from_quaternion(quaternion)
+
+        def wrap_angle_(self, angle):
+            # Normalize angle to the range [-pi, pi]
+            return (angle + math.pi) % (2 * math.pi) - math.pi
+
+    * Update the state machine to handle the following sequence:
+
+        1. Move the Thymio to the wall
+        2. Execute the turn
+        3. Stop after completing the turn
+
+Step 5
+~~~~~~
+
+Enhance the state machine to allow the Thymio to navigate the maze more autonomously:
+
+* The Thymio should move forward as long as no obstacles are detected in front.
+* When a wall is detected directly ahead, it must decide whether to turn left or right based on the available paths (note that only one direction or none will be possible, never both).
+* When the Thymio reaches a dead end, it should stop.
+
+.. tip::
+
+    * Decide the appropriate moment to determine the turn direction. This may require updating one of the previous methods.
+    * Use the lateral proximity sensors to decide which side to turn, keeping in mind that their angled placement limits their ability to detect walls directly beside the robot.
+
+    .. image:: img/thymio_sensors.png
+        :align: center
+        :width: 40%
+
+    |spacer|
+
+    * Incorporate the following states into your state machine to manage the robot's behavior:
+
+        * ``MOVE_UNTIL_WALL``: Move forward until an obstacle is detected.
+        * ``TURN_LEFT``: Turn left if the left path is clear.
+        * ``TURN_RIGHT``: Turn right if the right path is clear.
+        * ``STOP``: Stop completely at a dead end.
+
+.. admonition:: Test
+
+    Run the simulation and verify that the Thymio:
+
+    * Moves forward on clear paths
+    * Chooses the appropriate turn when facing a wall
+    * Stops properly at dead ends
+
+Step 6
+~~~~~~
+
+Once the Thymio reaches the first dead end, prepare it to transition to the second portion of the maze. The first task is to remove the existing Thymio entity from the simulation.
+
+.. admonition:: Test
+
+    Run the simulation and verify that the Thymio is successfully deleted after stopping at the dead end.  
+
+
+Step 7
+~~~~~~
+
+Complete the transition by spawning a new Thymio entity in the second part of the maze at the coordinates ``(x=1.3, y=0.1, yaw=-pi)``. Update the controller to continue the algorithm, guiding the Thymio to the next dead end where it stops definitively.
+
+.. tip:: 
+
+    * Ensure that the new Thymio entity is spawned only after the first entity has been successfully deleted.  
+    * Use the ROS2 service for spawning by providing the URDF for the Thymio model. The following Python snippet demonstrates how to process the xacro file, generate the URDF, and store it in the ``self.robot_description_`` attribute.
+
+    .. code-block:: python
+
+        import os
+        import xacro
+        import tf_transformations
+        from ament_index_python.packages import get_package_share_path
+
+        class YourNode(Node):
+            def __init__(self):
+                super().__init__("your_node")
+                
+                urdf_path = os.path.join(get_package_share_path('thymio_mini_project'), 'urdf', 'thymio.urdf.xacro')
+                self.robot_description_ = self.process_xacro_file(urdf_path)
+
+                self.get_logger().info("Your Node has been started!")
+
+            def process_xacro_file(self, xacro_file_path):
+                try:
+                    # Process the xacro file
+                    xacro_parsed = xacro.process_file(xacro_file_path)
+                    urdf_xml = xacro_parsed.toxml()
+                    self.get_logger().info("Processed xacro file successfully.")
+                    return urdf_xml
+                except Exception as e:
+                    self.get_logger().error(f"Failed to process xacro file: {e}")
+                    raise
+
+.. admonition:: Test
+
+    Run the simulation and confirm that:
+
+    * The first Thymio is deleted before the second one is spawned.  
+    * The new Thymio starts in the correct position in the second maze section.  
+    * The controller successfully guides the Thymio to the next dead end, where it stops.  
+
+
+Congratulations on reaching this point! You have successfully completed the Thymio mini-project. Well done!
+
+Extra - Optional
+~~~~~~~~~~~~~~~~
+
+What? This was not enough for you? If you are looking to push yourself further, try tackling a more challenging maze. In this scenario, the goal is to reach the maze's exit. However, the previous method will not work as it requires turning only when a wall is directly in front. Instead, you will need to detect and take turns where there is no wall ahead, using for instance a **wall-following** approach. You may choose to follow either the left or the right wall.
+
+.. image:: img/thymio_maze_6x6.png
+    :align: center
+    :width: 70%
+
+|spacer|
+
+The first step is to update the Gazebo world in the launch file. Open *thymio_display.launch* and apply the following modification:
+
+.. code-block:: xml
+
+    <include file="$(find-pkg-share gazebo_ros)/launch/gazebo.launch.py">
+          <!-- <arg name="world" value="$(find-pkg-share thymio_mini_project)/worlds/two_parts_maze.world"/> -->
+          <arg name="world" value="$(find-pkg-share thymio_mini_project)/worlds/maze_6x6.world"/>
+     </include>
+
+.. tip::
+
+    * Use the lateral proximity sensors to detect openings on the chosen side (left or right).  
+    * Develop a strategy to turn toward the chosen wall when an opening is detected.  
+    * One possible approach is to adjust forward motion for a specific distance to ensure the robot passes through the middle of the opening. You can implement a method, such as: ``move_forward(command_velocity, distance)``, using odometry to control the motion precisely. The following function can help calculate the Euclidean distance traveled:
+
+    .. code-block:: python
+
+        def calculate_distance_(self, initial_position, current_position):
+            # Calculate Euclidean distance
+            dx = current_position['x'] - initial_position['x']
+            dy = current_position['y'] - initial_position['y']
+            return math.sqrt(dx**2 + dy**2)
+
+    * Adapt the state machine to implement general wall-following logic, allowing the Thymio to dynamically adjust its behavior based on wall openings on the chosen side. Ensure the logic also handles dead-end scenarios by making the Thymio turn around and continue wall-following.
+
+.. admonition:: Test
+
+    Verify that your wall-following algorithm performs as expected. Below is an example outcome for the left-wall-following approach:
+
+    .. image:: img/thymio_maze_6x6.gif
+        :align: center
+        :width: 60%
