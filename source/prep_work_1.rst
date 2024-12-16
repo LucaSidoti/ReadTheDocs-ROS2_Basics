@@ -272,7 +272,9 @@ As we prepare for our practical lab sessions with ROS2, being familiar with the 
 
 To reinforce your understanding of these commands, we invite you to participate in a command-line challenge designed to practice your skills!
 
-<h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Command-Line Challenge</h3>
+.. raw:: html
+
+   <h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Command-Line Challenge</h3>
 
 **Objective** 
 

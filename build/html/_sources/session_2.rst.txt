@@ -1639,7 +1639,7 @@ Under the ``RobotModel`` options, uncheck *Visual Enabled* and check *Collision 
 
 To add collision properties to the links in the URDF, you need to include ``<collision>`` tags. These are similar to ``<visual>`` tags: both require an origin and a geometry. However, ``<collision>`` tags do **not** require a material definition.
 
-Here is the revised version of the code with collision properties included for the links:
+Please update the file, which now includes the collision properties for the links:
 
 .. code-block:: xml
 
@@ -1774,6 +1774,7 @@ To use the defined macros, include the previously created file and invoke them w
         </collision>
         <xacro:cylinder_inertia m="${second_link_mass}" r="${second_link_radius}" h="${second_link_length}" 
                                 xyz="${second_link_length / 2.0} 0 0" rpy="0 ${pi / 2.0} 0"/>
+    </link>
 
 .. note::
 
@@ -1906,7 +1907,7 @@ Let’s tackle these one by one. The unexpected motion occurs because the simpli
 
     3. Reduce the caster wheel friction
 
-    The caster wheel in the current robot model adds too much friction and drags against the ground. To address this, add the following friction coefficients to the gazebo.xacro file:
+    The caster wheel in the current robot model adds too much friction and drags against the ground. To address this, add the following friction coefficients to the *gazebo.xacro* file:
 
     .. code-block:: xml
 
