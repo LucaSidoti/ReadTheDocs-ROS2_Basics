@@ -204,7 +204,7 @@ Installing Docker Desktop
 Exploring Tools
 ---------------
 
-In the container you just installed, we have preconfigured an Ubuntu environment with the ROS2 Humble distribution, along with several essential tools. On the desktop, you will find Firefox, VSCode, and Terminator. Below is a brief overview of each application:
+In the container you just installed, we have preconfigured an Ubuntu environment with the ROS2 Humble distribution, along with several essential tools. On the desktop, you will find Firefox, Sublime Text, and Terminator. Below is a brief overview of each application:
 
 * **Firefox**: This web browser will enable you to access online resources, including the ROS2 Basics documentation.
 
@@ -218,11 +218,7 @@ In the container you just installed, we have preconfigured an Ubuntu environment
 
       Clipboard option in the noVNC menu
 
-* **VSCode**: Visual Studio Code (VSCode) is the Integrated Development Environment (IDE) we will use to write our code. It is suitable for ROS2 development, offering essential features like syntax highlighting and code completion.
-
-  .. note::
-   
-   If you prefer using different tools or editors, you are welcome to download and install them on your desktop. Customize your workspace to suit your preferences and workflow!
+* **Sublime Text**: This lightweight text editor is the recommended choice for writing code in this course, as its stability in the Docker environment has been proven.
 
 * **Terminator**: This enhanced terminal emulator allows you to split your screen and manage multiple terminal sessions simultaneously. This feature is especially useful when working with ROS2, as you will see in session 1.
 
@@ -241,6 +237,10 @@ In the container you just installed, we have preconfigured an Ubuntu environment
   * ``tab``: Autocomplete
   * ``tab+tab``: Show autocomplete suggestions
   * ``▲`` or ``▼``: Scroll through command history
+
+.. note::
+   
+   If you prefer using different tools, you are welcome to download and install them on your desktop. Customize your workspace to suit your preferences and workflow!
 
 Learning Basic Linux Commands
 -----------------------------

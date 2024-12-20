@@ -78,7 +78,7 @@ Now that Rviz is running and the robot model is loaded, let’s take a moment to
 In particular, Rviz allows you to visualize:
 
     * **Robot models**: These are detailed representations of the robot’s physical structure.
-    * **Transforms frames (TFs)**: Coordinate frames that define the spatial relationships between different parts of the robot, essential for motion and interaction.
+    * **Transform frames (TFs)**: Coordinate frames that define the spatial relationships between different parts of the robot, essential for motion and interaction.
     * **Sensors data**:  Information from sensors such as LiDAR, cameras, or depth sensors, displayed in real-time to help interpret the robot’s environment.
 
 As you can see in the image below, Rviz offers a variety of default plugins that enable you to monitor different aspects of your system. These plugins can be accessed and added to your workspace by clicking the ``Add`` button in the Rviz interface.

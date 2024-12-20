@@ -134,7 +134,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#step-4">Step 4</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-5">Step 5</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-6">Step 6</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-7">Step 7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-7-bonus">Step 7 - Bonus</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#extra-optional">Extra - Optional</a></li>
 </ul>
 </li>
@@ -197,15 +197,15 @@
 <li><p>Your job is to send the appropriate velocity commands via topics and use services to manage the robot’s position when moving between the two maze sections.</p></li>
 <li><p>Use the provided diff_drive_controller plugin for velocity control and the proximity sensors to detect walls.</p></li>
 </ul>
-<p>Here’s a quick overview of the tasks:</p>
-<ol class="arabic simple">
-<li><p>Guide the Thymio to the end of the first maze section.</p></li>
-<li><p>Use provided services to “carry” the robot to the second maze section.</p></li>
-<li><p>Continue controlling the Thymio until it reaches the other side of the second maze.</p></li>
-</ol>
-<a class="reference internal image-reference" href="_images/thymio_mini_project.gif"><img alt="_images/thymio_mini_project.gif" class="align-center" src="_images/thymio_mini_project.gif" style="width: 80%;" />
+<a class="reference internal image-reference" href="_images/thymio_mini_project_final.gif"><img alt="_images/thymio_mini_project_final.gif" class="align-center" src="_images/thymio_mini_project_final.gif" style="width: 50%;" />
 </a>
 <p><div style="margin-top: 5px;"></div></p>
+<p>Here’s a quick overview of the tasks:</p>
+<ol class="arabic simple">
+<li><p>Guide the Thymio to the end of the first maze section and stop it in front of the wall.</p></li>
+<li><p>Use the provided services to transport the robot to the second maze section.</p></li>
+<li><p>Continue controlling the Thymio until it reaches the second dead end and stops.</p></li>
+</ol>
 <p>Let’s dive in and take on the challenge!</p>
 </section>
 <section id="thymio-mini-project">
@@ -431,6 +431,10 @@
 <section id="step-2">
 <h3>Step 2<a class="headerlink" href="#step-2" title="Link to this heading"></a></h3>
 <p>Update the <em>thymio controller</em> node to send velocity commands at 10 Hz, making the Thymio move forward in the Gazebo world at a speed of 10 cm/s.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Remember, you can use ROS2 command-line tools to access details about the active topics and services. To do so, ensure the Gazebo simulation is running.</p>
+</div>
 <div class="admonition-test admonition">
 <p class="admonition-title">Test</p>
 <ol class="arabic simple">
@@ -453,10 +457,13 @@
 <ul class="simple">
 <li><p>Add a method to adjust velocity commands based on the distance to the wall (e.g. <code class="docutils literal notranslate"><span class="pre">move_until_wall(velocity_command,</span> <span class="pre">distance_to_wall)</span></code>).</p></li>
 <li><p>Use the proximity sensor data (defined as a 2D scan) and focus on the front ray.</p></li>
-<li><p>If the sensor returns no obstacle, you may receive a string message. Convert it to a float if needed: <code class="docutils literal notranslate"><span class="pre">float('string_msg')</span></code>.</p></li>
+<li><p>If the sensor detects no obstacle, you may receive a string message. Convert it to a float if needed: <code class="docutils literal notranslate"><span class="pre">float('string_msg')</span></code>.</p></li>
 <li><p>Slow down the robot as it approaches the wall for precise stopping.</p></li>
-<li><p>Begin structuring a simple state machine for behavior control, such as states like <code class="docutils literal notranslate"><span class="pre">MOVE_UNTIL_WALL</span></code> and <code class="docutils literal notranslate"><span class="pre">STOP</span></code>.</p></li>
+<li><p>To log messages in the terminal with a variable displayed to a specific precision, use the following syntax:</p></li>
 </ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The variable value is: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">variable_</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (formatted to 3 decimal places).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="admonition-test admonition">
 <p class="admonition-title">Test</p>
@@ -465,101 +472,15 @@
 </section>
 <section id="step-4">
 <h3>Step 4<a class="headerlink" href="#step-4" title="Link to this heading"></a></h3>
-<p>Once the Thymio reliably stops 5 cm away from the first wall, update the controller to make it turn on the spot and reorient itself properly to face the next corridor.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<ul class="simple">
-<li><p>Determine the optimal stopping distance before the turn so the Thymio aligns in the center of the next corridor after turning.</p></li>
-</ul>
-<a class="reference internal image-reference" href="_images/thymio_maze_turn.png"><img alt="_images/thymio_maze_turn.png" class="align-center" src="_images/thymio_maze_turn.png" style="width: 40%;" />
-</a>
-<p><div style="margin-top: 5px;"></div></p>
-<ul>
-<li><p>Implement a general method for turning right or left, as this will be useful for future steps (e.g. <code class="docutils literal notranslate"><span class="pre">turn_angle(velocity_command,</span> <span class="pre">angle)</span></code>).</p></li>
-<li><p>Choose one of the following approaches to perform the turn:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><strong>Odometry</strong>: Use the robot’s simulated pose, which corresponds to its global position. Apply a tolerance to ensure the turn stops accurately at the desired orientation.</p></li>
-<li><p><strong>Proximity Sensors</strong>: Rely on the two rear proximity sensors to detect when the turn is complete. Set an appropriate tolerance to achieve precise alignment.</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>For the odometry approach, the following Python snippet might be helpful for working with angles:</p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">tf_transformations</span> <span class="kn">import</span> <span class="n">euler_from_quaternion</span>
-
-<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">yaw</span> <span class="o">=</span> <span class="n">euler_from_quaternion</span><span class="p">(</span><span class="n">quaternion</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">wrap_angle_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
-    <span class="c1"># Normalize angle to the range [-pi, pi]</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">angle</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
-</pre></div>
-</div>
-<ul>
-<li><p>Update the state machine to handle the following sequence:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>Move the Thymio to the wall</p></li>
-<li><p>Execute the turn</p></li>
-<li><p>Stop after completing the turn</p></li>
-</ol>
-</div></blockquote>
-</li>
-</ul>
-</div>
-</section>
-<section id="step-5">
-<h3>Step 5<a class="headerlink" href="#step-5" title="Link to this heading"></a></h3>
-<p>Enhance the state machine to allow the Thymio to navigate the maze more autonomously:</p>
-<ul class="simple">
-<li><p>The Thymio should move forward as long as no obstacles are detected in front.</p></li>
-<li><p>When a wall is detected directly ahead, it must decide whether to turn left or right based on the available paths (note that only one direction or none will be possible, never both).</p></li>
-<li><p>When the Thymio reaches a dead end, it should stop.</p></li>
-</ul>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<ul class="simple">
-<li><p>Decide the appropriate moment to determine the turn direction. This may require updating one of the previous methods.</p></li>
-<li><p>Use the lateral proximity sensors to decide which side to turn, keeping in mind that their angled placement limits their ability to detect walls directly beside the robot.</p></li>
-</ul>
-<a class="reference internal image-reference" href="_images/thymio_sensors.png"><img alt="_images/thymio_sensors.png" class="align-center" src="_images/thymio_sensors.png" style="width: 40%;" />
-</a>
-<p><div style="margin-top: 5px;"></div></p>
-<ul>
-<li><p>Incorporate the following states into your state machine to manage the robot’s behavior:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">MOVE_UNTIL_WALL</span></code>: Move forward until an obstacle is detected.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TURN_LEFT</span></code>: Turn left if the left path is clear.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TURN_RIGHT</span></code>: Turn right if the right path is clear.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">STOP</span></code>: Stop completely at a dead end.</p></li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
-</div>
-<div class="admonition-test admonition">
-<p class="admonition-title">Test</p>
-<p>Run the simulation and verify that the Thymio:</p>
-<ul class="simple">
-<li><p>Moves forward on clear paths</p></li>
-<li><p>Chooses the appropriate turn when facing a wall</p></li>
-<li><p>Stops properly at dead ends</p></li>
-</ul>
-</div>
-</section>
-<section id="step-6">
-<h3>Step 6<a class="headerlink" href="#step-6" title="Link to this heading"></a></h3>
-<p>Once the Thymio reaches the first dead end, prepare it to transition to the second portion of the maze. The first task is to remove the existing Thymio entity from the simulation.</p>
+<p>Once the Thymio effectively stops in front of the first wall, prepare it to transition to the second portion of the maze. The first task is to remove the existing Thymio entity from the simulation.</p>
 <div class="admonition-test admonition">
 <p class="admonition-title">Test</p>
 <p>Run the simulation and verify that the Thymio is successfully deleted after stopping at the dead end.</p>
 </div>
 </section>
-<section id="step-7">
-<h3>Step 7<a class="headerlink" href="#step-7" title="Link to this heading"></a></h3>
-<p>Complete the transition by spawning a new Thymio entity in the second part of the maze at the coordinates <code class="docutils literal notranslate"><span class="pre">(x=1.3,</span> <span class="pre">y=0.1,</span> <span class="pre">yaw=-pi)</span></code>. Update the controller to continue the algorithm, guiding the Thymio to the next dead end where it stops definitively.</p>
+<section id="step-5">
+<h3>Step 5<a class="headerlink" href="#step-5" title="Link to this heading"></a></h3>
+<p>Complete the transition by spawning a new Thymio entity in the second part of the maze at the coordinates <code class="docutils literal notranslate"><span class="pre">(x=0.5,</span> <span class="pre">y=0.3,</span> <span class="pre">yaw=pi/2)</span></code>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <ul class="simple">
@@ -599,14 +520,93 @@
 <ul class="simple">
 <li><p>The first Thymio is deleted before the second one is spawned.</p></li>
 <li><p>The new Thymio starts in the correct position in the second maze section.</p></li>
-<li><p>The controller successfully guides the Thymio to the next dead end, where it stops.</p></li>
+</ul>
+</div>
+</section>
+<section id="step-6">
+<h3>Step 6<a class="headerlink" href="#step-6" title="Link to this heading"></a></h3>
+<p>Once the Thymio successfully spawn in the second portion of the maze, update the controller to continue the algorithm, guiding the Thymio to the next dead end where it stops definitively.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>Determine the optimal stopping distance before the turns so the Thymio aligns in the center of the next corridor after turning.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/thymio_maze_turn.png"><img alt="_images/thymio_maze_turn.png" class="align-center" src="_images/thymio_maze_turn.png" style="width: 40%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<ul>
+<li><p>Add a method to handle turns (e.g. <code class="docutils literal notranslate"><span class="pre">turn_angle(velocity_command,</span> <span class="pre">angle)</span></code>).</p></li>
+<li><p>Choose one of the following approaches to perform the turn:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Odometry</strong>: Use the robot’s simulated pose, which corresponds to its global position. Apply a tolerance to ensure the turn stops accurately at the desired orientation.</p></li>
+<li><p><strong>Proximity Sensors</strong>: Rely on the two rear proximity sensors to detect when the turn is complete. Set an appropriate tolerance to achieve precise alignment.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>For the odometry approach, the following Python snippet might be helpful for working with angles:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">tf_transformations</span> <span class="kn">import</span> <span class="n">euler_from_quaternion</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">yaw</span> <span class="o">=</span> <span class="n">euler_from_quaternion</span><span class="p">(</span><span class="n">quaternion</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">wrap_angle_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+    <span class="c1"># Normalize angle to the range [-pi, pi]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">angle</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Implement a control strategy that guides the Thymio to the dead end and brings it to a stop.</p></li>
+</ul>
+</div>
+<div class="admonition-test admonition">
+<p class="admonition-title">Test</p>
+<p>Run the simulation and verify that the Thymio:</p>
+<ul class="simple">
+<li><p>Moves forward on clear paths</p></li>
+<li><p>Turns left when unable to move forward and the dead end is not reached</p></li>
+<li><p>Stops properly at the dead end</p></li>
+</ul>
+</div>
+</section>
+<section id="step-7-bonus">
+<h3>Step 7 - Bonus<a class="headerlink" href="#step-7-bonus" title="Link to this heading"></a></h3>
+<p>As a bonus challenge, you can try to generalize your controller to handle a more complex maze.</p>
+<a class="reference internal image-reference" href="_images/thymio_mini_project_bonus.gif"><img alt="_images/thymio_mini_project_bonus.gif" class="align-center" src="_images/thymio_mini_project_bonus.gif" style="width: 90%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+<p>Enhance your control strategy to allow the Thymio to navigate autonomously:</p>
+<ul class="simple">
+<li><p>The Thymio should move forward as long as no obstacles are detected in front.</p></li>
+<li><p>When a wall is detected directly ahead, it must decide whether to turn left or right based on the available paths (note that only one direction or none will be possible, never both).</p></li>
+<li><p>When the Thymio reaches the dead end, it should stop.</p></li>
+</ul>
+<p>The new spawn coordinates are <code class="docutils literal notranslate"><span class="pre">(x=1.3,</span> <span class="pre">y=0.1,</span> <span class="pre">yaw=pi)</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>Decide the appropriate moment to determine the turn direction. This may require updating one of the previous methods.</p></li>
+<li><p>Use the lateral proximity sensors to decide which side to turn, keeping in mind that their angled placement limits their ability to detect walls directly beside the robot.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/thymio_sensors.png"><img alt="_images/thymio_sensors.png" class="align-center" src="_images/thymio_sensors.png" style="width: 40%;" />
+</a>
+<p><div style="margin-top: 5px;"></div></p>
+</div>
+<div class="admonition-test admonition">
+<p class="admonition-title">Test</p>
+<p>Run the simulation and verify that the Thymio:</p>
+<ul class="simple">
+<li><p>Moves forward on clear paths</p></li>
+<li><p>Chooses the appropriate turn when facing a wall</p></li>
+<li><p>Stops properly at the dead end</p></li>
 </ul>
 </div>
 <p>Congratulations on reaching this point! You have successfully completed the Thymio mini-project. Well done!</p>
 </section>
 <section id="extra-optional">
 <h3>Extra - Optional<a class="headerlink" href="#extra-optional" title="Link to this heading"></a></h3>
-<p>What? This was not enough for you? If you are looking to push yourself further, try tackling a more challenging maze. In this scenario, the goal is to reach the maze’s exit. However, the previous method will not work as it requires turning only when a wall is directly in front. Instead, you will need to detect and take turns where there is no wall ahead, using for instance a <strong>wall-following</strong> approach. You may choose to follow either the left or the right wall.</p>
+<p>What? This was not enough for you? If you are looking to push yourself further, try tackling an even more challenging maze. In this scenario, the goal is to reach the maze’s exit. However, the previous method will not work as it requires turning only when a wall is directly in front. Instead, you will need to detect and take turns where there is no wall ahead, using for instance a <strong>wall-following</strong> approach. You may choose to follow either the left or the right wall.</p>
 <a class="reference internal image-reference" href="_images/thymio_maze_6x6.png"><img alt="_images/thymio_maze_6x6.png" class="align-center" src="_images/thymio_maze_6x6.png" style="width: 70%;" />
 </a>
 <p><div style="margin-top: 5px;"></div></p>
@@ -632,14 +632,15 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Adapt the state machine to implement general wall-following logic, allowing the Thymio to dynamically adjust its behavior based on wall openings on the chosen side. Ensure the logic also handles dead-end scenarios by making the Thymio turn around and continue wall-following.</p></li>
+<li><p>Adapt your control strategy to implement a general wall-following logic, allowing the Thymio to dynamically adjust its behavior based on wall openings on the chosen side. Ensure the logic also handles dead-end scenarios by making the Thymio turn around and continue wall-following.</p></li>
 </ul>
 </div>
 <div class="admonition-test admonition">
 <p class="admonition-title">Test</p>
 <p>Verify that your wall-following algorithm performs as expected. Below is an example outcome for the left-wall-following approach:</p>
-<a class="reference internal image-reference" href="_images/thymio_maze_6x6.gif"><img alt="_images/thymio_maze_6x6.gif" class="align-center" src="_images/thymio_maze_6x6.gif" style="width: 60%;" />
+<a class="reference internal image-reference" href="_images/thymio_mini_project_extra.gif"><img alt="_images/thymio_mini_project_extra.gif" class="align-center" src="_images/thymio_mini_project_extra.gif" style="width: 60%;" />
 </a>
+<p><div style="margin-top: 5px;"></div></p>
 </div>
 </section>
 </section>

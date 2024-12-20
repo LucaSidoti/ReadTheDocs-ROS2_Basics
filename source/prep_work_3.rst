@@ -86,6 +86,14 @@ Run the turtlesim node and create an additional node to control the turtle's mov
 
     Send velocity commands at a defined frequency to make the turtle move away from the center
 
+    .. tip::
+
+        Use the following command-lines to find the information you need:
+
+        * List all topics + message type: ``ros2 topic list -t``
+        * Get details on a message type: ``ros2 interface show <msg_type>``
+
+
     3. **Boundary detection** 
 
     Stop the turtle when it reaches the boundary limits
@@ -93,6 +101,13 @@ Run the turtlesim node and create an additional node to control the turtle's mov
     4. **Pen color change** 
 
     Use a *turtlesim* service to change the pen color as the turtle enters each new quadrant
+
+    .. tip::
+
+        Use the following command-lines to find the information you need:
+
+        * List all services + service type: ``ros2 service list -t``  
+        * Get details on a service type: ``ros2 interface show <srv_type>``
 
     .. warning::
 

@@ -123,11 +123,11 @@ Packages can contain a variety of elements, including nodes, libraries, configur
     cd ~/ros2_basics_ws/src/
     ros2 pkg create ros2_basics_pkg --build-type ament_python
 
-You can now open the source folder in VSCode and take a look at what was generated when you created the package:
+You can now open the source folder in Sublime Text and take a look at what was generated when you created the package:
 
 .. code-block:: bash
 
-    code .
+    subl .
 
 Let’s go over the essential files you will need to pay attention to as you start working with ROS2:
 

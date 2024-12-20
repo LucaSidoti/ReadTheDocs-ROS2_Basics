@@ -136,7 +136,7 @@
 <li class="toctree-l3"><a class="reference internal" href="session_3.html#step-4">Step 4</a></li>
 <li class="toctree-l3"><a class="reference internal" href="session_3.html#step-5">Step 5</a></li>
 <li class="toctree-l3"><a class="reference internal" href="session_3.html#step-6">Step 6</a></li>
-<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-7">Step 7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session_3.html#step-7-bonus">Step 7 - Bonus</a></li>
 <li class="toctree-l3"><a class="reference internal" href="session_3.html#extra-optional">Extra - Optional</a></li>
 </ul>
 </li>
@@ -235,6 +235,14 @@
 <li><p><strong>Move the turtle</strong></p></li>
 </ol>
 <p>Send velocity commands at a defined frequency to make the turtle move away from the center</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use the following command-lines to find the information you need:</p>
+<ul class="simple">
+<li><p>List all topics + message type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code></p></li>
+<li><p>Get details on a message type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;msg_type&gt;</span></code></p></li>
+</ul>
+</div>
 <ol class="arabic simple" start="3">
 <li><p><strong>Boundary detection</strong></p></li>
 </ol>
@@ -243,6 +251,14 @@
 <li><p><strong>Pen color change</strong></p></li>
 </ol>
 <p>Use a <em>turtlesim</em> service to change the pen color as the turtle enters each new quadrant</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use the following command-lines to find the information you need:</p>
+<ul class="simple">
+<li><p>List all services + service type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">list</span> <span class="pre">-t</span></code></p></li>
+<li><p>Get details on a service type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;srv_type&gt;</span></code></p></li>
+</ul>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Only call the service when the turtle transitions between quadrants, not continuously.</p>
