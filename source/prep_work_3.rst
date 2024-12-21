@@ -70,7 +70,7 @@ Run the turtlesim node and create an additional node to control the turtle's mov
     :align: center
     :width: 50%
 
-    Turtlesim challenge final result
+    Turtlesim challenge - Final result
 
 .. admonition:: Steps
 

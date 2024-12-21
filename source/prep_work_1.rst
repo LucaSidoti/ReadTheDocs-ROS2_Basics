@@ -481,5 +481,3 @@ Explore a virtual file system and complete tasks using the commands you have lea
       .. tab:: Solution 14
 
          .. code-block:: bash
-
-..    If you want to learn more about commands and shortcuts, please visit `40 Basic Ubuntu Commands And Terminal Shortcuts For Beginners <https://techlog360.com/basic-ubuntu-commands-terminal-shortcuts-linux-beginner/#Ubuntu_Terminal_Shortcuts>`_.

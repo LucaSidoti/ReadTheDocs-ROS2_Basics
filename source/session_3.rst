@@ -307,9 +307,6 @@ Enhance the controller to stop the Thymio 5 cm away from the first wall.
 
         self.get_logger().info(f"The variable value is: {self.variable_:.3f} (formatted to 3 decimal places).")
 
-    .. * Begin structuring a simple state machine for behavior control, such as states like ``MOVE_UNTIL_WALL`` and ``STOP``.
-
-
 .. admonition:: Test
 
     Run the simulation and confirm that the Thymio stops reliably 5 cm away from the wall.
@@ -442,13 +439,6 @@ The new spawn coordinates are ``(x=1.3, y=0.1, yaw=pi)``.
 
     |spacer|
 
-    .. * Incorporate the following states into your state machine to manage the robot's behavior:
-
-    ..     * ``MOVE_UNTIL_WALL``: Move forward until an obstacle is detected.
-    ..     * ``TURN_LEFT``: Turn left if the left path is clear.
-    ..     * ``TURN_RIGHT``: Turn right if the right path is clear.
-    ..     * ``STOP``: Stop completely at a dead end.
-
 .. admonition:: Test
 
     Run the simulation and verify that the Thymio:
@@ -456,62 +446,6 @@ The new spawn coordinates are ``(x=1.3, y=0.1, yaw=pi)``.
     * Moves forward on clear paths
     * Chooses the appropriate turn when facing a wall
     * Stops properly at the dead end
-
-.. Step 6
-.. ~~~~~~
-
-.. Once the Thymio reaches the first dead end, prepare it to transition to the second portion of the maze. The first task is to remove the existing Thymio entity from the simulation.
-
-.. .. admonition:: Test
-
-..     Run the simulation and verify that the Thymio is successfully deleted after stopping at the dead end.  
-
-
-.. Step 7
-.. ~~~~~~
-
-.. Complete the transition by spawning a new Thymio entity in the second part of the maze at the coordinates ``(x=1.3, y=0.1, yaw=-pi)``. Update the controller to continue the algorithm, guiding the Thymio to the next dead end where it stops definitively.
-
-.. .. tip:: 
-
-..     * Ensure that the new Thymio entity is spawned only after the first entity has been successfully deleted.  
-..     * Use the ROS2 service for spawning by providing the URDF for the Thymio model. The following Python snippet demonstrates how to process the xacro file, generate the URDF, and store it in the ``self.robot_description_`` attribute.
-
-..     .. code-block:: python
-
-..         import os
-..         import xacro
-..         import tf_transformations
-..         from ament_index_python.packages import get_package_share_path
-
-..         class YourNode(Node):
-..             def __init__(self):
-..                 super().__init__("your_node")
-                
-..                 urdf_path = os.path.join(get_package_share_path('thymio_mini_project'), 'urdf', 'thymio.urdf.xacro')
-..                 self.robot_description_ = self.process_xacro_file(urdf_path)
-
-..                 self.get_logger().info("Your Node has been started!")
-
-..             def process_xacro_file(self, xacro_file_path):
-..                 try:
-..                     # Process the xacro file
-..                     xacro_parsed = xacro.process_file(xacro_file_path)
-..                     urdf_xml = xacro_parsed.toxml()
-..                     self.get_logger().info("Processed xacro file successfully.")
-..                     return urdf_xml
-..                 except Exception as e:
-..                     self.get_logger().error(f"Failed to process xacro file: {e}")
-..                     raise
-
-.. .. admonition:: Test
-
-..     Run the simulation and confirm that:
-
-..     * The first Thymio is deleted before the second one is spawned.  
-..     * The new Thymio starts in the correct position in the second maze section.  
-..     * The controller successfully guides the Thymio to the next dead end, where it stops.  
-
 
 Congratulations on reaching this point! You have successfully completed the Thymio mini-project. Well done!
 

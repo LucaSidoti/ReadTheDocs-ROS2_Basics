@@ -60,8 +60,6 @@ In ROS2, a service has a request-response structure, where a node sends a reques
 Exercise 2
 ----------
 
-.. You are almost done, this is your final challenge! Explore services and custom interfaces to tackle the following exercise.
-
 In session 1, we introduced the basics of services and custom interfaces, but we did not dive into hands-on practice with these concepts. Now, you will take on a new challenge designed to provide practical experience and deepen your understanding of how they operate in ROS2.
 
 .. raw:: html

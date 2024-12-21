@@ -322,10 +322,6 @@ Go back to *minimal_node.py* and comment ``rclpy.spin(minimal_node)``. Save the 
 Communication Overview
 ----------------------
 
-.. Previously, you were introduced to the main building block of a ROS2 system: the node. In any real robotic application, you will not be working with just one node. Instead, you will typically have multiple nodes, each handling a specific task. These nodes operate independently, which means they need a way to communicate with each other to work together effectively.
-
-.. ROS2 provides exactly what we need for this by offering a *message-passing* mechanism that allows nodes to exchange information without needing direct connections. This way, each node can stay focused on its own job, while still being part of a larger system. Importantly, this communication happens within the same network, allowing nodes on different devices or computers to interact as long as they are connected to the same network.
-
 One of the key features of ROS2 is its **distributed** computing **architecture**, designed to simplify complex robotic systems. At its core is a graph-like structure where **nodes**, which are individual software processes handling specific tasks, communicate with each other using **topics** and **services**. This communication is built on **message-passing mechanisms** that allows data exchange. Each method serves a specific purpose:
 
 * **Topics**: Enable **publish-subscribe messaging**, allowing nodes to publish data that others can subscribe to. Ideal for continuous data flows, such as sensor readings or real-time monitoring of robot status.
@@ -336,14 +332,6 @@ One of the key features of ROS2 is its **distributed** computing **architecture*
     :width: 90%
 
     `Communication between Nodes <https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html>`_ 
-
-
-.. To keep things organized, ROS2 uses two main communication methods:
-
-    .. * **Topics**: Used for continuous data exchange, allowing nodes to publish information that others can subscribe to.
-    .. * **Services**: Used for request-response interactions, letting nodes request specific actions from each other and receive replies.
-
-.. This communication setup helps keep the system modular and scalable, making it easier to design complex robotic systems. Now, let’s dive into the details and see how these mechanisms work in practice!
 
 Topics Overview
 ---------------
@@ -654,22 +642,9 @@ Parameters Overview - Optional
 
 In the *Heat Index Monitoring System*, you implemented a program that calculates the heat index using data from temperature and humidity sensors. While this solution works well for a single setup, what happens when we want to extend or modify it?  For instance, imagine adding a second temperature sensor with a different publish frequency.
 
-.. For instance:
-
-..     * Imagine adding a second temperature sensor with a different publish frequency
-..     * Or adjusting the heat index warning threshold dynamically during runtime
-
 Without parameters, these changes would require duplicating or modifying the existing nodes, leading to unnecessary complexity.
 
 ROS2 **parameters** provide a powerful way to handle such scenarios. Parameters are configurable values that allow nodes to adapt to varying requirements without altering their code. For example, you can specify a sensor's publish frequency directly from the command line.
-
-.. Let's take a break from URDFs for a moment and explore another essential concept in ROS2: **parameters**. Parameters are configurable values that allow to reuse the same node with differents settings.
-
-.. To understand their importance, let’s revisit an example from the previous session: the *Heat Index Monitoring System*. We used a temperature sensor and a humidity sensor to calculate the heat index. Now, imagine we want to extend this setup by adding a second temperature sensor, but with different settings, such as a unique publish frequency.
-
-.. What happens if we try to achieve this without parameters? We might end up duplicating the existing node just to adjust the frequency. This approach quickly becomes inefficient and difficult to manage as the system grows in complexity.
-
-.. Fortunately, ROS2 parameters provide an elegant solution. They let us configure settings, like the publish frequency, directly from the run command without modifying or duplicating the node’s code. A parameter passed as an argument dynamically updates a variable in the node, enabling efficient customization.
 
 To summarize, ROS2 parameters enable:
 
@@ -1128,55 +1103,3 @@ In this example, the service checks whether a student has passed his exams based
 .. note::
 
     While developing your own custom interfaces can be useful, keep in mind that there are many common interfaces already available in ROS2 that can meet the needs of your project. You can learn more about these interfaces `here <https://github.com/ros2/common_interfaces>`_.
-
-
-.. Exercise 2
-.. ----------
-
-.. You are almost done, this is your final challenge! Explore services and custom interfaces to tackle the following exercise.
-
-.. Mission Validation Service for a Rover
-.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. Create a ROS2 system with a service that validates a rover’s mission before launch. The service will check conditions like temperature, battery level, and distance to the target, then return a decision on mission approval and advice for improvement if needed. 
-
-.. **Steps**
-
-.. 1. Create a custom service (MissionValidation.srv)
-
-..   * Request: temperature (°C), battery_level (%), target_distance (km)
-..   * Response: success (bool), advice (string), estimated_duration (hours)
-
-.. 2. Create a server node
-
-..   * Validate the mission:
-
-..     * Safe temperature: -20°C to 50°C
-..     * Battery level: Above 30%
-..     * Estimate duration based on distance (speed: 10 km/h)
-
-..   * Return false and advice if conditions fail, or true and duration if valid
-
-.. 3. Create a client node
-
-..   * Send mission parameters from the client to the server
-..   * Display the service’s response (approval, and advice or duration)
-
-.. .. admonition:: Hints
-
-..   .. toggle::
-
-..     * Utilize the *ros2_basics_interface* to define your custom service
-..     * Consider developing your nodes in a new package (optional)
-..     * Use ``colcon build --symlink-install`` to easily test new parameters with the client
-
-.. .. admonition:: Hints
-..   :class: hint
-
-..   .. toggle::
-
-..     * Utilize the *ros2_basics_interface* to define your custom service
-..     * Consider developing your nodes in a new package (optional)
-..     * Use ``colcon build --symlink-install`` to easily test new parameters with the client
-
-
