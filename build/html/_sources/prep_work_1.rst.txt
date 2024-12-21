@@ -362,7 +362,7 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
          To save, press: ``Ctrl + S``
 
-         To exit, press: ``Ctrl + Shift + X``
+         To exit, press: ``Ctrl + X``
 
    .. tabs::
 
@@ -476,8 +476,10 @@ Explore a virtual file system and complete tasks using the commands you have lea
 
       .. tab:: Task 14
 
-         Clean up your challenge by removing the *challenge* directory
+         Clean up your challenge by correctly removing the *command_challenge* directory
 
       .. tab:: Solution 14
 
          .. code-block:: bash
+
+            cd ../.. && rm -r command_challenge
