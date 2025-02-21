@@ -1374,6 +1374,10 @@ Now, you are ready to test the updated model. Build the package and launch the e
 
     ros2 launch thymio_description thymio.launch.xml
 
+.. admonition:: Help Us Improve
+
+    We would love to hear from you! Please complete `this form <https://forms.gle/Gg8a79tHdQ8FHdfX6>`_ to share your thoughts and help us improve. Your feedback is greatly appreciated!
+
 
 Gazebo Worlds - Optional
 ------------------------

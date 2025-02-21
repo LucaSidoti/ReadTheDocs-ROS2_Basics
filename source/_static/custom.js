@@ -196,3 +196,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const blocks = document.querySelectorAll(".admonition");
+    blocks.forEach((block) => {
+        const title = block.querySelector(".admonition-title");
+        if (title && title.innerText.trim().startsWith("Help")) {
+            // Apply styles to the entire block
+            block.style.backgroundColor = "#ffede0"; // Light peach background
+            block.style.borderLeft = "0px solid #ff4500"; // Bold orange-red left border
+
+            // Apply styles to the title bar
+            title.style.backgroundColor = "#ff4500"; // Bright red-orange
+            title.style.color = "#ffffff"; // White text for readability
+            title.style.fontWeight = "bold";
+            title.style.padding = "6px 12px";
+            title.style.borderBottom = "0px solid #cc3700"; // Slightly darker orange for depth
+        }
+    });
+});
+

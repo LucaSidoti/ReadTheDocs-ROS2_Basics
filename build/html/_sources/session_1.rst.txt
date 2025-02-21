@@ -10,6 +10,10 @@ Throughout this session, we will guide you step-by-step to ensure you understand
 
 Feel free to follow our guidelines closely and complete the tasks as they come up. Remember, if you ever feel stuck or have questions about any concepts, do not hesitate to reach out for help. We are here to support you on this journey!
 
+.. admonition:: Help Us Improve
+
+    We would love to hear from you! Please complete `this form <https://forms.gle/m9yutM7Dy3pC34NK7>`_ to share your thoughts and help us improve. Your feedback is greatly appreciated!
+
 ROS2 Installation
 -----------------
 

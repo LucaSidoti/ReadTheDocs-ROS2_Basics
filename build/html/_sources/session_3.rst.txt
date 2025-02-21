@@ -409,6 +409,10 @@ Once the Thymio successfully spawn in the second portion of the maze, update the
     * Turns left when unable to move forward and the dead end is not reached
     * Stops properly at the dead end
 
+.. admonition:: Help Us Improve
+
+    We would love to hear from you! Please complete `this form <https://forms.gle/Lv3rK9z7fncKoZ6Z9>`_ to share your thoughts and help us improve. Your feedback is greatly appreciated!
+
 Step 7 - Bonus
 ~~~~~~~~~~~~~~
 
