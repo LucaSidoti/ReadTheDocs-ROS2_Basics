@@ -29,3 +29,4 @@ We hope these labs will provide you with both the knowledge and practical experi
    session_2.rst
    prep_work_3.rst
    session_3.rst
+   cheatsheet.rst
