@@ -56,7 +56,7 @@ Thymio Mini-Project
 
 .. admonition:: Useful Material
 
-    Don't hesitate to consult the `Cheatsheet <https://micro-453-ros2-basics.readthedocs.io/en/latest/cheatsheet.html>`_ section, where you will find useful commands and fundamental ROS2 structures to help you complete the mini-project effectively.
+    Don't hesitate to consult the `Cheat Sheet <https://micro-453-ros2-basics.readthedocs.io/en/latest/cheat_sheet.html>`_ section, where you will find useful commands and fundamental ROS2 structures to help you complete the mini-project effectively.
 
 Step 1
 ~~~~~~
