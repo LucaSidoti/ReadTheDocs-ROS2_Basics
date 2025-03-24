@@ -236,6 +236,12 @@
 <div class="admonition-action-required admonition">
 <p class="admonition-title">Action Required</p>
 <p>Please <a class="reference download internal" download="" href="_downloads/49bfeffecb0dcb1aeabd81e0b157d3d9/turtlesim_challenge.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a> the <code class="docutils literal notranslate"><span class="pre">turtlesim_challenge</span></code> package required for this exercise and place it in the <code class="docutils literal notranslate"><span class="pre">/src</span></code> directory of your <code class="docutils literal notranslate"><span class="pre">ros2_basics_ws</span></code> workspace.</p>
+<p>Then, build the workspace:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/ros2_basics_ws
+colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>turtlesim_challenge
+<span class="nb">source</span><span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
 </div>
 <h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Turtlesim Challenge</h3><p>Modify the provided <em>turtle_controller.py</em> file in the <code class="docutils literal notranslate"><span class="pre">turtlesim_challenge</span></code> package to make the turtle:</p>
 <ul class="simple">
@@ -250,6 +256,13 @@
 <p><span class="caption-text">Turtlesim challenge - Final result</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+<p>To test your implementation, you will need to run the following two nodes in separate terminals:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtlesim_node
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim_challenge<span class="w"> </span>turtle_controller
+</pre></div>
+</div>
 <div class="admonition-steps admonition">
 <p class="admonition-title">Steps</p>
 <ol class="arabic simple">

@@ -64,11 +64,17 @@ Now that you are familiar with *turtlesim*, let's dive into a hands-on challenge
 
     Please :download:`Download <downloads/turtlesim_challenge.zip>` the ``turtlesim_challenge`` package required for this exercise and place it in the ``/src`` directory of your ``ros2_basics_ws`` workspace.
 
+    Then, build the workspace:
+
+    .. code-block:: bash
+
+        cd ~/ros2_basics_ws
+        colcon build --packages-select turtlesim_challenge
+        source install/setup.bash
+
 .. raw:: html
 
     <h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Turtlesim Challenge</h3>
-
-.. Run the turtlesim node and create an additional node to control the turtle's movement. The turtle should move in a circular path starting from the center of the *TurtleSim* window, gradually expanding its path toward the boundaries. Ensure that the turtle stops moving near the window boundaries. Additionally, as the turtle moves, change the pen color dynamically when it enters a different quadrant of the *TurtleSim* window.
 
 Modify the provided *turtle_controller.py* file in the ``turtlesim_challenge`` package to make the turtle:
 
@@ -81,6 +87,16 @@ Modify the provided *turtle_controller.py* file in the ``turtlesim_challenge`` p
     :width: 50%
 
     Turtlesim challenge - Final result
+
+To test your implementation, you will need to run the following two nodes in separate terminals:
+
+.. code-block:: bash
+
+    ros2 run turtlesim turtlesim_node
+
+.. code-block:: bash
+    
+    ros2 run turtlesim_challenge turtle_controller
 
 .. admonition:: Steps
 
