@@ -232,8 +232,17 @@
 </section>
 <section id="exercise-3">
 <h2>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading"></a></h2>
-<p>Now that you are familiar with <em>turtlesim</em>, let’s dive into the challenge!</p>
-<h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Turtlesim Challenge</h3><p>Run the turtlesim node and create an additional node to control the turtle’s movement. The turtle should move in a circular path starting from the center of the <em>TurtleSim</em> window, gradually expanding its path toward the boundaries. Ensure that the turtle stops moving near the window boundaries. Additionally, as the turtle moves, change the pen color dynamically when it enters a different quadrant of the <em>TurtleSim</em> window.</p>
+<p>Now that you are familiar with <em>turtlesim</em>, let’s dive into a hands-on challenge!</p>
+<div class="admonition-action-required admonition">
+<p class="admonition-title">Action Required</p>
+<p>Please <a class="reference download internal" download="" href="_downloads/49bfeffecb0dcb1aeabd81e0b157d3d9/turtlesim_challenge.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span></code></a> the <code class="docutils literal notranslate"><span class="pre">turtlesim_challenge</span></code> package required for this exercise and place it in the <code class="docutils literal notranslate"><span class="pre">/src</span></code> directory of your <code class="docutils literal notranslate"><span class="pre">ros2_basics_ws</span></code> workspace.</p>
+</div>
+<h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Turtlesim Challenge</h3><p>Modify the provided <em>turtle_controller.py</em> file in the <code class="docutils literal notranslate"><span class="pre">turtlesim_challenge</span></code> package to make the turtle:</p>
+<ul class="simple">
+<li><p>Move in a spiral motion from the center of the screen</p></li>
+<li><p>Stop automatically near the window edges</p></li>
+<li><p>Change pen color when entering a new quadrant of the screen</p></li>
+</ul>
 <figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="_images/turtlesim_challenge.png"><img alt="_images/turtlesim_challenge.png" src="_images/turtlesim_challenge.png" style="width: 50%;" />
 </a>
@@ -244,44 +253,58 @@
 <div class="admonition-steps admonition">
 <p class="admonition-title">Steps</p>
 <ol class="arabic simple">
-<li><p><strong>Determine the window boundaries</strong></p></li>
+<li><p><strong>Determine the window limits</strong></p></li>
 </ol>
-<p>Identify <span class="math notranslate nohighlight">\([x_{\text{min}}, x_{\text{max}}]\)</span> and <span class="math notranslate nohighlight">\([y_{\text{min}}, y_{\text{max}}]\)</span></p>
+<p>Identify <span class="math notranslate nohighlight">\([x_{\text{min}}, x_{\text{max}}]\)</span> and <span class="math notranslate nohighlight">\([y_{\text{min}}, y_{\text{max}}]\)</span>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the <em>teleop_turtle</em> node to explore the window</p>
+<ul class="simple">
+<li><p>Use the <em>teleop_turtle</em> node to move the turtle manually</p></li>
+<li><p>Find the topic that publishes the turtle’s position and use it to determine the boundaries</p></li>
+</ul>
 </div>
 <ol class="arabic simple" start="2">
 <li><p><strong>Move the turtle</strong></p></li>
 </ol>
-<p>Send velocity commands at a defined frequency to make the turtle move away from the center</p>
+<p>Update <em>turtle_controller.py</em> to publish velocity commands at a fixed rate (e.g. 2 Hz), making the turtle gradually move away from the center in a circular path.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the following command-lines to find the information you need:</p>
 <ul class="simple">
-<li><p>List all topics + message type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code></p></li>
-<li><p>Get details on a message type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;msg_type&gt;</span></code></p></li>
+<li><p>Identify the topic used to control the turtle’s motion</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code> to find the topic and its message type</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;msg_type&gt;</span></code> to understand the message structure and how to use it to publish movement commands</p></li>
+<li><p>Do not forget to import the required message type at the top of <em>turtle_controller.py</em></p></li>
+<li><p>Use a constant angular velocity and a slowly increasing linear velocity to create the spiral motion (e.g. angular.z = 1.0, linear.x starting at 0.05 and increasing by 0.05 over time)</p></li>
 </ul>
 </div>
 <ol class="arabic simple" start="3">
 <li><p><strong>Boundary detection</strong></p></li>
 </ol>
-<p>Stop the turtle when it reaches the boundary limits</p>
+<p>Stop the turtle when it reaches the boundary limits.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul class="simple">
+<li><p>Subscribe to the position topic and monitor the turtle’s <cite>x</cite> and <cite>y</cite> coordinates</p></li>
+<li><p>Compare the current position to the boundary values you identified in Step 1</p></li>
+<li><p>Set the turtle’s velocity to zero to stop it</p></li>
+</ul>
+</div>
 <ol class="arabic simple" start="4">
 <li><p><strong>Pen color change</strong></p></li>
 </ol>
-<p>Use a <em>turtlesim</em> service to change the pen color as the turtle enters each new quadrant</p>
+<p>Use a <em>turtlesim</em> service to change the pen color when the turtle enters a new quadrant.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the following command-lines to find the information you need:</p>
 <ul class="simple">
-<li><p>List all services + service type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">list</span> <span class="pre">-t</span></code></p></li>
-<li><p>Get details on a service type: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;srv_type&gt;</span></code></p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">service</span> <span class="pre">list</span> <span class="pre">-t</span></code> to find the available services and their types</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;srv_type&gt;</span></code> to understand how to call the pen service</p></li>
+<li><p>Track the current quadrant and detect when the turtle moves into a different one</p></li>
+<li><p>Use conditionals to avoid repeated service calls in the same quadrant</p></li>
 </ul>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Only call the service when the turtle transitions between quadrants, not continuously.</p>
+<p>Call the service only when the turtle enters a new quadrant — not continuously while it is in the same one.</p>
 </div>
 </div>
 <div class="admonition note">

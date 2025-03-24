@@ -58,13 +58,23 @@ The *turtlesim* package provides several services. You will use one of these to 
 Exercise 3
 ----------
 
-Now that you are familiar with *turtlesim*, let's dive into the challenge!
+Now that you are familiar with *turtlesim*, let's dive into a hands-on challenge!
+
+.. admonition:: Action Required
+
+    Please :download:`Download <downloads/turtlesim_challenge.zip>` the ``turtlesim_challenge`` package required for this exercise and place it in the ``/src`` directory of your ``ros2_basics_ws`` workspace.
 
 .. raw:: html
 
     <h3 style="font-size: 1.25em; font-weight: bold; margin: 1em 0;">Turtlesim Challenge</h3>
 
-Run the turtlesim node and create an additional node to control the turtle's movement. The turtle should move in a circular path starting from the center of the *TurtleSim* window, gradually expanding its path toward the boundaries. Ensure that the turtle stops moving near the window boundaries. Additionally, as the turtle moves, change the pen color dynamically when it enters a different quadrant of the *TurtleSim* window.
+.. Run the turtlesim node and create an additional node to control the turtle's movement. The turtle should move in a circular path starting from the center of the *TurtleSim* window, gradually expanding its path toward the boundaries. Ensure that the turtle stops moving near the window boundaries. Additionally, as the turtle moves, change the pen color dynamically when it enters a different quadrant of the *TurtleSim* window.
+
+Modify the provided *turtle_controller.py* file in the ``turtlesim_challenge`` package to make the turtle:
+
+* Move in a spiral motion from the center of the screen
+* Stop automatically near the window edges
+* Change pen color when entering a new quadrant of the screen
 
 .. figure:: img/turtlesim_challenge.png
     :align: center
@@ -74,45 +84,51 @@ Run the turtlesim node and create an additional node to control the turtle's mov
 
 .. admonition:: Steps
 
-    1. **Determine the window boundaries** 
+    1. **Determine the window limits** 
     
-    Identify :math:`[x_{\text{min}}, x_{\text{max}}]` and :math:`[y_{\text{min}}, y_{\text{max}}]`
+    Identify :math:`[x_{\text{min}}, x_{\text{max}}]` and :math:`[y_{\text{min}}, y_{\text{max}}]`.
 
     .. tip::
 
-        Use the *teleop_turtle* node to explore the window
+        * Use the *teleop_turtle* node to move the turtle manually  
+        * Find the topic that publishes the turtle’s position and use it to determine the boundaries
 
     2. **Move the turtle** 
 
-    Send velocity commands at a defined frequency to make the turtle move away from the center
+    Update *turtle_controller.py* to publish velocity commands at a fixed rate (e.g. 2 Hz), making the turtle gradually move away from the center in a circular path.
 
     .. tip::
 
-        Use the following command-lines to find the information you need:
-
-        * List all topics + message type: ``ros2 topic list -t``
-        * Get details on a message type: ``ros2 interface show <msg_type>``
-
+        * Identify the topic used to control the turtle’s motion  
+        * Use ``ros2 topic list -t`` to find the topic and its message type  
+        * Use ``ros2 interface show <msg_type>`` to understand the message structure and how to use it to publish movement commands  
+        * Do not forget to import the required message type at the top of *turtle_controller.py*  
+        * Use a constant angular velocity and a slowly increasing linear velocity to create the spiral motion (e.g. angular.z = 1.0, linear.x starting at 0.05 and increasing by 0.05 over time)
 
     3. **Boundary detection** 
 
-    Stop the turtle when it reaches the boundary limits
-
-    4. **Pen color change** 
-
-    Use a *turtlesim* service to change the pen color as the turtle enters each new quadrant
+    Stop the turtle when it reaches the boundary limits.
 
     .. tip::
 
-        Use the following command-lines to find the information you need:
+        * Subscribe to the position topic and monitor the turtle’s `x` and `y` coordinates  
+        * Compare the current position to the boundary values you identified in Step 1  
+        * Set the turtle’s velocity to zero to stop it
 
-        * List all services + service type: ``ros2 service list -t``  
-        * Get details on a service type: ``ros2 interface show <srv_type>``
+    4. **Pen color change** 
+
+    Use a *turtlesim* service to change the pen color when the turtle enters a new quadrant.
+
+    .. tip::
+
+        * Use ``ros2 service list -t`` to find the available services and their types  
+        * Use ``ros2 interface show <srv_type>`` to understand how to call the pen service  
+        * Track the current quadrant and detect when the turtle moves into a different one  
+        * Use conditionals to avoid repeated service calls in the same quadrant
 
     .. warning::
 
-        Only call the service when the turtle transitions between quadrants, not continuously.
-
+        Call the service only when the turtle enters a new quadrant — not continuously while it is in the same one.
 
 .. note::
 
