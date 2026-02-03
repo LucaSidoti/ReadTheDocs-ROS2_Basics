@@ -355,7 +355,7 @@ Now, we are ready to visualize the result. Use the following command to launch t
 
     ros2 launch thymio_description example_display_urdf.launch.xml 
 
-We have successfully created a box with dimensions: 20 cm in length (x-direction), 30 cm in width (y-direction), and 10 cm in height (z-direction). However, it appears with a default color in Rviz. Let’s modify it to add a custom color.
+We have successfully created a box with dimensions: 20 cm in length (x-direction), 30 cm in width (y-direction), and 60 cm in height (z-direction). However, it appears with a default color in Rviz. Let’s modify it to add a custom color.
 
 4. Add color to the visual
 
